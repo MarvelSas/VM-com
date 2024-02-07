@@ -12,7 +12,6 @@ import { NavbarComponent } from './components/header/navbar/navbar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.component';
 import { CategoriesComponent } from './components/header/categories/categories.component';
-import { CarouselComponent } from './shared/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,6 @@ import { CarouselComponent } from './shared/carousel/carousel.component';
     PageNotFoundComponent,
     ShopingCartComponent,
     CategoriesComponent,
-    CarouselComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
