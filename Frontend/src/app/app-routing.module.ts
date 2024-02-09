@@ -5,12 +5,14 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.component';
+import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'cart', component: ShopingCartComponent },
+  { path: 'verify-email', component: VerifyEmailComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

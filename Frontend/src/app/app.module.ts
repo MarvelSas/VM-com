@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/header/navbar/navbar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.component';
 import { CategoriesComponent } from './components/header/categories/categories.component';
+import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CategoriesComponent } from './components/header/categories/categories.c
     PageNotFoundComponent,
     ShopingCartComponent,
     CategoriesComponent,
+    VerifyEmailComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
