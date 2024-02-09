@@ -5,8 +5,22 @@
     </div>
     <div class="searchContainer">
         <input name="search" type="text" placeholder="Czego szukasz?" class="searchInput">
-        <span class="btn">Komputery</span>
+
+
+        <div class="dropdown">
+            <button class="btn btnDropdown">{{searchCategory}}</button>
+            <div class="dropdownContent">
+                <a href="#" (click)="onChangeCategory($event)">Laptopy</a>
+                <a href="#" (click)="onChangeCategory($event)">Smartfony</a>
+                <a href="#" (click)="onChangeCategory($event)">Gaming</a>
+                <a href="#" (click)="onChangeCategory($event)">TV</a>
+                <a href="#" (click)="onChangeCategory($event)">Akcesoria</a>
+            </div>
+        </div>
+
         <button class="btn">SEARCH</button>
+
+
     </div>
     <div>
         <button class="btn" routerLink="login">Login</button>
