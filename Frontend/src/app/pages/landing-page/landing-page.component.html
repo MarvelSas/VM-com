@@ -1,1 +1,5 @@
-<p>landing-page works!</p>
+<!-- <p>landing-page works!</p> -->
+<div class="newProducts">
+    <app-product-item *ngFor="let productEl of products" [name]="productEl.name" [price]="productEl.price"
+        [imgSrc]="productEl.imgSrc"></app-product-item>
+</div>

@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.component';
 import { CategoriesComponent } from './components/header/categories/categories.component';
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
+import { ProductItemComponent } from './shared/product-item/product-item.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { VerifyEmailComponent } from './pages/verify-email/verify-email.componen
     ShopingCartComponent,
     CategoriesComponent,
     VerifyEmailComponent,
+    ProductItemComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
