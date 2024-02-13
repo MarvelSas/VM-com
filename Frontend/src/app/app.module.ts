@@ -14,6 +14,9 @@ import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.componen
 import { CategoriesComponent } from './components/header/categories/categories.component';
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
 import { ProductItemComponent } from './shared/product-item/product-item.component';
+import { SlideshowComponent } from './shared/slideshow/slideshow.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -29,8 +32,9 @@ import { ProductItemComponent } from './shared/product-item/product-item.compone
     CategoriesComponent,
     VerifyEmailComponent,
     ProductItemComponent,
+    SlideshowComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
