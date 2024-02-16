@@ -1,0 +1,24 @@
+.productItem {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 20rem;
+  height: 20rem;
+  background-color: whitesmoke;
+  border: 2px solid rgba(128, 128, 128, 0.2);
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.productItem:hover {
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  scale: 1.01;
+  transition: all 0.2s;
+}
+
+.productItem img {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+}
