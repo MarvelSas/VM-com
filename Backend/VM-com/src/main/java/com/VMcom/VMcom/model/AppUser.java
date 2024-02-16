@@ -1,5 +1,6 @@
-package com.VMcom.VMcom.appuser;
+package com.VMcom.VMcom.model;
 
+import com.VMcom.VMcom.enums.AppUserRole;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -58,7 +59,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
@@ -85,4 +86,6 @@ public class AppUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+
 }
