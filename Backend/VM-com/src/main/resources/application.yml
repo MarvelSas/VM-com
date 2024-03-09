@@ -1,19 +1,16 @@
-server:
-  error:
-    include-message: always
-    include-binding-errors: always
-
 spring:
   datasource:
-    password: Marcink543
-    url: jdbc:postgresql://localhost:5432/VM-com
-    username: postgres
+    password: hpIBGdv9j6CE
+    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com
+    username: VM-com
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-      show-sql: true
-
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
