@@ -1,25 +1,25 @@
 <div class="registerCard">
-    <form>
+    <form [formGroup]="signUpForm">
         <div>
             <!-- <label class="test" for="name">Imię:</label> -->
-            <input id="name" type="text" placeholder="Imię" />
+            <input id="firstname" type="text" placeholder="Imię" formControlName="firstname" />
         </div>
         <div>
             <!-- <label for="surname">Nazwisko:</label> -->
-            <input id="surname" type="text" placeholder="Nazwisko" />
+            <input id="lastname" type="text" placeholder="Nazwisko" formControlName="lastname" />
         </div>
 
         <div>
             <!-- <label for="email">Adres email:</label> -->
-            <input id="email" type="text" placeholder="Adres e-mail" />
+            <input id="email" type="text" placeholder="Adres e-mail" formControlName="email" />
         </div>
 
         <div>
             <!-- <label for="password">Hasło:</label> -->
-            <input id="password" type="password" placeholder="Hasło" />
+            <input id="password" type="password" placeholder="Hasło" formControlName="password" />
         </div>
         <div class="controls">
-            <button class="g-btn">Zarejestruj</button>
+            <button class="g-btn" (click)="onRegisterHandler()">Zarejestruj</button>
             <div class="links">
                 <p><a routerLink="../login">Chcesz się zalogować?</a></p>
             </div>

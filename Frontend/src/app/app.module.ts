@@ -17,6 +17,8 @@ import { ProductItemComponent } from './shared/product-item/product-item.compone
 import { SlideshowComponent } from './shared/slideshow/slideshow.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProductItemComponent,
     SlideshowComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
