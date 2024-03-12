@@ -30,6 +30,7 @@ export class LandingPageComponent implements OnInit {
     this.productsService.getProducts().subscribe((res) => {
       this.products = res;
       console.log(res);
+      console.log(this.products[1]);
     });
   }
 }
