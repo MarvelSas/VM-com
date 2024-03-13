@@ -1,8 +1,8 @@
 <!-- <p>landing-page works!</p> -->
 <!-- <app-slideshow [slides]="slides"></app-slideshow> -->
 <div class="newProductsList">
-    <app-product-item *ngFor="let productEl of products" [name]="productEl.name" [price]="productEl.price"
-        [imgSrc]="productEl.imgSrc"></app-product-item>
+    <app-product-item *ngFor="let productEl of products" [id]="productEl.id" [name]="productEl.name"
+        [price]="productEl.price" [imgSrc]="productEl.imgSrc"></app-product-item>
 </div>
 <div class="newProductsControls">
     <button class="btn" (click)="onShowMore()">Pokaż więcej</button>

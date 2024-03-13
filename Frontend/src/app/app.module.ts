@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductsComponent } from './pages/products/products.component';
+import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ProductsComponent } from './pages/products/products.component';
     ProductItemComponent,
     SlideshowComponent,
     ProductsComponent,
+    ProductDetailComponent,
   ],
   imports: [
     BrowserModule,
