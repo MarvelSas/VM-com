@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
     SlideshowComponent,
     ProductsComponent,
     ProductDetailComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
