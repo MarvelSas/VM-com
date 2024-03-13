@@ -19,6 +19,7 @@ import { SlideshowComponent } from './shared/slideshow/slideshow.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductsComponent } from './pages/products/products.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     VerifyEmailComponent,
     ProductItemComponent,
     SlideshowComponent,
+    ProductsComponent,
   ],
   imports: [
     BrowserModule,
