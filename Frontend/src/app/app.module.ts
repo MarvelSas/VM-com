@@ -22,6 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
+import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { AdminComponent } from './pages/admin/admin.component';
     ProductsComponent,
     ProductDetailComponent,
     AdminComponent,
+    AdminCategoriesComponent,
+    AdminProductsComponent,
   ],
   imports: [
     BrowserModule,

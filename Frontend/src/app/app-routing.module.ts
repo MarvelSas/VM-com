@@ -8,6 +8,9 @@ import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.componen
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
+import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -20,6 +23,15 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'cart', component: ShopingCartComponent },
   { path: 'verify-email', component: VerifyEmailComponent },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    children: [
+      { path: 'products', component: AdminProductsComponent },
+      { path: 'categories', component: AdminCategoriesComponent },
+    ],
+  },
+
   { path: '**', component: PageNotFoundComponent },
 ];
 
