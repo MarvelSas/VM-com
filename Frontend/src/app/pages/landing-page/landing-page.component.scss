@@ -5,7 +5,30 @@
   padding: 2em;
 }
 
-.newProducts {
+.newProductsList {
   margin-top: 3rem;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.newProductsControls {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  margin: 0.25rem;
+  padding: 0.5rem;
+  background-color: rgb(156, 156, 156);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 50%;
+  height: 50px;
+}
+
+.btn:hover {
+  background-color: rgb(133, 133, 133);
 }

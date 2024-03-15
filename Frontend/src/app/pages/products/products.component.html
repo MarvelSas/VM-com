@@ -1,0 +1,4 @@
+<div class="productsList">
+    <app-product-item *ngFor="let productEl of products" [id]="productEl.id" [name]="productEl.name"
+        [price]="productEl.price" [imgSrc]="productEl.imgSrc"></app-product-item>
+</div>

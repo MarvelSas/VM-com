@@ -1,0 +1,15 @@
+<h4>Zarządzanie kategoriami</h4>
+<h5>Lista kategorii:</h5>
+<p>Katrgoria 1</p>
+<p>Katrgoria 2</p>
+<p>Katrgoria 3</p>
+<h5>Dodaj nową kategorię</h5>
+<form [formGroup]="addCategoryForm" (ngSubmit)="onSubmit()">
+    <div>
+        <input type="text" name="categoryName" formControlName="categoryName">
+    </div>
+    <div>
+        <button type="submit">Dodaj kategorię</button>
+        <button (click)="onClear()">Wyczyść</button>
+    </div>
+</form>

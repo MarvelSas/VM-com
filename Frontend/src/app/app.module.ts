@@ -17,6 +17,13 @@ import { ProductItemComponent } from './shared/product-item/product-item.compone
 import { SlideshowComponent } from './shared/slideshow/slideshow.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProductsComponent } from './pages/products/products.component';
+import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
+import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +40,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     VerifyEmailComponent,
     ProductItemComponent,
     SlideshowComponent,
+    ProductsComponent,
+    ProductDetailComponent,
+    AdminComponent,
+    AdminCategoriesComponent,
+    AdminProductsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
