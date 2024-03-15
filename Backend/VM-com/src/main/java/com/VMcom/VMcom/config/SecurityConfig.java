@@ -45,7 +45,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     requests
                             .requestMatchers(WHITE_LIST_URL).permitAll()
-                            .requestMatchers("/api/v1/demo").hasAnyRole("USER")
+                            .requestMatchers("/api/v1/demo").hasAuthority("USER")
+                            .requestMatchers("/api/v1/product/**").hasAuthority("USER")
                             .anyRequest()
                             .authenticated();
                 })
