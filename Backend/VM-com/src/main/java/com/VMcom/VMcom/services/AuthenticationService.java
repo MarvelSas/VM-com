@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 
 @Service
@@ -25,7 +26,11 @@ public class AuthenticationService {
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenciationResponse register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
+        if(appUserRepository.findByUsername(request.getEmail()).isPresent()){
+            throw new InvalidParameterException("User with email "+request.getEmail()+" already exist");
+        }
+
         var user = new AppUser(
                 request.getFirstname(),
                 request.getLastname(),
@@ -38,13 +43,11 @@ public class AuthenticationService {
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
         var jwtToken = jwtService.generateToken(claims,user);
-        return AuthenciationResponse.builder()
-                .token(jwtToken)
-                .build();
+        return jwtToken;
 
     }
 
-    public AuthenciationResponse authenticate(AuthenciationRequest request) {
+    public String authenticate(AuthenciationRequest request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -58,9 +61,7 @@ public class AuthenticationService {
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
         var jwtToken = jwtService.generateToken(claims,user);
-        return AuthenciationResponse.builder()
-                .token(jwtToken)
-                .build();
+        return jwtToken;
 
     }
 }
