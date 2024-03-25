@@ -29,7 +29,7 @@ export class AdminProductsComponent implements OnInit {
     const productDescription = this.addProductForm.value.productDescription;
     const imageUrl = '';
     const productCategory =
-      this.categories[this.addProductForm.value.productCategory];
+      this.categories[this.addProductForm.value.productCategory - 1];
     this.adminProductsService
       .addProduct(
         productName,
