@@ -8,6 +8,9 @@ import com.VMcom.VMcom.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -39,11 +42,16 @@ public class ProductService {
     public boolean addProduct(Product product){
 
         //TODO ADD verification if category already exist in database.
-        Product newProduct = new Product(product.getName(),product.getPrice(),product.getUrl(),product.getProductCategory());
+        Product newProduct = new Product(product.getName(),product.getDescription(),product.getPrice(),product.getPhotoUrl(),product.getAmount(),product.getProductCategory());
 
         productRepository.save(newProduct);
 
         return true;
+    }
+
+    public List<Product> getProductsByCategory(Long categoryId){
+
+        return productRepository.findByCategory(categoryId);
     }
 
 
