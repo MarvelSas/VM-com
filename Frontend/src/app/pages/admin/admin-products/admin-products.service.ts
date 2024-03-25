@@ -34,15 +34,17 @@ export class adminProductsService {
     price,
     imageUrl,
     description,
-    category
+    productCategory
   ): Observable<IProductResponseData> {
+    console.log(productCategory);
     const body = {
       name: name,
       price: price,
       url: imageUrl,
-      //   imageUrl: imageUrl,
-      productCategory: { id: 1, name: 'test' },
-      //   description: description,
+      photoUrl: imageUrl, //TODO
+      productCategory: productCategory, //TODO
+      amount: 5, //TODO
+      description: description,
     };
 
     console.log(body);

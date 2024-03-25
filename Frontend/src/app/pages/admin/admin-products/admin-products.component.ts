@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { adminProductsService } from './admin-products.service';
 import { IProduct } from 'src/app/shared/models/product.model';
+import { ICategory } from '../admin-categories/category.model';
+import { adminCategoriesService } from '../admin-categories/admin-categories.service';
 
 @Component({
   selector: 'app-admin-products',
@@ -11,8 +13,12 @@ import { IProduct } from 'src/app/shared/models/product.model';
 export class AdminProductsComponent implements OnInit {
   addProductForm: FormGroup;
   products: IProduct[];
+  categories: ICategory[];
 
-  constructor(private adminProductsService: adminProductsService) {}
+  constructor(
+    private adminProductsService: adminProductsService,
+    private adminCategoriesService: adminCategoriesService
+  ) {}
 
   onSubmit() {
     if (!this.addProductForm.valid) {
@@ -22,7 +28,8 @@ export class AdminProductsComponent implements OnInit {
     const productPrice = this.addProductForm.value.productPrice;
     const productDescription = this.addProductForm.value.productDescription;
     const imageUrl = '';
-    const productCategory = this.addProductForm.value.productCategory;
+    const productCategory =
+      this.categories[this.addProductForm.value.productCategory];
     this.adminProductsService
       .addProduct(
         productName,
@@ -44,6 +51,10 @@ export class AdminProductsComponent implements OnInit {
     this.adminProductsService.getProducts().subscribe((res) => {
       this.products = res.data.products;
       console.log(res);
+    });
+    this.adminCategoriesService.getCategories().subscribe((res) => {
+      this.categories = res.data.productCategories;
+      console.log(res.data.productCategories);
     });
     this.addProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),

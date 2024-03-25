@@ -15,9 +15,7 @@
     </div>
     <div>
         <select name="productCategory" formControlName="productCategory">
-            <option value="category1">Kategoria 1</option>
-            <option value="category2">Kategoria 2</option>
-            <option value="category3">Kategoria 3</option>
+            <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
         </select>
     </div>
     <div>
