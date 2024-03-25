@@ -11,13 +11,17 @@ import { Category, ICategory } from './category.model';
 export class AdminCategoriesComponent implements OnInit {
   addCategoryForm: FormGroup;
   categories: ICategory[] = [
-    { id: 0, categoryName: 'Kategoria 0' },
-    { id: 1, categoryName: 'Kategoria 1' },
+    { id: 0, name: 'Kategoria 0' },
+    { id: 1, name: 'Kategoria 1' },
   ];
 
   constructor(private adminCategoriesService: adminCategoriesService) {}
 
   ngOnInit(): void {
+    this.adminCategoriesService.getCategories().subscribe((res) => {
+      this.categories = res.data.productCategories;
+      console.log(res);
+    });
     this.addCategoryForm = new FormGroup({
       categoryName: new FormControl(null, Validators.required),
     });

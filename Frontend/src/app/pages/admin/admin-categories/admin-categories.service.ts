@@ -14,6 +14,12 @@ interface ICategoriesResponseData {
   timeStamp: string;
 }
 
+interface ICategoriesGetResponseData {
+  data: {
+    productCategories: any;
+  };
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -24,7 +30,19 @@ export class adminCategoriesService {
   ) {}
   API_URL = 'http://localhost:8080/api/v1/product/productCategory/add';
 
-  getCategories() {}
+  getCategories() {
+    const token = this.httpApiService.user.value.token;
+    const headerDict = {
+      Authorization: `Bearer ${token}`,
+    };
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.get<ICategoriesGetResponseData>(
+      'http://localhost:8080/api/v1/product/productCategory/getAll',
+      requestOptions
+    );
+  }
 
   addCategory(categoryName) {
     const body = { name: categoryName };
