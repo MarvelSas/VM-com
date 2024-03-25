@@ -11,21 +11,24 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
 import { AdminComponent } from './pages/admin/admin.component';
 import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
 import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: LandingPageComponent },
-  { path: 'products', component: ProductsComponent },
+  { path: '', component: LandingPageComponent, canActivate: [AuthGuard] },
+  { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
   {
     path: 'product/:id',
     component: ProductDetailComponent,
+    canActivate: [AuthGuard],
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'cart', component: ShopingCartComponent },
+  { path: 'cart', component: ShopingCartComponent, canActivate: [AuthGuard] },
   { path: 'verify-email', component: VerifyEmailComponent },
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'products', component: AdminProductsComponent },
       { path: 'categories', component: AdminCategoriesComponent },
