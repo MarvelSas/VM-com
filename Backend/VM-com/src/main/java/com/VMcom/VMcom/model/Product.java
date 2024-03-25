@@ -12,6 +12,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 @Entity
 @NoArgsConstructor
+
 public class Product {
 
 
@@ -19,16 +20,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String description;
     private Double price;
-    private String url;
+    private String photoUrl;
+    private Long amount;
     @ManyToOne
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
 
-    public Product(String name, Double price, String url, ProductCategory productCategory) {
+    public Product(String name, String description, Double price, String photoUrl, Long amount, ProductCategory productCategory) {
         this.name = name;
+        this.description = description;
         this.price = price;
-        this.url = url;
+        this.photoUrl = photoUrl;
+        this.amount = amount;
         this.productCategory = productCategory;
     }
 }

@@ -34,6 +34,20 @@ public class ProductController {
         );
     }
 
+    @GetMapping("/get/category/{categoryId}")
+    public ResponseEntity<Response> getProductByCategoryId(@PathVariable("categoryId") Long categoryId){
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDate.now())
+                        .data(Map.of("products", productService.getProductsByCategory(categoryId)))
+                        .message("All products returned with category Id:"+ categoryId)
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
 
     @PostMapping("/add")
     public ResponseEntity<Response> addProduct(@RequestBody Product product){
