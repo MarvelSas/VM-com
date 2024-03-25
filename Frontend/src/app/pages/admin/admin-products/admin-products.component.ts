@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { adminProductsService } from './admin-products.service';
 
 @Component({
   selector: 'app-admin-products',
@@ -9,13 +10,29 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class AdminProductsComponent implements OnInit {
   addProductForm: FormGroup;
 
-  constructor() {}
+  constructor(private adminProductsService: adminProductsService) {}
 
   onSubmit() {
     if (!this.addProductForm.valid) {
       return;
     }
-    console.log(this.addProductForm.value);
+    const productName = this.addProductForm.value.productName;
+    const productPrice = this.addProductForm.value.productPrice;
+    const productDescription = this.addProductForm.value.productDescription;
+    const imageUrl = '';
+    const productCategory = this.addProductForm.value.productCategory;
+    this.adminProductsService
+      .addProduct(
+        productName,
+        productPrice,
+        imageUrl,
+        productDescription,
+        productCategory
+      )
+      .subscribe((res) => {
+        console.log(res);
+      });
+    // console.log(this.addProductForm.value);
   }
   onClear() {
     this.addProductForm.reset();

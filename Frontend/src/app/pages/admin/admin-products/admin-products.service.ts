@@ -1,0 +1,59 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ICategory } from '../admin-categories/category.model';
+import { HttpApiService } from 'src/app/shared/services/http-api.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+interface IProductCreate {
+  name: string;
+  price: string;
+  url: string;
+  productCategory: ICategory;
+}
+
+interface IProductResponseData {}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class adminProductsService {
+  API_URL = 'http://localhost:8080/api/v1/product/add';
+  constructor(
+    private http: HttpClient,
+    private httpApiService: HttpApiService
+  ) {}
+
+  getProducts() {}
+  addProduct(
+    name,
+    price,
+    imageUrl,
+    description,
+    category
+  ): Observable<IProductResponseData> {
+    const body = {
+      name: name,
+      price: price,
+      url: imageUrl,
+      //   imageUrl: imageUrl,
+      productCategory: { id: 1, name: 'test' },
+      //   description: description,
+    };
+
+    console.log(body);
+    const token = this.httpApiService.user.value.token;
+
+    const headerDict = {
+      Authorization: `Bearer ${token}`,
+    };
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+
+    return this.http.post<IProductResponseData>(
+      this.API_URL,
+      body,
+      requestOptions
+    );
+  }
+}
