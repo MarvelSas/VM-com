@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { adminProductsService } from './admin-products.service';
+import { IProduct } from 'src/app/shared/models/product.model';
 
 @Component({
   selector: 'app-admin-products',
@@ -9,6 +10,7 @@ import { adminProductsService } from './admin-products.service';
 })
 export class AdminProductsComponent implements OnInit {
   addProductForm: FormGroup;
+  products: IProduct[];
 
   constructor(private adminProductsService: adminProductsService) {}
 
@@ -39,6 +41,10 @@ export class AdminProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.adminProductsService.getProducts().subscribe((res) => {
+      this.products = res.data.products;
+      console.log(res);
+    });
     this.addProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),
       productDescription: new FormControl(null, Validators.required),

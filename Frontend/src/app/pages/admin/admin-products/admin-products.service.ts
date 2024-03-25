@@ -3,6 +3,7 @@ import { ICategory } from '../admin-categories/category.model';
 import { HttpApiService } from 'src/app/shared/services/http-api.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ProductsService } from 'src/app/shared/services/products.service';
 
 interface IProductCreate {
   name: string;
@@ -20,10 +21,14 @@ export class adminProductsService {
   API_URL = 'http://localhost:8080/api/v1/product/add';
   constructor(
     private http: HttpClient,
-    private httpApiService: HttpApiService
+    private httpApiService: HttpApiService,
+    private productsService: ProductsService
   ) {}
 
-  getProducts() {}
+  getProducts() {
+    return this.productsService.getProducts();
+  }
+
   addProduct(
     name,
     price,
