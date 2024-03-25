@@ -1,8 +1,6 @@
 <h4>Zarządzanie kategoriami</h4>
 <h5>Lista kategorii:</h5>
-<p>Katrgoria 1</p>
-<p>Katrgoria 2</p>
-<p>Katrgoria 3</p>
+<p *ngFor="let category of categories">{{category.categoryName}} [{{category.id}}]</p>
 <h5>Dodaj nową kategorię</h5>
 <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmit()">
     <div>

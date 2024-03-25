@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { adminCategoriesService } from './admin-categories.service';
+import { Category, ICategory } from './category.model';
 
 @Component({
   selector: 'app-admin-categories',
@@ -8,6 +10,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AdminCategoriesComponent implements OnInit {
   addCategoryForm: FormGroup;
+  categories: ICategory[] = [
+    { id: 0, categoryName: 'Kategoria 0' },
+    { id: 1, categoryName: 'Kategoria 1' },
+  ];
+
+  constructor(private adminCategoriesService: adminCategoriesService) {}
 
   ngOnInit(): void {
     this.addCategoryForm = new FormGroup({
@@ -19,7 +27,15 @@ export class AdminCategoriesComponent implements OnInit {
     if (!this.addCategoryForm.valid) {
       return;
     }
-    console.log(this.addCategoryForm.value);
+    const categoryName = this.addCategoryForm.value.categoryName;
+    this.adminCategoriesService.addCategory(categoryName).subscribe((res) => {
+      if (res.statusCode === 200) {
+        console.log('Successfully added category!');
+        const newId = Math.round(Math.random() * 1000); // TODO: Set id from response
+        this.categories.push(new Category(newId, categoryName));
+      }
+    });
+    console.log(this.addCategoryForm.value.categoryName);
   }
   onClear() {
     this.addCategoryForm.reset();
