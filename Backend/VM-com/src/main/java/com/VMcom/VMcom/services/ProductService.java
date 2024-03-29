@@ -7,6 +7,7 @@ import com.VMcom.VMcom.repository.ProductCategoryRepository;
 import com.VMcom.VMcom.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -61,7 +62,11 @@ public class ProductService {
 
     }
 
-    public boolean addProduct(Product product){
+    public boolean addProduct(Product product, MultipartFile pictureFile ){
+
+        // This is where we will save the file
+        Path destinationFile = rootLocation.resolve(
+        Paths.get(product.getName()+"_"+pictureFile.getOriginalFilename())).normalize().toAbsolutePath();
 
 
         Product newProduct = new Product(product.getName(),product.getDescription(),product.getPrice(),product.getPhotoUrl(),product.getAmount(),product.getProductCategory());
