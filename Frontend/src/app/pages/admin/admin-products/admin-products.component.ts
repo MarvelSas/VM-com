@@ -56,6 +56,8 @@ export class AdminProductsComponent implements OnInit {
     this.adminProductsService.addProductNew(this.formData).subscribe((res) => {
       console.log(res);
     });
+
+    this.onClear();
   }
 
   //
