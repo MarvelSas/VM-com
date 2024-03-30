@@ -14,35 +14,77 @@ export class AdminProductsComponent implements OnInit {
   addProductForm: FormGroup;
   products: IProduct[];
   categories: ICategory[];
+  formData: FormData = new FormData();
 
   constructor(
     private adminProductsService: adminProductsService,
     private adminCategoriesService: adminCategoriesService
   ) {}
 
-  onSubmit() {
+  onAddFile(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.formData.append('picture', file);
+  }
+
+  onSubmitNew() {
     if (!this.addProductForm.valid) {
       return;
     }
+
     const productName = this.addProductForm.value.productName;
     const productPrice = this.addProductForm.value.productPrice;
     const productDescription = this.addProductForm.value.productDescription;
-    const imageUrl = '';
     const productCategory =
       this.categories[this.addProductForm.value.productCategory - 1];
-    this.adminProductsService
-      .addProduct(
-        productName,
-        productPrice,
-        imageUrl,
-        productDescription,
-        productCategory
-      )
-      .subscribe((res) => {
-        console.log(res);
-      });
-    // console.log(this.addProductForm.value);
+
+    const product = {
+      name: productName,
+      price: productPrice,
+      productCategory: productCategory,
+      amount: 5, //TODO
+      description: productDescription,
+    };
+
+    // console.log(product);
+
+    this.formData.append(
+      'product',
+      new Blob([JSON.stringify(product)], { type: 'application/json' })
+    );
+
+    this.adminProductsService.addProductNew(this.formData).subscribe((res) => {
+      console.log(res);
+    });
   }
+
+  //
+  // OLD
+  //
+  // onSubmit() {
+  //   if (!this.addProductForm.valid) {
+  //     return;
+  //   }
+
+  //   const productName = this.addProductForm.value.productName;
+  //   const productPrice = this.addProductForm.value.productPrice;
+  //   const productDescription = this.addProductForm.value.productDescription;
+  //   const imageUrl = '';
+  //   const productCategory =
+  //     this.categories[this.addProductForm.value.productCategory - 1];
+
+  //   this.adminProductsService
+  //     .addProduct(
+  //       productName,
+  //       productPrice,
+  //       imageUrl,
+  //       productDescription,
+  //       productCategory
+  //     )
+  //     .subscribe((res) => {
+  //       console.log(res);
+  //     });
+  // }
+
   onClear() {
     this.addProductForm.reset();
   }
@@ -60,6 +102,7 @@ export class AdminProductsComponent implements OnInit {
       productName: new FormControl(null, Validators.required),
       productDescription: new FormControl(null, Validators.required),
       productPrice: new FormControl(null, Validators.required),
+      productImage: new FormControl(null, Validators.required),
       productCategory: new FormControl(null, Validators.required),
     });
   }

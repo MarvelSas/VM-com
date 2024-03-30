@@ -29,25 +29,7 @@ export class adminProductsService {
     return this.productsService.getProducts();
   }
 
-  addProduct(
-    name,
-    price,
-    imageUrl,
-    description,
-    productCategory
-  ): Observable<IProductResponseData> {
-    console.log(productCategory);
-    const body = {
-      name: name,
-      price: price,
-      url: imageUrl,
-      photoUrl: imageUrl, //TODO
-      productCategory: productCategory, //TODO
-      amount: 5, //TODO
-      description: description,
-    };
-
-    console.log(body);
+  addProductNew(formData: FormData) {
     const token = this.httpApiService.user.value.token;
 
     const headerDict = {
@@ -59,8 +41,42 @@ export class adminProductsService {
 
     return this.http.post<IProductResponseData>(
       this.API_URL,
-      body,
+      formData,
       requestOptions
     );
   }
+
+  // addProduct(
+  //   name,
+  //   price,
+  //   imageUrl,
+  //   description,
+  //   productCategory
+  // ): Observable<IProductResponseData> {
+  //   console.log(productCategory);
+  //   const body = {
+  //     name: name,
+  //     price: price,
+  //     url: imageUrl,
+  //     photoUrl: imageUrl, //TODO
+  //     productCategory: productCategory, //TODO
+  //     amount: 5, //TODO
+  //     description: description,
+  //   };
+
+  //   const token = this.httpApiService.user.value.token;
+
+  //   const headerDict = {
+  //     Authorization: `Bearer ${token}`,
+  //   };
+  //   const requestOptions = {
+  //     headers: new HttpHeaders(headerDict),
+  //   };
+
+  //   return this.http.post<IProductResponseData>(
+  //     this.API_URL,
+  //     body,
+  //     requestOptions
+  //   );
+  // }
 }

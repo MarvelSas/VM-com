@@ -1,25 +1,44 @@
-<h4>Zarządzanie produktami</h4>
-<h5>Lista produktów:</h5>
-<p *ngFor="let product of products">{{product.name}} [{{product.id}}]</p>
-<h5>Dodaj nowy produkt</h5>
+<h4 class="subtitle">Zarządzanie produktami</h4>
+<div class="form-item">
+    <h5>Lista produktów:</h5>
+    <p *ngFor="let product of products">{{product.name}} [{{product.id}}]</p>
+</div>
 
-<form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
-    <div>
-        <input type="text" name="productName" placeholder="Nazwa produktu" formControlName="productName">
+<h4 class="subtitle">Dodaj nowy produkt</h4>
+<form [formGroup]="addProductForm" (ngSubmit)="onSubmitNew()">
+    <div class="form-item">
+        <label for="productName">Nazwa: </label>
+        <div>
+            <input type="text" name="productName" placeholder="Nazwa produktu" formControlName="productName">
+        </div>
     </div>
-    <div>
-        <input type="text" name="productDescription" placeholder="Opis produktu" formControlName="productDescription">
+    <div class="form-item">
+        <label for="productDescription">Opis: </label>
+        <div>
+            <input type="text" name="productDescription" placeholder="Opis produktu"
+                formControlName="productDescription">
+        </div>
     </div>
-    <div>
-        <input type="text" name="productPrice" placeholder="Cena" formControlName="productPrice">
+    <div class="form-item">
+        <label for="productPrice">Cena: </label>
+        <div>
+            <input type="text" name="productPrice" placeholder="Cena" formControlName="productPrice">
+        </div>
     </div>
-    <div>
+    <div class="form-item">
+        <label for="productImage">Zdjęcie: </label>
+        <div>
+            <input type="file" name="productImage" placeholder="Cena" formControlName="productImage"
+                (change)="onAddFile($event)">
+        </div>
+    </div>
+    <div class="form-item">
         <select name="productCategory" formControlName="productCategory">
             <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
         </select>
     </div>
-    <div>
-        <button type="submit">Dodaj</button>
-        <button (click)="onClear()">Wyczyść</button>
+    <div class="form-item">
+        <button class="btn" type="submit">Dodaj</button>
+        <button class="btn" (click)="onClear()">Wyczyść</button>
     </div>
 </form>
