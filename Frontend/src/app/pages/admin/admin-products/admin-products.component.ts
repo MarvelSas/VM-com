@@ -34,6 +34,7 @@ export class AdminProductsComponent implements OnInit {
     const productName = this.addProductForm.value.productName;
     const productPrice = this.addProductForm.value.productPrice;
     const productDescription = this.addProductForm.value.productDescription;
+    const productAmount = this.addProductForm.value.productAmount;
     const productCategory =
       this.categories[this.addProductForm.value.productCategory - 1];
 
@@ -41,11 +42,11 @@ export class AdminProductsComponent implements OnInit {
       name: productName,
       price: productPrice,
       productCategory: productCategory,
-      amount: 5, //TODO
+      amount: productAmount,
       description: productDescription,
     };
 
-    // console.log(product);
+    console.log(product);
 
     this.formData.append(
       'product',
@@ -102,6 +103,7 @@ export class AdminProductsComponent implements OnInit {
       productName: new FormControl(null, Validators.required),
       productDescription: new FormControl(null, Validators.required),
       productPrice: new FormControl(null, Validators.required),
+      productAmount: new FormControl(null, Validators.required),
       productImage: new FormControl(null, Validators.required),
       productCategory: new FormControl(null, Validators.required),
     });
