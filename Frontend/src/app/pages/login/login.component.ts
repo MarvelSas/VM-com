@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { HttpApiService } from '../../shared/services/http-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { HttpApiService } from '../../shared/services/http-api.service';
 export class LoginComponent implements OnInit {
   signInForm: FormGroup;
 
-  constructor(private httpApiService: HttpApiService) {}
+  constructor(private httpApiService: HttpApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.signInForm = new FormGroup({
@@ -24,7 +25,9 @@ export class LoginComponent implements OnInit {
   onLoginHandler() {
     if (this.signInForm.valid) {
       this.httpApiService.signIn(this.signInForm.value).subscribe((res) => {
-        console.log(res);
+        if (res.statusCode === 200) {
+          this.router.navigate(['/']);
+        }
       });
     }
   }
