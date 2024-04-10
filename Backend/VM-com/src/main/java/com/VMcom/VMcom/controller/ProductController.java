@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -50,12 +51,12 @@ public class ProductController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Response> addProduct(@RequestBody Product product){
+    public ResponseEntity<Response> addProduct(@RequestPart("product") Product product, @RequestPart("picture") MultipartFile pictureFile ){
 
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDate.now())
-                        .data(Map.of("product", productService.addProduct(product)))
+                        .data(Map.of("product", productService.addProduct(product,pictureFile)))
                         .message("Product was added successfully")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())

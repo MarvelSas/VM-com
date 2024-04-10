@@ -34,7 +34,8 @@ public class SecurityConfig {
     private final AppUserService appUserService;
 
     private static final String[] WHITE_LIST_URL = {
-            "/api/v1/auth/**"
+            "/api/v1/auth/**",
+            "/api/v1/images/**"
     };
 
     @Bean

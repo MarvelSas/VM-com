@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long > {
 
-
     @Query(value = "select u from Product u where u.productCategory.id=1")
     List<Product> findByCategory(Long categoryId);
+
 }
