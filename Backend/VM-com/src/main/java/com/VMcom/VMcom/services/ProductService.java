@@ -64,12 +64,20 @@ public class ProductService {
 
     public boolean addProduct(Product product, MultipartFile pictureFile ){
 
-        // This is where we will save the file
-        Path destinationFile = rootLocation.resolve(
-        Paths.get(product.getName()+"_"+pictureFile.getOriginalFilename())).normalize().toAbsolutePath();
+
+        try {
+            // This is where we will save the file
+            Path destinationFile = rootLocation.resolve(
+                    Paths.get(product.getName()+"_"+pictureFile.getOriginalFilename())).normalize().toAbsolutePath();
+
+            Files.copy(pictureFile.getInputStream(),destinationFile);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("File upload failed: " + e.getMessage());
+        }
 
 
-        Product newProduct = new Product(product.getName(),product.getDescription(),product.getPrice(),product.getPhotoUrl(),product.getAmount(),product.getProductCategory());
+        Product newProduct = new Product(product.getName(),product.getDescription(),product.getPrice(),"/api/v1/images/"+product.getName()+"_"+pictureFile.getOriginalFilename(),product.getAmount(),product.getProductCategory());
 
         productRepository.save(newProduct);
 
