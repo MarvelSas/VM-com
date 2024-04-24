@@ -5,12 +5,24 @@ import com.VMcom.VMcom.model.Product;
 import com.VMcom.VMcom.model.ProductCategory;
 import com.VMcom.VMcom.model.Response;
 import com.VMcom.VMcom.services.ProductService;
+import jakarta.activation.FileTypeMap;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -20,6 +32,7 @@ import java.util.Map;
 public class ProductController {
 
     private final ProductService productService;
+    private final ServletContext servletContext;
 
 
     @GetMapping("/getAll")
@@ -92,6 +105,13 @@ public class ProductController {
         );
     }
 
+
+
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("filename") String filename) throws IOException{
+        File img = new File("src/main/resources/static/uploaded-pictures/"+filename);
+        return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
+    }
 
 
 

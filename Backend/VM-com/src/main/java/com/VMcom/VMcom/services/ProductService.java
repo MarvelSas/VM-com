@@ -77,7 +77,7 @@ public class ProductService {
         }
 
 
-        Product newProduct = new Product(product.getName(),product.getDescription(),product.getPrice(),"/api/v1/images/"+product.getName()+"_"+pictureFile.getOriginalFilename(),product.getAmount(),product.getProductCategory());
+        Product newProduct = new Product(product.getName(),product.getDescription(),product.getPrice(),"/api/v1/product/images/"+product.getName()+"_"+pictureFile.getOriginalFilename(),product.getAmount(),product.getProductCategory());
 
         productRepository.save(newProduct);
 
@@ -88,6 +88,10 @@ public class ProductService {
 
         return productRepository.findByCategory(categoryId);
     }
+
+
+
+
 
 
 }
