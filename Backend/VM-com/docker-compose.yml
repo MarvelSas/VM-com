@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    container_name: vmcom_psql_db
+    restart: no
+    environment:
+      - POSTGRES_USER=vmcom
+      - POSTGRES_PASSWORD=vmcom_secret_password
+      - POSTGRES_DB=vmcom_db
+    ports:
+      - '5432:5432'
