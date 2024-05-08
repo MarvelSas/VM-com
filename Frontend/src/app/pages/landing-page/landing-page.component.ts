@@ -42,6 +42,7 @@ export class LandingPageComponent implements OnInit {
       this.products = res.data.products.splice(0, this.MAX_PRODUCTS);
       console.log(this.products[0]);
     });
+    console.log(this.products[0]);
   }
 
   onShowMore() {

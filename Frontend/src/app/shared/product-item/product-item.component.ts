@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product-item',
@@ -11,6 +12,7 @@ export class ProductItemComponent {
   @Input() imgSrc: any;
   @Input() name: any;
   @Input() price: any;
+  apiUrl = environment.apiUrl
   // console.log(this.name)
 
   constructor(private router: Router, private route: ActivatedRoute) {}
