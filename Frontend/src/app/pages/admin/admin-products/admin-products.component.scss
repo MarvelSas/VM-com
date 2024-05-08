@@ -11,6 +11,15 @@
 }
 
 .btn {
-  margin: 5px;
-  padding: 5px;
+  margin: 0.25rem;
+  padding: 0.5rem;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: whitesmoke;
+  border: 2px solid rgba(0, 0, 0, 1);
 }

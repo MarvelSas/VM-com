@@ -23,6 +23,7 @@
 
     </div>
     <div>
+        <button class="btn" routerLink="admin" *ngIf="user">Administracja</button> <!-- TODO: IF USER ROLE === ADMIN -->
         <button class="btn" routerLink="login" *ngIf="!user">Zaloguj</button>
         <button class="btn" routerLink="register" *ngIf="!user">Register</button>
         <button class="btn" (click)="logout()" *ngIf="user">Wyloguj</button>
