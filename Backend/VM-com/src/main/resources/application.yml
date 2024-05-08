@@ -1,9 +1,16 @@
 spring:
   datasource:
+#    EXTERNAL DATABASE
     password: hpIBGdv9j6CE
-    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com2
+    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com
     username: VM-com
     driver-class-name: org.postgresql.Driver
+#
+#    LOCAL DOCKER DATABASE
+#    password: vmcom_secret_password
+#    url: jdbc:postgresql://127.0.0.1:5432/vmcom_db
+#    username: vmcom
+#    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
