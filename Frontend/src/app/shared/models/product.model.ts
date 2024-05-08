@@ -8,5 +8,6 @@ export interface IProduct {
   name: string;
   price: string;
   url: string;
+  photoUrl: string;
   productCategory: IProductCategory;
 }
