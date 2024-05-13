@@ -6,6 +6,8 @@ import com.VMcom.VMcom.model.ProductCategory;
 import com.VMcom.VMcom.repository.ProductCategoryRepository;
 import com.VMcom.VMcom.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -90,8 +92,7 @@ public class ProductService {
     }
 
 
-
-
-
-
+    public Product getProductById(Long productId) {
+        return productRepository.findById(productId).orElseThrow(()-> new IllegalStateException("Product with id:"+productId+"does not exist in database"));
+    }
 }
