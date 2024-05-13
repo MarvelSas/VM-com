@@ -113,6 +113,19 @@ public class ProductController {
         return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
     }
 
+    @GetMapping("/get/{productId}")
+    public ResponseEntity<Response> getProduct(@PathVariable("productId") Long productId){
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDate.now())
+                        .data(Map.of("product",productService.getProductById(productId)))
+                        .message("Product returned")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
 
 
 
