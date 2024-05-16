@@ -34,9 +34,14 @@ public class SecurityConfig {
     private final AppUserService appUserService;
 
     private static final String[] WHITE_LIST_URL = {
+
+            //Products
+            "/api/v1/product/getAll",
+            "/api/v1/product/get/category/**",
+            "/api/v1/product/productCategory/getAll",
+            "/api/v1/product/images/**",
+            //Security
             "/api/v1/auth/**",
-            "/api/v1/images/**",
-            "/api/v1/product/images/**"
     };
 
     @Bean
@@ -47,8 +52,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     requests
                             .requestMatchers(WHITE_LIST_URL).permitAll()
-                            .requestMatchers("/api/v1/demo").hasAuthority("USER")
-                            .requestMatchers("/api/v1/product/**").hasAuthority("USER")
+                            .requestMatchers("/api/v1/product/add").hasAuthority("ADMIN")
+                            .requestMatchers("/api/v1/product/productCategory/add").hasAuthority("ADMIN")
                             .anyRequest()
                             .authenticated();
                 })
