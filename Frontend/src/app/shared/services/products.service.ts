@@ -25,10 +25,6 @@ export class ProductsService {
   ) {}
 
   getProducts(): Observable<ProductsResponseData> {
-    console.log('sd');
-    // if (!this.httpApiService.user.value) {
-    //   return null;
-    // }
     let token = '';
     if (this.httpApiService.user.value) {
       token = this.httpApiService.user.value.token;

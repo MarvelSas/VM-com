@@ -3,6 +3,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { User } from '../models/user.model';
 
+import { jwtDecode } from 'jwt-decode';
+
 export interface AuthResponseData {
   timestamp: string;
   statusCode: number;
@@ -11,6 +13,13 @@ export interface AuthResponseData {
   data: {
     token: string;
   };
+}
+
+export interface JwtPayload {
+  sub: string;
+  roles: string;
+  iat: number;
+  exp: number;
 }
 
 @Injectable({
@@ -29,15 +38,16 @@ export class HttpApiService implements OnInit {
       password: loginData.password,
     };
 
-    // console.log(body);
     return this.http
       .post<AuthResponseData>(`${this.API_URL}/auth/authenticate`, body)
       .pipe(
         tap((resData) => {
           if (resData.statusCode === 200) {
             const token = resData.data.token;
-            console.log(token);
-            this.user.next(new User('email', token));
+            const decodedToken: JwtPayload = jwtDecode(token);
+            this.user.next(
+              new User(decodedToken.sub, decodedToken.roles, token)
+            );
             this.TOKEN = token;
             localStorage.setItem('token', token);
           }
@@ -53,7 +63,6 @@ export class HttpApiService implements OnInit {
       password: registerData.password,
     };
 
-    // console.log(body);
     return this.http
       .post<AuthResponseData>(`${this.API_URL}/auth/register`, body)
       .pipe(
@@ -70,9 +79,19 @@ export class HttpApiService implements OnInit {
 
   autoLogin() {
     const saveToken = localStorage.getItem('token');
-    console.log('Zapisany token: ', saveToken);
-    if (saveToken) {
-      const user = new User('asdasd', saveToken);
+    const decodedToken: JwtPayload = jwtDecode(saveToken);
+
+    // TOKEN DEBUG
+    // console.log('Saved token: ', saveToken);
+    // console.log('Decoded token: ', decodedToken);
+    // console.log('Created time: ', new Date(decodedToken.iat * 1000));
+    // console.log('Expired time: ', new Date(decodedToken.exp * 1000));
+    // console.log('Current time: ', new Date());
+
+    const tokenIsValid = decodedToken.exp * 1000 > new Date().getTime();
+    console.log('Token is valid: ', tokenIsValid);
+    if (saveToken && tokenIsValid) {
+      const user = new User(decodedToken.sub, decodedToken.roles, saveToken);
       this.user.next(user);
     }
   }
@@ -82,10 +101,10 @@ export class HttpApiService implements OnInit {
     localStorage.removeItem('token');
   }
 
-  private handleAuthentication(email: string, token: string) {
-    const user = new User(email, token);
-    this.user.next(user);
-  }
+  // private handleAuthentication(email: string, token: string) {
+  //   const user = new User(email, token);
+  //   this.user.next(user);
+  // }
 
   ngOnInit(): void {}
 }
