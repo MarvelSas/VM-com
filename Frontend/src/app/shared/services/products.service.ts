@@ -1,23 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { IProduct } from '../models/product.model';
+import { ProductsResponseData } from '../models/product.model';
 import { Observable, take } from 'rxjs';
 import { HttpApiService } from './http-api.service';
-
-interface IData {
-  products: IProduct[];
-}
-
-export interface ProductsResponseData {
-  data: IData;
-}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  // API_URL = 'http://localhost:3000/api/v1';
   API_URL = 'http://localhost:8080/api/v1/product/getAll';
   constructor(
     private http: HttpClient,
