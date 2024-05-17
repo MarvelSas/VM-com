@@ -34,12 +34,8 @@ export class LandingPageComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
-    if (!this.httpApiService.user.value) {
-      return null;
-    }
     this.productsService.getProducts().subscribe((res) => {
-      // console.log(res.data.products);
-      this.products = res.data.products.splice(0, this.MAX_PRODUCTS);
+      this.products = res.data.products.splice(0, this.MAX_PRODUCTS); // GET ONLY 5 PRODUCTS
       console.log(this.products[0]);
     });
     console.log(this.products[0]);

@@ -70,7 +70,7 @@ export class HttpApiService implements OnInit {
 
   autoLogin() {
     const saveToken = localStorage.getItem('token');
-    console.log(saveToken);
+    console.log('Zapisany token: ', saveToken);
     if (saveToken) {
       const user = new User('asdasd', saveToken);
       this.user.next(user);
