@@ -1,1 +1,23 @@
-<h3>Product ID: {{id}}</h3>
+<!-- <h3>Product ID: {{id}}</h3> -->
+<div class="container">
+    <div class="titleContainer">
+        <div class="infoSection">
+            <div>
+                <h2>{{product.name}}</h2>
+            </div>
+            <div>
+                <h5>Cena: {{product.price}}zł</h5>
+            </div>
+            <div class="btnContainer">
+                <button class="btn" (click)="onBuyProduct()">Kup teraz!</button>
+            </div>
+        </div>
+        <img [src]="apiUrl + product.photoUrl" alt="{{product.name}}" class="imageSection"
+            (click)="onImageClick(apiUrl + product.photoUrl)">
+    </div>
+    <div class="descriptionContainer">
+        <h3>Specyfikacja produktu:</h3>
+        <hr>
+        <p>{{product.description}}</p>
+    </div>
+</div>

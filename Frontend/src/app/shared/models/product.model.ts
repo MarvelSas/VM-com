@@ -14,3 +14,7 @@ export interface IProduct {
 export interface ProductsResponseData {
   data: { products: IProduct[] };
 }
+
+export interface OneProductResponseData {
+  data: { product: IProduct };
+}
