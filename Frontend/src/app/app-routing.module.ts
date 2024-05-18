@@ -14,12 +14,11 @@ import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-c
 import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: LandingPageComponent, canActivate: [AuthGuard] },
-  { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
+  { path: '', component: LandingPageComponent },
+  { path: 'products', component: ProductsComponent },
   {
     path: 'product/:id',
     component: ProductDetailComponent,
-    canActivate: [AuthGuard],
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

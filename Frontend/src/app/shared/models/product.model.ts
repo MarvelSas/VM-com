@@ -7,7 +7,10 @@ export interface IProduct {
   id: number;
   name: string;
   price: string;
-  url: string;
   photoUrl: string;
   productCategory: IProductCategory;
+}
+
+export interface ProductsResponseData {
+  data: { products: IProduct[] };
 }
