@@ -5,11 +5,26 @@
   padding: 2em;
 }
 
+.section {
+  margin-top: 4rem;
+  padding: 2rem;
+  border: 1px solid rgb(235, 235, 235);
+  background-color: rgb(241, 241, 241);
+  border-radius: 6px;
+}
+
 .newProductsList {
-  margin-top: 3rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.title {
+  // font-size: 20px;
+  // font-weight: bold;
+  // border: 1px solid black;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .newProductsControls {

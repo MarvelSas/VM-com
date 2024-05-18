@@ -9,13 +9,16 @@ import { ProductsService } from 'src/app/shared/services/products.service';
 })
 export class ProductsComponent {
   products: IProduct[] = [];
+  isLoading = false;
 
   constructor(private productsService: ProductsService) {}
   ngOnInit(): void {
+    this.isLoading = true;
     this.productsService.getProducts().subscribe((res) => {
       this.products = res.data.products;
-      console.log(res);
-      console.log(this.products[1]);
+      this.isLoading = false;
+      // console.log(res);
+      // console.log(this.products[1]);
     });
   }
 }
