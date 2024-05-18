@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+  width: 80vw;
+  border: 2px solid #ccc;
+  border-radius: 7px;
+  padding: 2rem;
+}
+.titleContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.imageSection {
+  width: 300px;
+  border-radius: 7px;
+}
+
+.imageSection:hover {
+  cursor: pointer;
+}
+
+.titleContainer .infoSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 3rem;
+  //   border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  width: 15rem;
+}
+
+.titleContainer .infoSection h2,
+h5 {
+  //   border: 1px solid #ccc;
+  margin: 1rem 0;
+}
+
+.titleContainer .infoSection h5 {
+  text-align: right;
+}
+
+.btnContainer {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.descriptionContainer {
+  margin-top: 4rem;
+  width: 100%;
+}
+
+.descriptionContainer hr {
+  margin: 0.5rem 0 1rem 0;
+}
