@@ -10,7 +10,8 @@ import { ProductsService } from 'src/app/shared/services/products.service';
   styleUrls: ['./landing-page.component.scss'],
 })
 export class LandingPageComponent implements OnInit {
-  MAX_PRODUCTS = 5;
+  MAX_PRODUCTS = 4;
+  isLoading = false;
   // public slides = [
   //   {
   //     src: 'https://assets-global.website-files.com/5c895551cef9097fb47eaaa6/5c89580457d74f47ce70f5e6_Screen-Shot-2018-10-22-at-2.51.25-PM.png',
@@ -34,11 +35,13 @@ export class LandingPageComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
+    this.isLoading = true;
     this.productsService.getProducts().subscribe((res) => {
       this.products = res.data.products.splice(0, this.MAX_PRODUCTS); // GET ONLY 5 PRODUCTS
-      console.log(this.products[0]);
+      this.isLoading = false;
+      // console.log(this.products[0]);
     });
-    console.log(this.products[0]);
+    // console.log(this.products[0]);
   }
 
   onShowMore() {

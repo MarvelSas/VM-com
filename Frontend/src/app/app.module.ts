@@ -24,6 +24,7 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
 import { AdminComponent } from './pages/admin/admin.component';
 import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
 import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AdminProductsComponent } from './pages/admin/admin-products/admin-produ
     AdminComponent,
     AdminCategoriesComponent,
     AdminProductsComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,

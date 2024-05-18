@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 export class ProductDetailComponent implements OnInit {
   id: number = 0;
   product: any = {};
+  isLoading = false;
   apiUrl = environment.apiUrl;
 
   constructor(
@@ -28,6 +29,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
     });
@@ -35,6 +37,7 @@ export class ProductDetailComponent implements OnInit {
 
     this.productsService.getProduct(this.id).subscribe((product) => {
       this.product = product.data.product;
+      this.isLoading = false;
       // console.log(this.product);
     });
   }
