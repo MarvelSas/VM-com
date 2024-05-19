@@ -37,6 +37,7 @@ public class SecurityConfig {
 
             //Products
             "/api/v1/product/getAll",
+            "/api/v1/product/get/**",
             "/api/v1/product/get/category/**",
             "/api/v1/product/productCategory/getAll",
             "/api/v1/product/images/**",
