@@ -34,7 +34,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 "",
                 "admin@gmail.com",
                 passwordEncoder.encode("admin123"),
-                USER,
+                ADMIN,
                 false,
                 true);
 
