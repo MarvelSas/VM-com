@@ -64,22 +64,41 @@ public class ProductService {
 
     }
 
-    public boolean addProduct(Product product, MultipartFile pictureFile ){
+    public boolean addProduct(Product product, List<MultipartFile> pictureFiles ){
+
+        List<String> photosURL = new ArrayList<>();
 
 
-        try {
-            // This is where we will save the file
-            Path destinationFile = rootLocation.resolve(
-                    Paths.get(product.getName()+"_"+pictureFile.getOriginalFilename())).normalize().toAbsolutePath();
-
-            Files.copy(pictureFile.getInputStream(),destinationFile);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("File upload failed: " + e.getMessage());
-        }
+        //Adding photo from list to photo storage
+        pictureFiles.forEach( pictureFile ->{
 
 
-        Product newProduct = new Product(product.getName(),product.getDescription(),product.getPrice(),"/api/v1/product/images/"+product.getName()+"_"+pictureFile.getOriginalFilename(),product.getAmount(),product.getProductCategory());
+            if (!pictureFile.isEmpty()) {
+
+                try {
+                    // This is where we will save the file
+                    Path destinationFile = rootLocation.resolve(
+                            Paths.get(product.getName() + "_" + pictureFile.getOriginalFilename())).normalize().toAbsolutePath();
+
+                    Files.copy(pictureFile.getInputStream(), destinationFile);
+
+                    photosURL.add("/api/v1/product/images/"+product.getName()+"_"+pictureFile.getOriginalFilename());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("File upload failed: " + e.getMessage());
+                }
+
+            }else {
+
+            }
+
+
+
+        });
+
+
+
+        Product newProduct = new Product(product.getName(),product.getDescription(),product.getPrice(),photosURL,product.getAmount(),product.getProductCategory());
 
         productRepository.save(newProduct);
 
@@ -95,4 +114,8 @@ public class ProductService {
     public Product getProductById(Long productId) {
         return productRepository.findById(productId).orElseThrow(()-> new IllegalStateException("Product with id:"+productId+"does not exist in database"));
     }
+
+
+
+
 }
