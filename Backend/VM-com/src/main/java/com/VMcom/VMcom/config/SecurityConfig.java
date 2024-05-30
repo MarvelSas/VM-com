@@ -40,6 +40,7 @@ public class SecurityConfig {
             "/api/v1/product/get/**",
             "/api/v1/product/get/category/**",
             "/api/v1/product/productCategory/getAll",
+            "/api/v1/product/productCategory/update/**",
             "/api/v1/product/images/**",
             //Security
             "/api/v1/auth/**",

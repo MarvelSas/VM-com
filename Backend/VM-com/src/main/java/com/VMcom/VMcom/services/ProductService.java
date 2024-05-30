@@ -64,7 +64,24 @@ public class ProductService {
 
     }
 
+
+    public ProductCategory updateProductCategory(Long categoryId, String name){
+
+      ProductCategory productCategory =  productCategoryRepository.findById(categoryId).orElseThrow(()-> new IllegalStateException("Product category with id:"+categoryId+"does not exist in database"));
+
+      productCategory.setName(name);
+
+      productCategoryRepository.save(productCategory);
+
+        System.out.println(productCategory.getName());
+
+      return productCategory;
+
+    }
+
+
     public boolean addProduct(Product product, List<MultipartFile> pictureFiles ){
+
 
         List<String> photosURL = new ArrayList<>();
 
