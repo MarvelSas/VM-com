@@ -33,7 +33,7 @@
     <div class="form-item">
         <label for="productAmount">Ilość: </label>
         <div>
-            <input type="number" min="0" step="1" name="productAmount" placeholder="Amount"
+            <input type="number" min="0" step="1" name="productAmount" placeholder="Ilość"
                 formControlName="productAmount">
         </div>
     </div>
@@ -46,7 +46,9 @@
         </div>
     </div>
     <div class="form-item">
+        <label for="productCategory">Kategoria: </label>
         <select name="productCategory" formControlName="productCategory">
+            <option value="" disabled selected>Wybierz kategorię</option>
             <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
         </select>
     </div>
