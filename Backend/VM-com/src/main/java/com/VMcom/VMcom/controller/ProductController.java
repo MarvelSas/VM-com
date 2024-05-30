@@ -92,6 +92,21 @@ public class ProductController {
     }
 
 
+    @PatchMapping("/productCategory/update/{productCategoryId}")
+    public ResponseEntity<Response> addProductCategory(@PathVariable("productCategoryId") Long productCategoryId,  @RequestBody String name){
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDate.now())
+                        .data(Map.of("productCategory", productService.updateProductCategory(productCategoryId,name)))
+                        .message("Product category was updated successfully")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+
     @GetMapping("/productCategory/getAll")
     public ResponseEntity<Response> getAllProductCategories(){
         return ResponseEntity.ok(
