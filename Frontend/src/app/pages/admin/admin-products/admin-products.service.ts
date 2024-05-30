@@ -1,9 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ICategory } from '../admin-categories/category.model';
-import { HttpApiService } from 'src/app/shared/services/http-api.service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+
+import { environment } from 'src/environments/environment';
+import { endpoints } from 'src/enums/endpoints.enum';
+
+import { HttpApiService } from 'src/app/shared/services/http-api.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
+
+import { ICategory } from '../admin-categories/category.model';
 
 interface IProductCreate {
   name: string;
@@ -18,7 +22,7 @@ interface IProductResponseData {}
   providedIn: 'root',
 })
 export class adminProductsService {
-  API_URL = 'http://localhost:8080/api/v1/product/add';
+  API_URL = environment.API_URL;
   constructor(
     private http: HttpClient,
     private httpApiService: HttpApiService,
@@ -40,7 +44,7 @@ export class adminProductsService {
     };
 
     return this.http.post<IProductResponseData>(
-      this.API_URL,
+      `${this.API_URL + endpoints.addProduct}`,
       formData,
       requestOptions
     );

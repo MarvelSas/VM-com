@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { ProductsService } from 'src/app/shared/services/products.service';
+
 import { environment } from 'src/environments/environment';
+
+import { ProductsService } from 'src/app/shared/services/products.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -12,7 +14,7 @@ export class ProductDetailComponent implements OnInit {
   id: number = 0;
   product: any = {};
   isLoading = false;
-  apiUrl = environment.apiUrl;
+  API_IMG = environment.API_IMG;
 
   constructor(
     private route: ActivatedRoute,

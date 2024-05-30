@@ -1,5 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { environment } from 'src/environments/environment';
+import { endpoints } from 'src/enums/endpoints.enum';
+
 import { HttpApiService } from 'src/app/shared/services/http-api.service';
 
 interface ICategoriesResponseData {
@@ -28,7 +32,7 @@ export class adminCategoriesService {
     private http: HttpClient,
     private httpApiService: HttpApiService
   ) {}
-  API_URL = 'http://localhost:8080/api/v1/product/productCategory/add';
+  API_URL = environment.API_URL;
 
   getCategories() {
     const token = this.httpApiService.user.value.token;
@@ -39,7 +43,7 @@ export class adminCategoriesService {
       headers: new HttpHeaders(headerDict),
     };
     return this.http.get<ICategoriesGetResponseData>(
-      'http://localhost:8080/api/v1/product/productCategory/getAll',
+      `${this.API_URL + endpoints.getAllCategories}`,
       requestOptions
     );
   }
@@ -56,7 +60,7 @@ export class adminCategoriesService {
     };
 
     return this.http.post<ICategoriesResponseData>(
-      this.API_URL,
+      `${this.API_URL + endpoints.addCategory}`,
       body,
       requestOptions
     );
