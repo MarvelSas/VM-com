@@ -53,14 +53,14 @@ public class ProductService {
 
 
 
-    public boolean addProductCategory(ProductCategory productCategory){
+    public ProductCategory addProductCategory(ProductCategory productCategory){
 
         //TODO ADD verification if category already exist in database.
         ProductCategory newProductCategory = new ProductCategory(productCategory.getName());
 
-        productCategoryRepository.save(newProductCategory);
+        ProductCategory productCategory1 = productCategoryRepository.save(newProductCategory);
 
-        return true;
+        return productCategory1;
 
     }
 
