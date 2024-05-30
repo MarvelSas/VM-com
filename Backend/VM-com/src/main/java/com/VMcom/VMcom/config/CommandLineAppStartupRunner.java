@@ -44,10 +44,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
 
         //Add test product category
-        ProductCategory productCategory = productCategoryRepository.save(new ProductCategory("Komputtery"));
+        ProductCategory productCategory1 = productCategoryRepository.save(new ProductCategory("Monitory"));
+        ProductCategory productCategory2 = productCategoryRepository.save(new ProductCategory("Telefony komórkowe"));
 
         //Add product
-        productRepository.save(new Product("Komputer", "Dell",12.5, Arrays.asList("test"), 2L,productCategory));
+        productRepository.save(new Product("LG Ultragear 27GP850P NanoIPS HDR", "Zachwycający design oraz niezwykle bogata funkcjonalność – to czyni z monitora LG 27GP850P-B narzędzie, dzięki któremu odkryjesz gaming na nowo. Solidna konstrukcja połączona z panelem Nano IPS WQHD oferuje najlepsze doznania z gry w każdym calu. Bogate kolory, najdrobniejsze szczegóły i niezwykle szybki czas reakcji to cechy, dzięki którym odniesiesz sukces na wirtualnych polach bitwy. Poznaj gamingowy monitor LG 27GP850P-B.",1199.00, Arrays.asList("/api/v1/product/images/lg1.jpg", "/api/v1/product/images/lg2.jpg", "/api/v1/product/images/lg3.jpg", "/api/v1/product/images/lg4.jpg", "/api/v1/product/images/lg5.jpg", "/api/v1/product/images/lg6.jpg", "/api/v1/product/images/lg7.jpg"), 2L,productCategory1));
+        productRepository.save(new Product("Nothing Phone (2) - 256 GB + 12 GB", "Odkryj rewolucyjny smartfon Nothing Phone (2) - połączenie doskonałej wydajności, wspaniałego wyświetlacza i innowacyjnych funkcji. Dzięki układowi Snapdragon® 8+ Gen 1, doświadczysz niezrównanej mocy i szybkości działania. Imponujący wyświetlacz OLED o rozmiarze 6,7 cala i jasności pikseli sięgającej 1600 nitów zapewnia niesamowitą jakość obrazu.",2499.00, Arrays.asList("/api/v1/product/images/nothing1.jpg", "/api/v1/product/images/nothing2.jpg", "/api/v1/product/images/nothing3.jpg", "/api/v1/product/images/nothing4.jpg", "/api/v1/product/images/nothing5.jpg", "/api/v1/product/images/nothing6.jpg", "/api/v1/product/images/nothing7.jpg"), 2L,productCategory2));
 
     }
 }

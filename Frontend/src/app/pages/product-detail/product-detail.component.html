@@ -14,8 +14,13 @@
                     <button class="btn" (click)="onBuyProduct()">Dodaj do koszyka!</button>
                 </div>
             </div>
-            <img [src]="API_IMG + product.photoUrl" alt="{{product.name}}" class="imageSection"
-                (click)="onImageClick(API_IMG + product.photoUrl)">
+            <div class="imageSection">
+                <button class="btn" (click)="onPreviousImage()">Poprzednie zdjęcie</button>
+                <p>{{selectedImage + 1}} / {{product.photoUrl.length}}</p>
+                <img [src]="API_IMG + product.photoUrl[selectedImage]" alt="{{product.name}}" class="gallery"
+                    (click)="onImageClick(API_IMG + product.photoUrl[selectedImage])">
+                <button class="btn" (click)="onNextImage()">Następne zdjęcie</button>
+            </div>
         </div>
         <div class="descriptionContainer">
             <h3>Specyfikacja produktu:</h3>
