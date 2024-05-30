@@ -1,18 +1,22 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { environment } from 'src/environments/environment';
+import { endpoints } from 'src/enums/endpoints.enum';
+
+import { HttpApiService } from './http-api.service';
 
 import {
   ProductsResponseData,
   OneProductResponseData,
 } from '../models/product.model';
-import { Observable, take } from 'rxjs';
-import { HttpApiService } from './http-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  API_URL = 'http://localhost:8080/api/v1/product';
+  API_URL = environment.API_URL;
   constructor(
     private http: HttpClient,
     private httpApiService: HttpApiService
@@ -31,7 +35,7 @@ export class ProductsService {
     };
 
     return this.http.get<ProductsResponseData>(
-      `${this.API_URL}/getAll`,
+      `${this.API_URL + endpoints.getAllProducts}`,
       requestOptions
     );
   }
@@ -50,7 +54,7 @@ export class ProductsService {
     };
 
     return this.http.get<OneProductResponseData>(
-      `${this.API_URL}/get/${id}`,
+      `${this.API_URL + endpoints.getProduct}/${id}`,
       requestOptions
     );
   }

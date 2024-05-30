@@ -15,6 +15,7 @@ export class AdminProductsComponent implements OnInit {
   products: IProduct[];
   categories: ICategory[];
   formData: FormData = new FormData();
+  characterCount: number = 0;
 
   constructor(
     private adminProductsService: adminProductsService,
@@ -95,19 +96,34 @@ export class AdminProductsComponent implements OnInit {
   ngOnInit(): void {
     this.adminProductsService.getProducts().subscribe((res) => {
       this.products = res.data.products;
-      console.log(res);
+      // console.log(res);
     });
     this.adminCategoriesService.getCategories().subscribe((res) => {
       this.categories = res.data.productCategories;
-      console.log(res.data.productCategories);
+      // console.log(res.data.productCategories);
     });
     this.addProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),
-      productDescription: new FormControl(null, Validators.required),
-      productPrice: new FormControl(null, Validators.required),
-      productAmount: new FormControl(null, Validators.required),
+      productDescription: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(8000),
+      ]),
+      productPrice: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^[\d,\.]+$/),
+      ]),
+      productAmount: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+      ]),
       productImage: new FormControl(null, Validators.required),
       productCategory: new FormControl(null, Validators.required),
     });
+
+    this.addProductForm
+      .get('productDescription')!
+      .valueChanges.subscribe((value) => {
+        this.characterCount = value ? value.length : 0;
+      });
   }
 }

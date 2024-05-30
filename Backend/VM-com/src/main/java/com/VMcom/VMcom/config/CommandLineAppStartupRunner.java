@@ -13,6 +13,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 import static com.VMcom.VMcom.enums.AppUserRole.*;
 
 @Component
@@ -45,7 +47,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         ProductCategory productCategory = productCategoryRepository.save(new ProductCategory("Komputtery"));
 
         //Add product
-        productRepository.save(new Product("Komputer", "Dell",12.5,"test", 2L,productCategory));
+        productRepository.save(new Product("Komputer", "Dell",12.5, Arrays.asList("test"), 2L,productCategory));
 
     }
 }

@@ -14,13 +14,13 @@
                     <button class="btn" (click)="onBuyProduct()">Dodaj do koszyka!</button>
                 </div>
             </div>
-            <img [src]="apiUrl + product.photoUrl" alt="{{product.name}}" class="imageSection"
-                (click)="onImageClick(apiUrl + product.photoUrl)">
+            <img [src]="API_IMG + product.photoUrl" alt="{{product.name}}" class="imageSection"
+                (click)="onImageClick(API_IMG + product.photoUrl)">
         </div>
         <div class="descriptionContainer">
             <h3>Specyfikacja produktu:</h3>
             <hr>
-            <p>{{product.description}}</p>
+            <pre>{{product.description}}</pre>
         </div>
     </ng-container>
 </div>

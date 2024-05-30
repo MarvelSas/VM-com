@@ -1,19 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
-import { User } from '../models/user.model';
-
-import { AuthResponseData } from '../models/auth.model';
-import { JwtPayload } from '../models/auth.model';
-
 import { jwtDecode } from 'jwt-decode';
+
+import { environment } from 'src/environments/environment';
+import { endpoints } from 'src/enums/endpoints.enum';
+
+import { AuthResponseData, JwtPayload } from '../models/auth.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpApiService implements OnInit {
   user = new BehaviorSubject(null);
-  API_URL = 'http://localhost:8080/api/v1';
+  API_URL = environment.API_URL;
   TOKEN = null;
 
   constructor(private http: HttpClient) {}
@@ -25,7 +26,7 @@ export class HttpApiService implements OnInit {
     };
 
     return this.http
-      .post<AuthResponseData>(`${this.API_URL}/auth/authenticate`, body)
+      .post<AuthResponseData>(`${this.API_URL + endpoints.authenticate}`, body)
       .pipe(
         tap((resData) => {
           if (resData.statusCode === 200) {
@@ -50,7 +51,7 @@ export class HttpApiService implements OnInit {
     };
 
     return this.http
-      .post<AuthResponseData>(`${this.API_URL}/auth/register`, body)
+      .post<AuthResponseData>(`${this.API_URL + endpoints.register}`, body)
       .pipe(
         tap((resData) => {
           if (resData.statusCode === 200) {
@@ -74,12 +75,18 @@ export class HttpApiService implements OnInit {
     // console.log('Expired time: ', new Date(decodedToken.exp * 1000));
     // console.log('Current time: ', new Date());
 
-    const tokenIsValid = decodedToken.exp * 1000 > new Date().getTime();
+    const tokenIsValid = this.tokenIsValid(saveToken);
     console.log('Token is valid: ', tokenIsValid);
     if (saveToken && tokenIsValid) {
       const user = new User(decodedToken.sub, decodedToken.roles, saveToken);
       this.user.next(user);
     }
+  }
+
+  tokenIsValid(token: string) {
+    const decodedToken: JwtPayload = jwtDecode(token);
+    const validationResult = decodedToken.exp * 1000 > new Date().getTime();
+    return validationResult;
   }
 
   signOut() {
