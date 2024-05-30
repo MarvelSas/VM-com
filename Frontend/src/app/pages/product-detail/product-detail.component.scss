@@ -14,13 +14,13 @@
   width: 100%;
 }
 
-.imageSection {
+.gallery {
   width: 300px;
   border-radius: 7px;
   transition: all 0.3s;
 }
 
-.imageSection:hover {
+.gallery:hover {
   cursor: pointer;
   scale: 1.03;
   transition: all 0.3s;
@@ -59,6 +59,10 @@ h5 {
   word-wrap: break-word;
 }
 
+.descriptionContainer pre {
+  white-space: pre-wrap;
+}
+
 .descriptionContainer hr {
   margin: 0.5rem 0 1rem 0;
 }
@@ -77,4 +81,15 @@ h5 {
 
 .btn:hover {
   background-color: rgb(133, 133, 133);
+}
+
+.imageSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageSection img {
+  height: 300px;
+  width: 450px;
+  border-radius: 7px;
 }

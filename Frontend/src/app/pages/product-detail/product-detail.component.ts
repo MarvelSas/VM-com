@@ -13,6 +13,7 @@ import { ProductsService } from 'src/app/shared/services/products.service';
 export class ProductDetailComponent implements OnInit {
   id: number = 0;
   product: any = {};
+  selectedImage: number = 0;
   isLoading = false;
   API_IMG = environment.API_IMG;
 
@@ -28,6 +29,18 @@ export class ProductDetailComponent implements OnInit {
   onImageClick(url) {
     console.log('Image opened in new tab!');
     window.open(url, '_blank');
+  }
+
+  onPreviousImage() {
+    if (this.selectedImage > 0) {
+      this.selectedImage--;
+    }
+  }
+
+  onNextImage() {
+    if (this.selectedImage < this.product.photoUrl.length - 1) {
+      this.selectedImage++;
+    }
   }
 
   ngOnInit(): void {
