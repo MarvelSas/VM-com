@@ -8,6 +8,7 @@ import { endpoints } from 'src/enums/endpoints.enum';
 
 import { AuthResponseData, JwtPayload } from '../models/auth.model';
 import { User } from '../models/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class HttpApiService implements OnInit {
   API_URL = environment.API_URL;
   TOKEN = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   signIn(loginData) {
     const body = {
@@ -78,8 +79,15 @@ export class HttpApiService implements OnInit {
     const tokenIsValid = this.tokenIsValid(saveToken);
     console.log('Token is valid: ', tokenIsValid);
     if (saveToken && tokenIsValid) {
+      this.toastr.success('Zalogowano pomyślne!', null, {
+        positionClass: 'toast-bottom-right',
+      });
       const user = new User(decodedToken.sub, decodedToken.roles, saveToken);
       this.user.next(user);
+    } else {
+      this.toastr.error('Błąd autologowania!', null, {
+        positionClass: 'toast-bottom-right',
+      });
     }
   }
 
@@ -92,6 +100,9 @@ export class HttpApiService implements OnInit {
   signOut() {
     this.user.next(null);
     localStorage.removeItem('token');
+    this.toastr.info('Wylogowano pomyślnie!', null, {
+      positionClass: 'toast-bottom-right',
+    });
   }
 
   // private handleAuthentication(email: string, token: string) {

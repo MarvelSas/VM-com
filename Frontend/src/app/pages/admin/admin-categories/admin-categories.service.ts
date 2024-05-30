@@ -6,23 +6,10 @@ import { endpoints } from 'src/enums/endpoints.enum';
 
 import { HttpApiService } from 'src/app/shared/services/http-api.service';
 
-interface ICategoriesResponseData {
-  //   id: number;
-  //   name: string;
-  data: {
-    productCategory: boolean;
-  };
-  message: string;
-  status: string;
-  statusCode: number;
-  timeStamp: string;
-}
+import { ICategoriesGetResponseData } from '../admin-categories/category.model';
+import { ICategoriesAddResponseData } from '../admin-categories/category.model';
 
-interface ICategoriesGetResponseData {
-  data: {
-    productCategories: any;
-  };
-}
+
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +46,7 @@ export class adminCategoriesService {
       headers: new HttpHeaders(headerDict),
     };
 
-    return this.http.post<ICategoriesResponseData>(
+    return this.http.post<ICategoriesAddResponseData>(
       `${this.API_URL + endpoints.addCategory}`,
       body,
       requestOptions

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { HttpApiService } from 'src/app/shared/services/http-api.service';
 
 @Component({
@@ -10,7 +12,11 @@ import { HttpApiService } from 'src/app/shared/services/http-api.service';
 export class RegisterComponent implements OnInit {
   signUpForm: FormGroup;
 
-  constructor(private httpApiService: HttpApiService) {}
+  constructor(
+    private httpApiService: HttpApiService,
+    private router: Router,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
@@ -23,8 +29,26 @@ export class RegisterComponent implements OnInit {
 
   onRegisterHandler() {
     if (this.signUpForm.valid) {
-      this.httpApiService.signUp(this.signUpForm.value).subscribe((res) => {
-        console.log(res);
+      this.httpApiService.signUp(this.signUpForm.value).subscribe({
+        next: (res) => {
+          this.toast.success('Zarejestrowano pomyślnie!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error(err.message);
+
+          // TODO
+          // if (err.error.message === 'User already exists!')
+          //   this.toast.error('Użytkownik już istnieje!', null, {
+          //     positionClass: 'toast-bottom-right',
+          //   });
+
+          this.toast.error('Błąd rejestracji!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        },
       });
     }
   }
