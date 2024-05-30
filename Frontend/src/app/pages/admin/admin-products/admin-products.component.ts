@@ -4,6 +4,7 @@ import { adminProductsService } from './admin-products.service';
 import { IProduct } from 'src/app/shared/models/product.model';
 import { ICategory } from '../admin-categories/category.model';
 import { adminCategoriesService } from '../admin-categories/admin-categories.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-products',
@@ -19,7 +20,8 @@ export class AdminProductsComponent implements OnInit {
 
   constructor(
     private adminProductsService: adminProductsService,
-    private adminCategoriesService: adminCategoriesService
+    private adminCategoriesService: adminCategoriesService,
+    private toastr: ToastrService
   ) {}
 
   onAddFile(event: Event) {
@@ -54,9 +56,23 @@ export class AdminProductsComponent implements OnInit {
       new Blob([JSON.stringify(product)], { type: 'application/json' })
     );
 
-    this.adminProductsService.addProductNew(this.formData).subscribe((res) => {
-      console.log(res);
+    this.adminProductsService.addProductNew(this.formData).subscribe({
+      next: (res) => {
+        if (res.statusCode === 200) {
+          this.toastr.success('Pomyślnie dodano produkt!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        }
+      },
+      error: (err) => {
+        console.error(err.message);
+        this.toastr.error('Błąd dodawania produktu!', null, {
+          positionClass: 'toast-bottom-right',
+        });
+      },
     });
+
+    this.adminProductsService.addProductNew(this.formData).subscribe();
 
     this.onClear();
   }

@@ -7,16 +7,7 @@ import { endpoints } from 'src/enums/endpoints.enum';
 import { HttpApiService } from 'src/app/shared/services/http-api.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
-import { ICategory } from '../admin-categories/category.model';
-
-interface IProductCreate {
-  name: string;
-  price: string;
-  url: string;
-  productCategory: ICategory;
-}
-
-interface IProductResponseData {}
+import { IProductResponseData } from './product.model';
 
 @Injectable({
   providedIn: 'root',

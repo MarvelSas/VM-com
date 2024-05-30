@@ -25,6 +25,7 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
 import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { Toast, ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
