@@ -17,19 +17,24 @@
         <div>
             <textarea type="text" rows="20" cols="50" name="productDescription" placeholder="Opis produktu"
                 formControlName="productDescription"></textarea>
+            <div>
+                {{characterCount}} / 8000
+            </div>
         </div>
     </div>
     <div class="form-item">
         <label for="productPrice">Cena: </label>
         <div>
-            <input type="text" name="productPrice" placeholder="Cena" formControlName="productPrice">
+            <input type="number" min="0" step="0.01" name="productPrice" placeholder="Cena"
+                formControlName="productPrice">
         </div>
     </div>
 
     <div class="form-item">
         <label for="productAmount">Ilość: </label>
         <div>
-            <input type="number" name="productAmount" placeholder="Amount" formControlName="productAmount">
+            <input type="number" min="0" step="1" name="productAmount" placeholder="Ilość"
+                formControlName="productAmount">
         </div>
     </div>
 
@@ -41,7 +46,9 @@
         </div>
     </div>
     <div class="form-item">
+        <label for="productCategory">Kategoria: </label>
         <select name="productCategory" formControlName="productCategory">
+            <option value="" disabled selected>Wybierz kategorię</option>
             <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
         </select>
     </div>
