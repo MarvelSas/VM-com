@@ -75,12 +75,18 @@ export class HttpApiService implements OnInit {
     // console.log('Expired time: ', new Date(decodedToken.exp * 1000));
     // console.log('Current time: ', new Date());
 
-    const tokenIsValid = decodedToken.exp * 1000 > new Date().getTime();
+    const tokenIsValid = this.tokenIsValid(saveToken);
     console.log('Token is valid: ', tokenIsValid);
     if (saveToken && tokenIsValid) {
       const user = new User(decodedToken.sub, decodedToken.roles, saveToken);
       this.user.next(user);
     }
+  }
+
+  tokenIsValid(token: string) {
+    const decodedToken: JwtPayload = jwtDecode(token);
+    const validationResult = decodedToken.exp * 1000 > new Date().getTime();
+    return validationResult;
   }
 
   signOut() {
