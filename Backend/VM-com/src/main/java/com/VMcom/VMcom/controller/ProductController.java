@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -64,12 +65,12 @@ public class ProductController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Response> addProduct(@RequestPart("product") Product product, @RequestPart("picture") MultipartFile pictureFile ){
+    public ResponseEntity<Response> addProduct(@RequestPart("product") Product product, @RequestPart("picture") List<MultipartFile> pictureFiles ){
 
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDate.now())
-                        .data(Map.of("product", productService.addProduct(product,pictureFile)))
+                        .data(Map.of("product", productService.addProduct(product,pictureFiles)))
                         .message("Product was added successfully")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())

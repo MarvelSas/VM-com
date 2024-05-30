@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -23,13 +25,13 @@ public class Product {
     @Column(name = "description", length = 8192)
     private String description;
     private Double price;
-    private String photoUrl;
+    private List<String> photoUrl;
     private Long amount;
     @ManyToOne
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
 
-    public Product(String name, String description, Double price, String photoUrl, Long amount, ProductCategory productCategory) {
+    public Product(String name, String description, Double price, List<String> photoUrl, Long amount, ProductCategory productCategory) {
         this.name = name;
         this.description = description;
         this.price = price;
