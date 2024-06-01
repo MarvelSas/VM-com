@@ -1,13 +1,14 @@
-<h4>Zarządzanie kategoriami</h4>
+<h4 class="listSection">Zarządzanie kategoriami</h4>
 <h5>Lista kategorii:</h5>
-<p *ngFor="let category of categories">{{category.name}} [{{category.id}}]</p>
-<h5>Dodaj nową kategorię</h5>
+<p *ngFor="let category of categories">{{category.name}} [{{category.id}}] <button
+        (click)="onEditCategory(category.id)">E</button></p>
+<h4 class="inputSection">{{isEditing ? 'Edytuj kategorię' : 'Dodaj nową kategorię'}}</h4>
 <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmit()">
     <div>
         <input type="text" name="categoryName" formControlName="categoryName">
     </div>
     <div class="buttonsWrapper">
-        <button class="btn" type="submit">Dodaj kategorię</button>
-        <button class="btn" (click)="onClear()">Wyczyść</button>
+        <button class="btn" type="submit">{{isEditing ? 'Zapisz' : 'Dodaj kategorię'}}</button>
+        <button class="btn" (click)="onClear($event)">{{isEditing ? 'Cofnij' : 'Wyczyść'}}</button>
     </div>
 </form>

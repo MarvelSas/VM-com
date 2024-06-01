@@ -6,4 +6,5 @@ export enum endpoints {
   addProduct = `product/add`,
   getAllCategories = `product/productCategory/getAll`,
   addCategory = `product/productCategory/add`,
+  updateCategory = `product/productCategory/update`,
 }
