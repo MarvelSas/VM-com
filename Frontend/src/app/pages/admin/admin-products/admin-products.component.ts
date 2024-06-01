@@ -6,6 +6,11 @@ import { ICategory } from '../admin-categories/category.model';
 import { adminCategoriesService } from '../admin-categories/admin-categories.service';
 import { ToastrService } from 'ngx-toastr';
 
+interface IImage {
+  imageUrl: string;
+  isSelected: boolean;
+}
+
 @Component({
   selector: 'app-admin-products',
   templateUrl: './admin-products.component.html',
@@ -17,6 +22,7 @@ export class AdminProductsComponent implements OnInit {
   categories: ICategory[];
   formData: FormData = new FormData();
   characterCount: number = 0;
+  images: IImage[] = [];
 
   constructor(
     private adminProductsService: adminProductsService,
@@ -24,11 +30,28 @@ export class AdminProductsComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  onAddFile(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.formData.append('picture', file);
+  // OLD
+  // onAddFile(event: Event) {
+  //   const file = (event.target as HTMLInputElement).files[0];
+  //   this.formData.append('picture', file);
+  // }
+
+  // PRZESYŁANIE ZDJĘĆ NA SERWER
+  onAddImage(e: any) {
+    for (let i = 0; i < e.target.files.length; i++) {
+      this.adminProductsService.uploadPhoto(e.target.files[i]).subscribe({
+        next: (res) => {
+          this.images.push({ imageUrl: res.imageUrl, isSelected: false });
+          // console.log(this.images);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
   }
 
+  // PRZESŁANIE FORMULARZA Z PRODUKTEM NA SERWER
   onSubmitNew() {
     if (!this.addProductForm.valid) {
       return;
@@ -49,12 +72,18 @@ export class AdminProductsComponent implements OnInit {
       description: productDescription,
     };
 
-    console.log(product);
-
     this.formData.append(
       'product',
       new Blob([JSON.stringify(product)], { type: 'application/json' })
     );
+
+    // WYODRĘBNIA Z TABLICY TYLKO URL ZDJĘĆ
+    const imagesUrls = this.images.map((image) => {
+      return image.imageUrl;
+    });
+
+    // DODANIE DO FORMULARZA URL ZDJĘĆ
+    this.formData.append('images', JSON.stringify(imagesUrls));
 
     this.adminProductsService.addProductNew(this.formData).subscribe({
       next: (res) => {
@@ -105,10 +134,12 @@ export class AdminProductsComponent implements OnInit {
   //     });
   // }
 
+  // WYCZYSZCZENIE FORMULARZA
   onClear() {
     this.addProductForm.reset();
   }
 
+  // INICJALIZACJA
   ngOnInit(): void {
     this.adminProductsService.getProducts().subscribe((res) => {
       this.products = res.data.products;

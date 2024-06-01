@@ -7,3 +7,7 @@ export interface IProductResponseData {
     product: boolean;
   };
 }
+
+export interface IResPhotoUpload {
+  imageUrl: string;
+}
