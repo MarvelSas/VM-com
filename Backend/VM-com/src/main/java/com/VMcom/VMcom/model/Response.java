@@ -7,13 +7,14 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
-    private LocalDate timeStamp;
+    private LocalDateTime timeStamp;
     private int statusCode;
     private HttpStatus status;
     private String reason;

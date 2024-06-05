@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class ProductController {
     public ResponseEntity<Response> getAllProducts(){
         return ResponseEntity.ok(
                 Response.builder()
-                        .timeStamp(LocalDate.now())
+                        .timeStamp(LocalDateTime.now())
                         .data(Map.of("products", productService.getAllProducts()))
                         .message("All products returned")
                         .status(HttpStatus.OK)
@@ -54,7 +55,7 @@ public class ProductController {
 
         return ResponseEntity.ok(
                 Response.builder()
-                        .timeStamp(LocalDate.now())
+                        .timeStamp(LocalDateTime.now())
                         .data(Map.of("products", productService.getProductsByCategory(categoryId)))
                         .message("All products returned with category Id:"+ categoryId)
                         .status(HttpStatus.OK)
@@ -65,12 +66,12 @@ public class ProductController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Response> addProduct(@RequestPart("product") Product product, @RequestPart("picture") List<MultipartFile> pictureFiles ){
+    public ResponseEntity<Response> addProduct(@RequestBody Product product){
 
         return ResponseEntity.ok(
                 Response.builder()
-                        .timeStamp(LocalDate.now())
-                        .data(Map.of("product", productService.addProduct(product,pictureFiles)))
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("product", productService.addProduct(product)))
                         .message("Product was added successfully")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -78,12 +79,27 @@ public class ProductController {
         );
     }
 
+    @PostMapping("/add/productPhoto")
+    public ResponseEntity<Response> addProductPhoto(@RequestPart("picture") MultipartFile pictureFiles ){
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("product photo name", productService.addProductPhoto(pictureFiles)))
+                        .message("Product photo was added successfully")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+
     @PostMapping("/productCategory/add")
     public ResponseEntity<Response> addProductCategory(@RequestBody ProductCategory productCategory){
 
         return ResponseEntity.ok(
                 Response.builder()
-                        .timeStamp(LocalDate.now())
+                        .timeStamp(LocalDateTime.now())
                         .data(Map.of("productCategory", productService.addProductCategory(productCategory)))
                         .message("Product category was added successfully")
                         .status(HttpStatus.OK)
@@ -98,7 +114,7 @@ public class ProductController {
 
         return ResponseEntity.ok(
                 Response.builder()
-                        .timeStamp(LocalDate.now())
+                        .timeStamp(LocalDateTime.now())
                         .data(Map.of("productCategory", productService.updateProductCategory(productCategoryId,name)))
                         .message("Product category was updated successfully")
                         .status(HttpStatus.OK)
@@ -112,7 +128,7 @@ public class ProductController {
     public ResponseEntity<Response> getAllProductCategories(){
         return ResponseEntity.ok(
                 Response.builder()
-                        .timeStamp(LocalDate.now())
+                        .timeStamp(LocalDateTime.now())
                         .data(Map.of("productCategories", productService.getAllProductCategories()))
                         .message("All product categories returned")
                         .status(HttpStatus.OK)
@@ -133,7 +149,7 @@ public class ProductController {
     public ResponseEntity<Response> getProduct(@PathVariable("productId") Long productId){
         return ResponseEntity.ok(
                 Response.builder()
-                        .timeStamp(LocalDate.now())
+                        .timeStamp(LocalDateTime.now())
                         .data(Map.of("product",productService.getProductById(productId)))
                         .message("Product returned")
                         .status(HttpStatus.OK)
