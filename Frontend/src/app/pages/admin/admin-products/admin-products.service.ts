@@ -24,7 +24,7 @@ export class adminProductsService {
     return this.productsService.getProducts();
   }
 
-  addProductNew(formData: FormData) {
+  addProductNew(body: any) {
     const token = this.httpApiService.user.value.token;
 
     const headerDict = {
@@ -36,7 +36,7 @@ export class adminProductsService {
 
     return this.http.post<IProductResponseData>(
       this.API_URL + endpoints.addProduct,
-      formData,
+      body,
       requestOptions
     );
   }
@@ -52,7 +52,8 @@ export class adminProductsService {
     };
 
     const formData = new FormData();
-    formData.append('photo', photoFile);
+    formData.append('picture', photoFile);
+    console.log(formData);
 
     return this.http.post<IResPhotoUpload>(
       this.API_URL + endpoints.uploadImage,

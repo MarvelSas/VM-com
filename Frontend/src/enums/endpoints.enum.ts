@@ -7,5 +7,5 @@ export enum endpoints {
   getAllCategories = 'product/productCategory/getAll',
   addCategory = 'product/productCategory/add',
   updateCategory = 'product/productCategory/update',
-  uploadImage = 'images/upload',
+  uploadImage = 'product/add/productPhoto',
 }

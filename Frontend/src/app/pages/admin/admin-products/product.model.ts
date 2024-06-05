@@ -1,3 +1,12 @@
+export interface IProductNew {
+  name: string;
+  price: string;
+  productCategory: { id: number; name: string };
+  amount: number;
+  description: string;
+  photoUrl: string[];
+}
+
 export interface IProductResponseData {
   timeStamp: string;
   statusCode: number;
@@ -9,5 +18,5 @@ export interface IProductResponseData {
 }
 
 export interface IResPhotoUpload {
-  imageUrl: string;
+  data: { productPhotoName: string };
 }

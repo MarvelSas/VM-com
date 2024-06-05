@@ -5,6 +5,8 @@ import { IProduct } from 'src/app/shared/models/product.model';
 import { ICategory } from '../admin-categories/category.model';
 import { adminCategoriesService } from '../admin-categories/admin-categories.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { IProductNew } from './product.model';
 
 interface IImage {
   imageUrl: string;
@@ -23,6 +25,7 @@ export class AdminProductsComponent implements OnInit {
   formData: FormData = new FormData();
   characterCount: number = 0;
   images: IImage[] = [];
+  imagesName: string[] = [];
 
   constructor(
     private adminProductsService: adminProductsService,
@@ -41,8 +44,13 @@ export class AdminProductsComponent implements OnInit {
     for (let i = 0; i < e.target.files.length; i++) {
       this.adminProductsService.uploadPhoto(e.target.files[i]).subscribe({
         next: (res) => {
-          this.images.push({ imageUrl: res.imageUrl, isSelected: false });
-          // console.log(this.images);
+          this.images.push({
+            imageUrl: environment.API_IMG + res.data.productPhotoName,
+            isSelected: false,
+          });
+          this.imagesName.push(res.data.productPhotoName);
+          // console.log(res.data.productPhotoName);
+          console.log(environment.API_IMG + res.data.productPhotoName);
         },
         error: (err) => {
           console.error(err);
@@ -64,12 +72,18 @@ export class AdminProductsComponent implements OnInit {
     const productCategory =
       this.categories[this.addProductForm.value.productCategory - 1];
 
-    const product = {
+    // WYODRĘBNIA Z TABLICY TYLKO URL ZDJĘĆ
+    // const imagesUrls = this.images.map((image) => {
+    //   return image.imageUrl;
+    // });
+
+    const product: IProductNew = {
       name: productName,
       price: productPrice,
       productCategory: productCategory,
       amount: productAmount,
       description: productDescription,
+      photoUrl: this.imagesName,
     };
 
     this.formData.append(
@@ -77,15 +91,10 @@ export class AdminProductsComponent implements OnInit {
       new Blob([JSON.stringify(product)], { type: 'application/json' })
     );
 
-    // WYODRĘBNIA Z TABLICY TYLKO URL ZDJĘĆ
-    const imagesUrls = this.images.map((image) => {
-      return image.imageUrl;
-    });
-
     // DODANIE DO FORMULARZA URL ZDJĘĆ
-    this.formData.append('images', JSON.stringify(imagesUrls));
+    // this.formData.append('images', JSON.stringify(this.images));
 
-    this.adminProductsService.addProductNew(this.formData).subscribe({
+    this.adminProductsService.addProductNew(product).subscribe({
       next: (res) => {
         if (res.statusCode === 200) {
           this.toastr.success('Pomyślnie dodano produkt!', null, {
