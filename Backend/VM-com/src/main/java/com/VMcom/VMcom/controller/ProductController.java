@@ -85,7 +85,7 @@ public class ProductController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("product photo name", productService.addProductPhoto(pictureFiles)))
+                        .data(Map.of("productPhotoName", productService.addProductPhoto(pictureFiles)))
                         .message("Product photo was added successfully")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
