@@ -56,6 +56,7 @@ public class SecurityConfig {
                             .requestMatchers(WHITE_LIST_URL).permitAll()
                             .requestMatchers("/api/v1/product/add").hasAuthority("ADMIN")
                             .requestMatchers("/api/v1/product/productCategory/add").hasAuthority("ADMIN")
+                            .requestMatchers("/api/v1/product/add/productPhoto").hasAuthority("ADMIN")
                             .anyRequest()
                             .authenticated();
                 })
