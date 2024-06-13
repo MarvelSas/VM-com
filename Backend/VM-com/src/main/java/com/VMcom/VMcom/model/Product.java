@@ -25,18 +25,22 @@ public class Product {
     @Column(name = "description", length = 8192)
     private String description;
     private Double price;
-    private List<String> photoUrl;
+    private List<String> photos;
+    private int mainPhotoId;
     private Long amount;
     @ManyToOne
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
 
-    public Product(String name, String description, Double price, List<String> photoUrl, Long amount, ProductCategory productCategory) {
+    public Product(String name, String description, Double price, List<String> photos, int mainPhotoId, Long amount, ProductCategory productCategory) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.photoUrl = photoUrl;
+        this.photos = photos;
+        this.mainPhotoId = mainPhotoId;
         this.amount = amount;
         this.productCategory = productCategory;
     }
+
+
 }
