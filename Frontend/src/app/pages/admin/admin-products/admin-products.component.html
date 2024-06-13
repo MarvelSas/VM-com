@@ -42,7 +42,10 @@
         <label for="productImage">Zdjęcie: </label>
         <div>
             <input type="file" name="productImage" placeholder="Cena" formControlName="productImage"
-                (change)="onAddFile($event)">
+                (change)="onAddImage($event)" multiple>
+        </div>
+        <div class="imageGallery">
+            <img [src]="image.imageUrl" alt="Podgląd zdjęcia" *ngFor="let image of images" />
         </div>
     </div>
     <div class="form-item">

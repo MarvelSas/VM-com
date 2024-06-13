@@ -27,3 +27,15 @@
   background-color: whitesmoke;
   border: 2px solid rgba(0, 0, 0, 1);
 }
+
+.imageGallery {
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 375px;
+}
+
+.imageGallery img {
+  max-width: 123px;
+  margin: 1px;
+}

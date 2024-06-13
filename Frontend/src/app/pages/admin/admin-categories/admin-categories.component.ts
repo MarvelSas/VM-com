@@ -12,28 +12,73 @@ import { ToastrService } from 'ngx-toastr';
 export class AdminCategoriesComponent implements OnInit {
   addCategoryForm: FormGroup;
   categories: ICategory[] = [];
+  isEditing = false;
+  editingCategory: { id: number; name: string } = null;
 
   constructor(
     private adminCategoriesService: adminCategoriesService,
     private toastr: ToastrService
   ) {}
 
+  // INITIALIZATION
   ngOnInit(): void {
     this.adminCategoriesService.getCategories().subscribe((res) => {
       this.categories = res.data.productCategories;
-      console.log(res);
+      // console.log(res);
     });
     this.addCategoryForm = new FormGroup({
       categoryName: new FormControl(null, Validators.required),
     });
   }
 
+  // EDIT BUTTON HANDLER
+  onEditCategory(id: number) {
+    this.isEditing = true;
+    this.editingCategory = this.categories.find(
+      (category) => category.id === id
+    );
+    this.addCategoryForm.setValue({ categoryName: this.editingCategory.name });
+  }
+
+  // SUBMIT FORM
   onSubmit() {
+    const categoryName = this.addCategoryForm.value.categoryName;
+
+    // EDITING CATEGORY
+    if (this.isEditing) {
+      console.log('Editing category');
+      console.log(categoryName);
+      this.adminCategoriesService
+        .updateCategory(this.editingCategory.id, categoryName)
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+
+            this.categories = this.categories.map((category) => {
+              if (category.id === this.editingCategory.id) {
+                category.name = categoryName;
+              }
+              return category;
+            });
+
+            this.toastr.success('Pomyślnie zaktualizowano kategorię!', null, {
+              positionClass: 'toast-bottom-right',
+            });
+          },
+          error: (err) => {
+            console.error(err.message);
+            this.toastr.error('Błąd aktualizacji kategorii!', null, {
+              positionClass: 'toast-bottom-right',
+            });
+          },
+        });
+      return;
+    }
     if (!this.addCategoryForm.valid) {
       return;
     }
-    const categoryName = this.addCategoryForm.value.categoryName;
 
+    //ADDING CATEGORY
     this.adminCategoriesService.addCategory(categoryName).subscribe({
       next: (res) => {
         console.log(res);
@@ -54,9 +99,12 @@ export class AdminCategoriesComponent implements OnInit {
         });
       },
     });
-    console.log(this.addCategoryForm.value.categoryName);
   }
-  onClear() {
+
+  // RESET FORM
+  onClear(e) {
+    e.preventDefault();
     this.addCategoryForm.reset();
+    this.isEditing = false;
   }
 }

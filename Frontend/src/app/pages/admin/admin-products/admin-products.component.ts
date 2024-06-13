@@ -5,6 +5,13 @@ import { IProduct } from 'src/app/shared/models/product.model';
 import { ICategory } from '../admin-categories/category.model';
 import { adminCategoriesService } from '../admin-categories/admin-categories.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { IProductNew } from './product.model';
+
+interface IImage {
+  imageUrl: string;
+  isSelected: boolean;
+}
 
 @Component({
   selector: 'app-admin-products',
@@ -17,6 +24,8 @@ export class AdminProductsComponent implements OnInit {
   categories: ICategory[];
   formData: FormData = new FormData();
   characterCount: number = 0;
+  images: IImage[] = [];
+  imagesName: string[] = [];
 
   constructor(
     private adminProductsService: adminProductsService,
@@ -24,11 +33,33 @@ export class AdminProductsComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  onAddFile(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.formData.append('picture', file);
+  // OLD
+  // onAddFile(event: Event) {
+  //   const file = (event.target as HTMLInputElement).files[0];
+  //   this.formData.append('picture', file);
+  // }
+
+  // PRZESYŁANIE ZDJĘĆ NA SERWER
+  onAddImage(e: any) {
+    for (let i = 0; i < e.target.files.length; i++) {
+      this.adminProductsService.uploadPhoto(e.target.files[i]).subscribe({
+        next: (res) => {
+          this.images.push({
+            imageUrl: environment.API_IMG + res.data.productPhotoName,
+            isSelected: false,
+          });
+          this.imagesName.push(res.data.productPhotoName);
+          // console.log(res.data.productPhotoName);
+          console.log(environment.API_IMG + res.data.productPhotoName);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
   }
 
+  // PRZESŁANIE FORMULARZA Z PRODUKTEM NA SERWER
   onSubmitNew() {
     if (!this.addProductForm.valid) {
       return;
@@ -41,22 +72,29 @@ export class AdminProductsComponent implements OnInit {
     const productCategory =
       this.categories[this.addProductForm.value.productCategory - 1];
 
-    const product = {
+    // WYODRĘBNIA Z TABLICY TYLKO URL ZDJĘĆ
+    // const imagesUrls = this.images.map((image) => {
+    //   return image.imageUrl;
+    // });
+
+    const product: IProductNew = {
       name: productName,
       price: productPrice,
       productCategory: productCategory,
       amount: productAmount,
       description: productDescription,
+      photoUrl: this.imagesName,
     };
-
-    console.log(product);
 
     this.formData.append(
       'product',
       new Blob([JSON.stringify(product)], { type: 'application/json' })
     );
 
-    this.adminProductsService.addProductNew(this.formData).subscribe({
+    // DODANIE DO FORMULARZA URL ZDJĘĆ
+    // this.formData.append('images', JSON.stringify(this.images));
+
+    this.adminProductsService.addProductNew(product).subscribe({
       next: (res) => {
         if (res.statusCode === 200) {
           this.toastr.success('Pomyślnie dodano produkt!', null, {
@@ -105,10 +143,12 @@ export class AdminProductsComponent implements OnInit {
   //     });
   // }
 
+  // WYCZYSZCZENIE FORMULARZA
   onClear() {
     this.addProductForm.reset();
   }
 
+  // INICJALIZACJA
   ngOnInit(): void {
     this.adminProductsService.getProducts().subscribe((res) => {
       this.products = res.data.products;

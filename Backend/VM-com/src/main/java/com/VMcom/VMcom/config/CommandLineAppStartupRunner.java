@@ -44,10 +44,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
 
         //Add test product category
-        ProductCategory productCategory = productCategoryRepository.save(new ProductCategory("Komputtery"));
+        ProductCategory productCategory1 = productCategoryRepository.save(new ProductCategory("Monitory"));
+        ProductCategory productCategory2 = productCategoryRepository.save(new ProductCategory("Telefony komórkowe"));
 
         //Add product
         productRepository.save(new Product("Komputer", "Dell",12.5, Arrays.asList("test"),1, 2L,productCategory));
+
 
     }
 }

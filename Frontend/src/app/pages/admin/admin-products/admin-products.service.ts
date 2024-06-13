@@ -7,7 +7,7 @@ import { endpoints } from 'src/enums/endpoints.enum';
 import { HttpApiService } from 'src/app/shared/services/http-api.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
-import { IProductResponseData } from './product.model';
+import { IProductResponseData, IResPhotoUpload } from './product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export class adminProductsService {
     return this.productsService.getProducts();
   }
 
-  addProductNew(formData: FormData) {
+  addProductNew(body: any) {
     const token = this.httpApiService.user.value.token;
 
     const headerDict = {
@@ -35,7 +35,29 @@ export class adminProductsService {
     };
 
     return this.http.post<IProductResponseData>(
-      `${this.API_URL + endpoints.addProduct}`,
+      this.API_URL + endpoints.addProduct,
+      body,
+      requestOptions
+    );
+  }
+
+  uploadPhoto(photoFile: File) {
+    const token = this.httpApiService.user.value.token;
+
+    const headerDict = {
+      Authorization: `Bearer ${token}`,
+    };
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+
+    const formData = new FormData();
+    formData.append('picture', photoFile);
+    console.log(formData);
+
+    return this.http.post<IResPhotoUpload>(
+      this.API_URL + endpoints.uploadImage,
+      // 'http://localhost:8088/upload', //DEBUG
       formData,
       requestOptions
     );
