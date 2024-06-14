@@ -45,7 +45,7 @@
                 (change)="onAddImage($event)" multiple>
         </div>
         <div class="imageGallery">
-            <img [src]="image.imageUrl" alt="Podgląd zdjęcia" *ngFor="let image of images" />
+            <img [src]="image.imageUrl" alt="Podgląd zdjęcia" *ngFor="let image of images; let i = index" (click)="selectMainPhoto(i)"/>
         </div>
     </div>
     <div class="form-item">

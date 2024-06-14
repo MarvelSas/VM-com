@@ -5,6 +5,7 @@ export interface IProductNew {
   amount: number;
   description: string;
   photoUrl: string[];
+  mainPhotoId: number;
 }
 
 export interface IProductResponseData {
