@@ -97,15 +97,32 @@ public class ProductController {
     @PostMapping("/productCategory/add")
     public ResponseEntity<Response> addProductCategory(@RequestBody ProductCategory productCategory){
 
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("productCategory", productService.addProductCategory(productCategory)))
-                        .message("Product category was added successfully")
-                        .status(HttpStatus.OK)
-                        .statusCode(HttpStatus.OK.value())
-                        .build()
-        );
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("productCategory", productService.addProductCategory(productCategory)))
+                            .message("Product category was added successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product category was not added successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+        }
+
     }
 
 

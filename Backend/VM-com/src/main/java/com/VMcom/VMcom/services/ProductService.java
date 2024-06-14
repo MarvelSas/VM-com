@@ -68,9 +68,12 @@ public class ProductService {
 
 
 
-    public ProductCategory addProductCategory(ProductCategory productCategory){
+    public ProductCategory addProductCategory(ProductCategory productCategory) throws IllegalArgumentException{
 
-        //TODO ADD verification if category already exist in database.
+        if(productCategoryRepository.findByName(productCategory.getName()).isPresent()){
+            throw new IllegalArgumentException("Product category with  name:"+productCategory.getName()+" exist in database");
+        }
+
         ProductCategory newProductCategory = new ProductCategory(productCategory.getName());
 
         ProductCategory productCategory1 = productCategoryRepository.save(newProductCategory);
