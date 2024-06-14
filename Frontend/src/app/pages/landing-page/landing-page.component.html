@@ -19,7 +19,7 @@
         <loading-spinner *ngIf="isLoading"></loading-spinner>
         <ng-container *ngIf="products.length > 0 && !isLoading">
             <app-product-item *ngFor="let productEl of products" [id]="productEl.id" [name]="productEl.name"
-                [price]="productEl.price" [imgSrc]="productEl.photoUrl"></app-product-item>
+                [price]="productEl.price" [imgSrc]="productEl.photos"></app-product-item>
         </ng-container>
     </div>
 
