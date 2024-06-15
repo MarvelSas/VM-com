@@ -39,9 +39,9 @@ export class LandingPageComponent implements OnInit {
     this.productsService.getProducts().subscribe((res) => {
       this.products = res.data.products.splice(0, this.MAX_PRODUCTS); // GET ONLY 5 PRODUCTS
       this.isLoading = false;
-      // console.log(this.products[0]);
+      console.log(this.products);
     });
-    // console.log(this.products[0]);
+    console.log(this.products);
   }
 
   onShowMore() {

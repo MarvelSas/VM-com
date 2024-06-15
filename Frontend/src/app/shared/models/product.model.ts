@@ -7,7 +7,8 @@ export interface IProduct {
   id: number;
   name: string;
   price: string;
-  photoUrl: string;
+  photos: string[];
+  mainPhotoId: number;
   productCategory: IProductCategory;
 }
 

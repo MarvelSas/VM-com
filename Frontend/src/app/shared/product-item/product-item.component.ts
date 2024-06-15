@@ -10,9 +10,10 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductItemComponent {
   @Input() id: number;
-  @Input() imgSrc: any;
+  @Input() photos: any;
   @Input() name: any;
   @Input() price: any;
+  @Input() mainImage: number;
   API_IMG = environment.API_IMG;
   // console.log(this.name)
 

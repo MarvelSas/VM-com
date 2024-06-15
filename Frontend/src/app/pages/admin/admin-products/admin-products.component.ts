@@ -26,12 +26,20 @@ export class AdminProductsComponent implements OnInit {
   characterCount: number = 0;
   images: IImage[] = [];
   imagesName: string[] = [];
+  selectedMainPhoto: number = 0;
 
   constructor(
     private adminProductsService: adminProductsService,
     private adminCategoriesService: adminCategoriesService,
     private toastr: ToastrService
   ) {}
+
+  selectMainPhoto(index) {
+    console.log('Selected main photo: ' + index);
+    // console.log(index);
+    this.selectedMainPhoto = index;
+    // console.log(this.selectedMainPhoto);
+  }
 
   // OLD
   // onAddFile(event: Event) {
@@ -83,13 +91,16 @@ export class AdminProductsComponent implements OnInit {
       productCategory: productCategory,
       amount: productAmount,
       description: productDescription,
-      photoUrl: this.imagesName,
+      photos: this.imagesName,
+      mainPhotoId: this.selectedMainPhoto,
     };
 
-    this.formData.append(
-      'product',
-      new Blob([JSON.stringify(product)], { type: 'application/json' })
-    );
+    // this.formData.append(
+    //   'product',
+    //   new Blob([JSON.stringify(product)], { type: 'application/json' })
+    // );
+
+    console.log(product);
 
     // DODANIE DO FORMULARZA URL ZDJĘĆ
     // this.formData.append('images', JSON.stringify(this.images));
@@ -110,7 +121,7 @@ export class AdminProductsComponent implements OnInit {
       },
     });
 
-    this.adminProductsService.addProductNew(this.formData).subscribe();
+    // this.adminProductsService.addProductNew(this.formData).subscribe();
 
     this.onClear();
   }

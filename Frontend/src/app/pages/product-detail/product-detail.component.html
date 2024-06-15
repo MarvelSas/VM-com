@@ -16,9 +16,9 @@
             </div>
             <div class="imageSection">
                 <button class="btn" (click)="onPreviousImage()">Poprzednie zdjęcie</button>
-                <p>{{selectedImage + 1}} / {{product.photoUrl.length}}</p>
-                <img [src]="API_IMG + product.photoUrl[selectedImage]" alt="{{product.name}}" class="gallery"
-                    (click)="onImageClick(API_IMG + product.photoUrl[selectedImage])">
+                <p>{{selectedImage + 1}} / {{product.photos.length}}</p>
+                <img [src]="API_IMG + product.photos[selectedImage]" alt="{{product.name}}" class="gallery"
+                    (click)="onImageClick(API_IMG + product.photos[selectedImage])">
                 <button class="btn" (click)="onNextImage()">Następne zdjęcie</button>
             </div>
         </div>

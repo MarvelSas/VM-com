@@ -38,7 +38,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onNextImage() {
-    if (this.selectedImage < this.product.photoUrl.length - 1) {
+    if (this.selectedImage < this.product.photos.length - 1) {
       this.selectedImage++;
     }
   }
@@ -52,8 +52,9 @@ export class ProductDetailComponent implements OnInit {
 
     this.productsService.getProduct(this.id).subscribe((product) => {
       this.product = product.data.product;
+      this.selectedImage = this.product.mainPhotoId;
       this.isLoading = false;
-      // console.log(this.product);
+      console.log(this.product.photos[0]);
     });
   }
 }
