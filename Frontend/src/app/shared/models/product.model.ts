@@ -8,6 +8,7 @@ export interface IProduct {
   name: string;
   price: string;
   photos: string[];
+  mainPhotoId: number;
   productCategory: IProductCategory;
 }
 

@@ -36,7 +36,9 @@ export class AdminProductsComponent implements OnInit {
 
   selectMainPhoto(index) {
     console.log('Selected main photo: ' + index);
-    this.selectMainPhoto = index;
+    // console.log(index);
+    this.selectedMainPhoto = index;
+    // console.log(this.selectedMainPhoto);
   }
 
   // OLD
@@ -89,7 +91,7 @@ export class AdminProductsComponent implements OnInit {
       productCategory: productCategory,
       amount: productAmount,
       description: productDescription,
-      photoUrl: this.imagesName,
+      photos: this.imagesName,
       mainPhotoId: this.selectedMainPhoto,
     };
 
@@ -119,7 +121,7 @@ export class AdminProductsComponent implements OnInit {
       },
     });
 
-    this.adminProductsService.addProductNew(this.formData).subscribe();
+    // this.adminProductsService.addProductNew(this.formData).subscribe();
 
     this.onClear();
   }

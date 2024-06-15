@@ -4,7 +4,7 @@ export interface IProductNew {
   productCategory: { id: number; name: string };
   amount: number;
   description: string;
-  photoUrl: string[];
+  photos: string[];
   mainPhotoId: number;
 }
 

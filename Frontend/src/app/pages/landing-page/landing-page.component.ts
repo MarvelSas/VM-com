@@ -41,7 +41,7 @@ export class LandingPageComponent implements OnInit {
       this.isLoading = false;
       console.log(this.products);
     });
-    // console.log(this.products[0]);
+    console.log(this.products);
   }
 
   onShowMore() {
