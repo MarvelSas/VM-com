@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { HttpApiService } from 'src/app/shared/services/http-api.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +13,7 @@ export class RegisterComponent implements OnInit {
   signUpForm: FormGroup;
 
   constructor(
-    private httpApiService: HttpApiService,
+    private authService: AuthService,
     private router: Router,
     private toast: ToastrService
   ) {}
@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
 
   onRegisterHandler() {
     if (this.signUpForm.valid) {
-      this.httpApiService.signUp(this.signUpForm.value).subscribe({
+      this.authService.signUp(this.signUpForm.value).subscribe({
         next: (res) => {
           this.toast.success('Zarejestrowano pomyślnie!', null, {
             positionClass: 'toast-bottom-right',

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IProduct } from 'src/app/shared/models/product.model';
-import { HttpApiService } from 'src/app/shared/services/http-api.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
 @Component({
@@ -31,7 +30,6 @@ export class LandingPageComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService,
-    private httpApiService: HttpApiService,
     private router: Router
   ) {}
   ngOnInit(): void {

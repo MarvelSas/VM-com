@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { HttpApiService } from 'src/app/shared/services/http-api.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,18 +11,18 @@ export class NavbarComponent implements OnInit {
   searchCategory: string = 'Kategoria';
   userSub: Subscription;
 
-  constructor(private httpApiService: HttpApiService) {}
+  constructor(private authService: AuthService) {}
 
   user = null;
 
   ngOnInit(): void {
-    this.userSub = this.httpApiService.user.subscribe((res) => {
+    this.userSub = this.authService.user.subscribe((res) => {
       this.user = res;
     });
   }
 
   logout() {
-    this.httpApiService.signOut();
+    this.authService.signOut();
   }
 
   onChangeCategory(e: any) {

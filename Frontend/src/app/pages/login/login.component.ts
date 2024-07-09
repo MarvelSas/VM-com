@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { HttpApiService } from '../../shared/services/http-api.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   signInForm: FormGroup;
 
   constructor(
-    private httpApiService: HttpApiService,
+    private authService: AuthService,
     private router: Router,
     private toastr: ToastrService
   ) {}
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   onLoginHandler() {
     if (this.signInForm.valid) {
-      this.httpApiService.signIn(this.signInForm.value).subscribe({
+      this.authService.signIn(this.signInForm.value).subscribe({
         next: (res) => {
           if (res.statusCode === 200) {
             this.toastr.success('Zalogowano pomyślnie!', null, {

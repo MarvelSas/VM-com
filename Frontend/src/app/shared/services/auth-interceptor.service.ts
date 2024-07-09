@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpApiService } from './http-api.service';
+import { AuthService } from './auth.service';
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { exhaustMap, take } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptorService {
-  constructor(private authService: HttpApiService) {}
+  constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.authService.user.pipe(

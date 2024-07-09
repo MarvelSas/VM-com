@@ -1,10 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
 import { endpoints } from 'src/enums/endpoints.enum';
 
-import { HttpApiService } from 'src/app/shared/services/http-api.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
 import { IProductResponseData, IResPhotoUpload } from './product.model';

@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root',
 })
-export class HttpApiService implements OnInit {
+export class AuthService implements OnInit {
   user = new BehaviorSubject(null);
   API_URL = environment.API_URL;
   TOKEN = null;

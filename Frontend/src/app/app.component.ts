@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpApiService } from './shared/services/http-api.service';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,9 @@ import { HttpApiService } from './shared/services/http-api.service';
 export class AppComponent implements OnInit {
   title = 'VM-com - Sklep komputerowy';
 
-  constructor(private httpApiService: HttpApiService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.httpApiService.autoLogin();
+    this.authService.autoLogin();
   }
 }
