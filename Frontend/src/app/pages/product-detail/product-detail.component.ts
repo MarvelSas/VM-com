@@ -17,6 +17,8 @@ export class ProductDetailComponent implements OnInit {
   isLoading = false;
   API_IMG = environment.API_IMG;
 
+
+
   constructor(
     private route: ActivatedRoute,
     private productsService: ProductsService
@@ -41,6 +43,10 @@ export class ProductDetailComponent implements OnInit {
     if (this.selectedImage < this.product.photos.length - 1) {
       this.selectedImage++;
     }
+  }
+
+  get imageUrl() {
+    return this.API_IMG + this.product.photos[this.selectedImage];
   }
 
   ngOnInit(): void {
