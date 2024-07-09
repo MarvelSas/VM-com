@@ -67,6 +67,13 @@ export class AuthService implements OnInit {
 
   autoLogin() {
     const saveToken = localStorage.getItem('token');
+    if (!saveToken) {
+      this.toastr.error('Błąd autologowania!', null, {
+        positionClass: 'toast-bottom-right',
+      });
+      return;
+    }
+
     const decodedToken: JwtPayload = jwtDecode(saveToken);
 
     // TOKEN DEBUG
