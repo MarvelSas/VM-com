@@ -19,6 +19,10 @@ export class ProductItemComponent {
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
+  get imageUrl() {
+    return this.API_IMG + this.photos[this.mainImage];
+  }
+
   onSelectItem() {
     this.router.navigate(['product', this.id]);
     // console.log(this.id);
