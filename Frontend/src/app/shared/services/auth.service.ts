@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root',
 })
-export class HttpApiService implements OnInit {
+export class AuthService implements OnInit {
   user = new BehaviorSubject(null);
   API_URL = environment.API_URL;
   TOKEN = null;
@@ -67,6 +67,13 @@ export class HttpApiService implements OnInit {
 
   autoLogin() {
     const saveToken = localStorage.getItem('token');
+    if (!saveToken) {
+      this.toastr.error('Błąd autologowania!', null, {
+        positionClass: 'toast-bottom-right',
+      });
+      return;
+    }
+
     const decodedToken: JwtPayload = jwtDecode(saveToken);
 
     // TOKEN DEBUG

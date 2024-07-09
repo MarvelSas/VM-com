@@ -1,10 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
 import { endpoints } from 'src/enums/endpoints.enum';
 
-import { HttpApiService } from 'src/app/shared/services/http-api.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
 import { IProductResponseData, IResPhotoUpload } from './product.model';
@@ -16,7 +15,6 @@ export class adminProductsService {
   API_URL = environment.API_URL;
   constructor(
     private http: HttpClient,
-    private httpApiService: HttpApiService,
     private productsService: ProductsService
   ) {}
 
@@ -25,32 +23,13 @@ export class adminProductsService {
   }
 
   addProductNew(body: any) {
-    const token = this.httpApiService.user.value.token;
-
-    const headerDict = {
-      Authorization: `Bearer ${token}`,
-    };
-    const requestOptions = {
-      headers: new HttpHeaders(headerDict),
-    };
-
     return this.http.post<IProductResponseData>(
       this.API_URL + endpoints.addProduct,
-      body,
-      requestOptions
+      body
     );
   }
 
   uploadPhoto(photoFile: File) {
-    const token = this.httpApiService.user.value.token;
-
-    const headerDict = {
-      Authorization: `Bearer ${token}`,
-    };
-    const requestOptions = {
-      headers: new HttpHeaders(headerDict),
-    };
-
     const formData = new FormData();
     formData.append('picture', photoFile);
     console.log(formData);
@@ -58,8 +37,7 @@ export class adminProductsService {
     return this.http.post<IResPhotoUpload>(
       this.API_URL + endpoints.uploadImage,
       // 'http://localhost:8088/upload', //DEBUG
-      formData,
-      requestOptions
+      formData
     );
   }
 
@@ -81,19 +59,9 @@ export class adminProductsService {
   //     description: description,
   //   };
 
-  //   const token = this.httpApiService.user.value.token;
-
-  //   const headerDict = {
-  //     Authorization: `Bearer ${token}`,
-  //   };
-  //   const requestOptions = {
-  //     headers: new HttpHeaders(headerDict),
-  //   };
-
   //   return this.http.post<IProductResponseData>(
   //     this.API_URL,
-  //     body,
-  //     requestOptions
+  //     body
   //   );
   // }
 }
