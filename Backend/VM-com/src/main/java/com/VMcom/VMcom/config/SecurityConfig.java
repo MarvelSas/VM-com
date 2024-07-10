@@ -44,6 +44,10 @@ public class SecurityConfig {
             "/api/v1/product/images/**",
             //Security
             "/api/v1/auth/**",
+            // Swagger
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v1/api-docs/**"
     };
 
     @Bean
