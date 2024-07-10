@@ -13,7 +13,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.component';
 import { CategoriesComponent } from './components/header/categories/categories.component';
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
-import { ProductItemComponent } from './shared/product-item/product-item.component';
+import { ProductItemComponent } from './shared/components/product-item/product-item.component';
 import { SlideshowComponent } from './shared/slideshow/slideshow.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,7 +24,7 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
 import { AdminComponent } from './pages/admin/admin.component';
 import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
 import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
-import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { Toast, ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
 
