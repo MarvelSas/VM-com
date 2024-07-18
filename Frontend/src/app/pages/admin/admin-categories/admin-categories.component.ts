@@ -40,6 +40,8 @@ export class AdminCategoriesComponent implements OnInit {
     this.addCategoryForm.setValue({ categoryName: this.editingCategory.name });
   }
 
+  onDeleteCategory(id: number) {}
+
   // SUBMIT FORM
   onSubmit() {
     const categoryName = this.addCategoryForm.value.categoryName;
@@ -90,6 +92,7 @@ export class AdminCategoriesComponent implements OnInit {
           this.toastr.success('Pomyślnie dodano kategorię!', null, {
             positionClass: 'toast-bottom-right',
           });
+          this.onClear2();
         }
       },
       error: (err) => {
@@ -104,6 +107,11 @@ export class AdminCategoriesComponent implements OnInit {
   // RESET FORM
   onClear(e) {
     e.preventDefault();
+    this.addCategoryForm.reset();
+    this.isEditing = false;
+  }
+
+  onClear2() {
     this.addCategoryForm.reset();
     this.isEditing = false;
   }
