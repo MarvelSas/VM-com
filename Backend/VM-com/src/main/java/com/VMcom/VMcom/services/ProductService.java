@@ -154,6 +154,15 @@ public class ProductService {
     }
 
 
+    public Boolean deleteProductCategory(Long categoryId) throws Exception {
+
+        //check if product category exist
+        ProductCategory productCategory  = productCategoryRepository.findById(categoryId).orElseThrow(()-> new IllegalStateException("Product category with id:"+categoryId+"does not exist in database"));
 
 
+         productCategoryRepository.deleteById(categoryId);
+
+         return true;
+
+    }
 }

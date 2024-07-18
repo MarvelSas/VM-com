@@ -34,8 +34,10 @@ import java.util.Map;
 public class ProductController {
 
     private final ProductService productService;
-    private final ServletContext servletContext;
 
+
+
+    //Product endpoints
 
     @GetMapping("/getAll")
     public ResponseEntity<Response> getAllProducts(){
@@ -50,19 +52,6 @@ public class ProductController {
         );
     }
 
-    @GetMapping("/get/category/{categoryId}")
-    public ResponseEntity<Response> getProductByCategoryId(@PathVariable("categoryId") Long categoryId){
-
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("products", productService.getProductsByCategory(categoryId)))
-                        .message("All products returned with category Id:"+ categoryId)
-                        .status(HttpStatus.OK)
-                        .statusCode(HttpStatus.OK.value())
-                        .build()
-        );
-    }
 
 
     @PostMapping("/add")
@@ -79,6 +68,8 @@ public class ProductController {
         );
     }
 
+
+
     @PostMapping("/add/productPhoto")
     public ResponseEntity<Response> addProductPhoto(@RequestPart("picture") MultipartFile pictureFiles ){
 
@@ -87,6 +78,68 @@ public class ProductController {
                         .timeStamp(LocalDateTime.now())
                         .data(Map.of("productPhotoName", productService.addProductPhoto(pictureFiles)))
                         .message("Product photo was added successfully")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+
+
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("filename") String filename) throws IOException{
+        File img = new File("src/main/resources/static/uploaded-pictures/"+filename);
+        return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
+    }
+
+    @GetMapping("/get/{productId}")
+    public ResponseEntity<Response> getProduct(@PathVariable("productId") Long productId){
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("product",productService.getProductById(productId)))
+                        .message("Product returned")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+    //Product category
+
+
+    @GetMapping("/productCategory/getAll")
+    public ResponseEntity<Response> getAllProductCategories(){
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("productCategories", productService.getAllProductCategories()))
+                        .message("All product categories returned")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+
+
+    @PatchMapping("/productCategory/update/{productCategoryId}")
+    public ResponseEntity<Response> addProductCategory(@PathVariable("productCategoryId") Long productCategoryId,  @RequestBody String name){
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("productCategory", productService.updateProductCategory(productCategoryId,name)))
+                        .message("Product category was updated successfully")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -126,53 +179,48 @@ public class ProductController {
     }
 
 
-    @PatchMapping("/productCategory/update/{productCategoryId}")
-    public ResponseEntity<Response> addProductCategory(@PathVariable("productCategoryId") Long productCategoryId,  @RequestBody String name){
+    @GetMapping("/get/category/{categoryId}")
+    public ResponseEntity<Response> getProductByCategoryId(@PathVariable("categoryId") Long categoryId){
 
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("productCategory", productService.updateProductCategory(productCategoryId,name)))
-                        .message("Product category was updated successfully")
+                        .data(Map.of("products", productService.getProductsByCategory(categoryId)))
+                        .message("All products returned with category Id:"+ categoryId)
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
         );
     }
 
+    @DeleteMapping("/productCategory/delete/{categoryId}")
+    public ResponseEntity<Response> deleteProductCategory(@PathVariable("categoryId") Long categoryId){
 
-    @GetMapping("/productCategory/getAll")
-    public ResponseEntity<Response> getAllProductCategories(){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("productCategories", productService.getAllProductCategories()))
-                        .message("All product categories returned")
-                        .status(HttpStatus.OK)
-                        .statusCode(HttpStatus.OK.value())
-                        .build()
-        );
-    }
+        try {
 
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("isProductCategoryDeleted", productService.deleteProductCategory (categoryId)))
+                            .message("Product category with id:"+ categoryId+" was deleted successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
 
+        }catch (Exception e){
 
-    @GetMapping("/images/{filename}")
-    public ResponseEntity<byte[]> getImage(@PathVariable("filename") String filename) throws IOException{
-        File img = new File("src/main/resources/static/uploaded-pictures/"+filename);
-        return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
-    }
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product category was not deleted successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
 
-    @GetMapping("/get/{productId}")
-    public ResponseEntity<Response> getProduct(@PathVariable("productId") Long productId){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("product",productService.getProductById(productId)))
-                        .message("Product returned")
-                        .status(HttpStatus.OK)
-                        .statusCode(HttpStatus.OK.value())
-                        .build()
-        );
+        }
     }
 
 
