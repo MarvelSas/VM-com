@@ -40,7 +40,22 @@ export class AdminCategoriesComponent implements OnInit {
     this.addCategoryForm.setValue({ categoryName: this.editingCategory.name });
   }
 
-  onDeleteCategory(id: number) {}
+  onDeleteCategory(id: number) {
+    this.adminCategoriesService.deleteCategory(id).subscribe({
+      next: (res) => {
+        console.log('Successfully deleted category!', id);
+        this.toastr.success('Pomyślnie usunięto kategorię!', null, {
+          positionClass: 'toast-bottom-right',
+        });
+      },
+      error: (err) => {
+        console.error(err.error);
+        this.toastr.error('Błąd usuwania kategorii!', null, {
+          positionClass: 'toast-bottom-right',
+        });
+      },
+    });
+  }
 
   // SUBMIT FORM
   onSubmit() {

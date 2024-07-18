@@ -37,4 +37,10 @@ export class adminCategoriesService {
       body
     );
   }
+
+  deleteCategory(categoryId) {
+    return this.http.delete(
+      this.API_URL + endpoints.deleteCategory + '/' + categoryId
+    );
+  }
 }
