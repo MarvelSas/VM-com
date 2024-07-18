@@ -213,7 +213,7 @@ public class ProductController {
             return ResponseEntity.badRequest().body(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("Message", e.getMessage()))
+                            .data(Map.of("message", e.getMessage()))
                             .message("Product category was not deleted successfully")
                             .status(HttpStatus.BAD_REQUEST)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
