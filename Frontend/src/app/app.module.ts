@@ -27,6 +27,7 @@ import { AdminProductsComponent } from './pages/admin/admin-products/admin-produ
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { Toast, ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
+import { SideMenuComponent } from './shared/components/side-menu/side-menu.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AuthInterceptorService } from './shared/services/auth-interceptor.servi
     AdminCategoriesComponent,
     AdminProductsComponent,
     LoadingSpinnerComponent,
+    SideMenuComponent,
   ],
   imports: [
     BrowserModule,

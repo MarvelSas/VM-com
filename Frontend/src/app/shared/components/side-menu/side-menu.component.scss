@@ -1,0 +1,21 @@
+.verticalSection {
+  display: flex;
+  background-color: red;
+  padding: 2rem;
+  margin: 2rem;
+  height: 800px;
+  width: 200px;
+  background-color: var(--addtional);
+
+  li {
+    list-style-type: none;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--button-secondary);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .verticalSection {
+    display: none;
+  }
+}

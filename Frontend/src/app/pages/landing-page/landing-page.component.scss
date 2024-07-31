@@ -5,11 +5,16 @@
   padding: 2em;
 }
 
-.section {
+.contentPage {
   margin-top: 4rem;
+  display: flex;
+}
+
+.section {
+  margin: 2rem;
   padding: 2rem;
-  border: 1px solid rgb(235, 235, 235);
-  background-color: rgb(241, 241, 241);
+  border: var(--border-primary);
+  background-color: var(--addtional);
   border-radius: 6px;
 }
 
@@ -35,15 +40,16 @@
 .btn {
   margin: 0.25rem;
   padding: 0.5rem;
-  background-color: rgb(156, 156, 156);
+  background-color: var(--button-primary);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   width: 50%;
   height: 50px;
+  transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: rgb(133, 133, 133);
+  background-color: var(--button-primary-hover);
 }

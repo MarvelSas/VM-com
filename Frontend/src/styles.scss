@@ -1,10 +1,32 @@
+:root {
+  --primary: rgb(195, 211, 255);
+  --secondary: rgb(217, 227, 255);
+  --addtional: rgb(242, 245, 255);
+  // --background: linear-gradient(to right, #f7f7f7, #ffffff);
+  --background-primary: linear-gradient(
+    to right,
+    rgb(255, 255, 255),
+    rgb(242, 245, 255)
+  );
+  --background-secondary: rgb(241, 241, 241);
+  --background-item: rgb(248, 248, 248);
+  --button-primary: #333;
+  --button-primary-hover: #555;
+  --button-secondary: rgba(142, 133, 221, 0.6);
+  --button-secondary-hover: rgba(157, 150, 219, 0.6);
+  --font-color: #333;
+  --font-color-secondary: #fff;
+  --border-primary: 1px solid rgb(235, 235, 235);
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  background-color: #fafafa;
+  background: var(--background-primary);
+  font-family: Arial, sans-serif;
 }
 
 .g-btn {

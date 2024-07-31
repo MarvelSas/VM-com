@@ -4,9 +4,10 @@
   align-items: center;
   margin-top: 5rem;
   width: 80vw;
-  border: 2px solid #ccc;
+  border: var(--border-primary);
   border-radius: 7px;
   padding: 2rem;
+  background-color: var(--addtional);
 }
 .titleContainer {
   display: flex;
@@ -70,17 +71,18 @@ h5 {
 .btn {
   margin: 0.25rem;
   padding: 0.5rem;
-  background-color: rgb(156, 156, 156);
+  background-color: var(--button-primary);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   width: 50%;
   height: 50px;
+  transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: rgb(133, 133, 133);
+  background-color: var(--button-primary-hover);
 }
 
 .imageSection {
