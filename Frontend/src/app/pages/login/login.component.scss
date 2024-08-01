@@ -8,8 +8,8 @@ label {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fafafa;
-  border: 2px solid rgba(128, 128, 128, 0.2);
+  background-color: var(--addtional);
+  border: var(--border-primary);
   border-radius: 20px;
   height: 40rem;
   width: 25rem;

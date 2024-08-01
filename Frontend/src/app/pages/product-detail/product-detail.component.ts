@@ -5,6 +5,9 @@ import { environment } from 'src/environments/environment';
 
 import { ProductsService } from 'src/app/shared/services/products.service';
 
+import { SafeHtml } from '@angular/platform-browser';
+import * as marked from 'marked';
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -16,8 +19,7 @@ export class ProductDetailComponent implements OnInit {
   selectedImage: number = 0;
   isLoading = false;
   API_IMG = environment.API_IMG;
-
-
+  productDescription: Promise<String> | SafeHtml = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -60,7 +62,10 @@ export class ProductDetailComponent implements OnInit {
       this.product = product.data.product;
       this.selectedImage = this.product.mainPhotoId;
       this.isLoading = false;
-      console.log(this.product.photos[0]);
+      this.productDescription = marked.parse(this.product.description, {
+        breaks: true,
+      });
+      // console.log(this.product.photos[0]);
     });
   }
 }

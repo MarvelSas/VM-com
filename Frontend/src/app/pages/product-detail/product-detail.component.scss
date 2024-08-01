@@ -91,7 +91,8 @@ h5 {
 }
 
 .imageSection img {
-  height: 300px;
-  width: 450px;
+  max-height: 300px;
+  max-width: 450px;
   border-radius: 7px;
+  object-fit: contain;
 }
