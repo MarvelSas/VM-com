@@ -3,70 +3,39 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { NavbarComponent } from './components/header/navbar/navbar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.component';
-import { CategoriesComponent } from './components/header/categories/categories.component';
-import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
-import { ProductItemComponent } from './shared/components/product-item/product-item.component';
-import { SlideshowComponent } from './shared/slideshow/slideshow.component';
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
-import { AdminComponent } from './pages/admin/admin.component';
-import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
-import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
-import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
-import { Toast, ToastrModule } from 'ngx-toastr';
-import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
-import { SideMenuComponent } from './shared/components/side-menu/side-menu.component';
+import { LayoutModule } from './layout/layout.module';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
+import { UserModule } from './pages/user/user.module';
+import { AdminModule } from './pages/admin/admin.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
     LandingPageComponent,
-    HeaderComponent,
-    FooterComponent,
-    NavbarComponent,
     PageNotFoundComponent,
     ShopingCartComponent,
-    CategoriesComponent,
-    VerifyEmailComponent,
-    ProductItemComponent,
-    SlideshowComponent,
     ProductsComponent,
     ProductDetailComponent,
-    AdminComponent,
-    AdminCategoriesComponent,
-    AdminProductsComponent,
-    LoadingSpinnerComponent,
-    SideMenuComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    ToastrModule.forRoot(),
+    CoreModule,
+    LayoutModule,
+    SharedModule,
+    UserModule,
+    // AdminModule,
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true,
-    },
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

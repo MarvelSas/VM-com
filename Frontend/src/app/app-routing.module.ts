@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { LoginComponent } from './pages/user/login/login.component';
+import { RegisterComponent } from './pages/user/register/register.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.component';
-import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
+import { VerifyEmailComponent } from './pages/user/verify-email/verify-email.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
 import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
-import { AuthGuard } from './shared/guards/auth.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },

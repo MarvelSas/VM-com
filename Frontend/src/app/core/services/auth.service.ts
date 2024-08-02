@@ -6,8 +6,8 @@ import { jwtDecode } from 'jwt-decode';
 import { environment } from 'src/environments/environment';
 import { endpoints } from 'src/enums/endpoints.enum';
 
-import { AuthResponseData, JwtPayload } from '../models/auth.model';
-import { User } from '../models/user.model';
+import { AuthResponseData, JwtPayload } from 'src/app/shared/models/auth.model';
+import { User } from 'src/app/shared/models/user.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
