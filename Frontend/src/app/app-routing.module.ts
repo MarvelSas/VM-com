@@ -12,6 +12,7 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { AdminProductsComponent } from './pages/admin/admin-products/admin-products.component';
 import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { CategoriesComponent } from './pages/categories/categories.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
     path: 'product/:id',
     component: ProductDetailComponent,
   },
+  { path: 'c/:category', component: CategoriesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'cart', component: ShopingCartComponent, canActivate: [AuthGuard] },

@@ -7,14 +7,15 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
-import { UserModule } from './pages/user/user.module';
+
 import { AdminModule } from './pages/admin/admin.module';
+import { CategoriesModule } from './pages/categories/categories.module';
+import { UserModule } from './pages/user/user.module';
 
 @NgModule({
   declarations: [
@@ -32,8 +33,9 @@ import { AdminModule } from './pages/admin/admin.module';
     CoreModule,
     LayoutModule,
     SharedModule,
+    AdminModule,
+    CategoriesModule,
     UserModule,
-    // AdminModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
