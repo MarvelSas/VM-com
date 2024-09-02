@@ -19,6 +19,8 @@ interface IImage {
   styleUrls: ['./admin-products.component.scss'],
 })
 export class AdminProductsComponent implements OnInit {
+  isEditing: boolean = false;
+  editProductId: number = null;
   addProductForm: FormGroup;
   products: IProduct[];
   categories: ICategory[];
@@ -67,6 +69,27 @@ export class AdminProductsComponent implements OnInit {
     }
   }
 
+  onEditProduct(id: number) {
+    this.editProductId = id;
+    console.log(this.images);
+    console.log('test');
+    console.log(this.products[id]);
+    this.addProductForm.setValue({
+      productName: 'test',
+      productDescription: 'test',
+      productPrice: 1,
+      productAmount: 1,
+      productImage: null,
+      productCategory: 1,
+    });
+
+    this.imagesName = this.products[id].photos;
+    this.images = this.products[id].photos.map((photo) => {
+      return { imageUrl: environment.API_IMG + photo, isSelected: false };
+    });
+  }
+  onDeleteProduct(id: number) {}
+
   // PRZESŁANIE FORMULARZA Z PRODUKTEM NA SERWER
   onSubmitNew() {
     if (!this.addProductForm.valid) {
@@ -105,21 +128,34 @@ export class AdminProductsComponent implements OnInit {
     // DODANIE DO FORMULARZA URL ZDJĘĆ
     // this.formData.append('images', JSON.stringify(this.images));
 
-    this.adminProductsService.addProductNew(product).subscribe({
-      next: (res) => {
-        if (res.statusCode === 200) {
-          this.toastr.success('Pomyślnie dodano produkt!', null, {
+    if (!this.isEditing) {
+      this.adminProductsService.addProductNew(product).subscribe({
+        next: (res) => {
+          if (res.statusCode === 200) {
+            this.toastr.success('Pomyślnie dodano produkt!', null, {
+              positionClass: 'toast-bottom-right',
+            });
+          }
+        },
+        error: (err) => {
+          console.error(err.message);
+          this.toastr.error('Błąd dodawania produktu!', null, {
             positionClass: 'toast-bottom-right',
           });
-        }
-      },
-      error: (err) => {
-        console.error(err.message);
-        this.toastr.error('Błąd dodawania produktu!', null, {
-          positionClass: 'toast-bottom-right',
+        },
+      });
+    } else {
+      this.adminProductsService
+        .editProduct(this.editProductId, product)
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+          },
+          error: (err) => {
+            console.error(err.message);
+          },
         });
-      },
-    });
+    }
 
     // this.adminProductsService.addProductNew(this.formData).subscribe();
 
@@ -157,6 +193,8 @@ export class AdminProductsComponent implements OnInit {
   // WYCZYSZCZENIE FORMULARZA
   onClear() {
     this.addProductForm.reset();
+    this.images = [];
+    this.imagesName = [];
   }
 
   // INICJALIZACJA
@@ -183,7 +221,7 @@ export class AdminProductsComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^\d+$/),
       ]),
-      productImage: new FormControl(null, Validators.required),
+      productImage: new FormControl(null),
       productCategory: new FormControl(null, Validators.required),
     });
 
