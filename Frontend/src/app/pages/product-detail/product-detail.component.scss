@@ -1,3 +1,5 @@
+@import "/src/app/styles/variables.scss";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -70,7 +72,7 @@ h5 {
 .btn {
   margin: 0.25rem;
   padding: 0.5rem;
-  background-color: rgb(156, 156, 156);
+  background-color: $button-background-color;
   color: white;
   border: none;
   border-radius: 4px;
@@ -80,7 +82,7 @@ h5 {
 }
 
 .btn:hover {
-  background-color: rgb(133, 133, 133);
+  background-color: $button-hover-background-color;
 }
 
 .imageSection {
