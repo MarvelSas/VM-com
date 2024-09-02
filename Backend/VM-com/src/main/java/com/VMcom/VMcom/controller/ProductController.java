@@ -6,26 +6,17 @@ import com.VMcom.VMcom.model.ProductCategory;
 import com.VMcom.VMcom.model.Response;
 import com.VMcom.VMcom.services.ProductService;
 import jakarta.activation.FileTypeMap;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -215,8 +206,8 @@ public class ProductController {
                             .timeStamp(LocalDateTime.now())
                             .data(Map.of("message", e.getMessage()))
                             .message("Product category was not deleted successfully")
-                            .status(HttpStatus.BAD_REQUEST)
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .status(HttpStatus.CONFLICT)
+                            .statusCode(HttpStatus.CONFLICT.value())
                             .build()
             );
 
