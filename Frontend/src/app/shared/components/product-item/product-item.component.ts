@@ -13,14 +13,14 @@ export class ProductItemComponent {
   @Input() photos: any;
   @Input() name: any;
   @Input() price: any;
-  @Input() mainImage: number;
+  @Input() mainPhotoId: number;
   API_IMG = environment.API_IMG;
   // console.log(this.name)
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   get imageUrl() {
-    return this.API_IMG + this.photos[this.mainImage];
+    return this.API_IMG + this.photos[this.mainPhotoId];
   }
 
   onSelectItem() {
