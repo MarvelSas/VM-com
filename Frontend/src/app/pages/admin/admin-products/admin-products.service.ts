@@ -6,7 +6,12 @@ import { endpoints } from 'src/enums/endpoints.enum';
 
 import { ProductsService } from 'src/app/shared/services/products.service';
 
-import { IProductResponseData, IResPhotoUpload } from './product.model';
+import {
+  IProductNew,
+  IProductResponseData,
+  IResPhotoUpload,
+} from './product.model';
+import { IProduct } from 'src/app/shared/models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +28,7 @@ export class adminProductsService {
   }
 
   addProductNew(body: any) {
+    console.log(body);
     return this.http.post<IProductResponseData>(
       this.API_URL + endpoints.addProduct,
       body
@@ -39,6 +45,18 @@ export class adminProductsService {
       // 'http://localhost:8088/upload', //DEBUG
       formData
     );
+  }
+
+  editProduct(id: number, product: IProductNew) {
+    console.log(product);
+    return this.http.patch(
+      this.API_URL + endpoints.editProduct + '/' + id,
+      product
+    );
+  }
+
+  deleteProduct(id: number) {
+    return this.http.delete(this.API_URL + endpoints.deleteProduct + '/' + id);
   }
 
   // addProduct(

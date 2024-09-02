@@ -1,49 +1,88 @@
 .container {
-  display: block;
-  height: 500px;
-  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 2em;
+  box-sizing: border-box;
 }
 
 .section {
-  margin-top: 4rem;
+  margin-top: 2rem;
   padding: 2rem;
-  border: 1px solid rgb(235, 235, 235);
-  background-color: rgb(241, 241, 241);
-  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .newProductsList {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 1rem;
 }
 
 .title {
-  // font-size: 20px;
-  // font-weight: bold;
-  // border: 1px solid black;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 26px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.introduction {
+  text-align: left;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+
+  h4 {
+    margin-top: 1.5rem;
+    font-size: 20px;
+    color: #007bff;
+  }
+
+  p {
+    margin: 1rem 0;
+    font-size: 16px;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 0.5rem 0;
+  }
 }
 
 .newProductsControls {
   display: flex;
   justify-content: center;
+  margin-top: 2rem;
 }
 
 .btn {
   margin: 0.25rem;
-  padding: 0.5rem;
-  background-color: rgb(156, 156, 156);
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: 50%;
+  width: auto;
+  min-width: 200px;
   height: 50px;
+  transition: background-color 0.3s ease;
 }
-
 .btn:hover {
-  background-color: rgb(133, 133, 133);
+  background-color: #0056b3;
 }
