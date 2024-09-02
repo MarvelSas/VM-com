@@ -35,3 +35,14 @@ a {
   text-decoration: none;
   color: black;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2em;
+  box-sizing: border-box;
+}
