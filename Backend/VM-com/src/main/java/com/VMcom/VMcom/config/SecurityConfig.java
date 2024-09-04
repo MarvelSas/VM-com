@@ -37,8 +37,10 @@ public class SecurityConfig {
 
             //Products
             "/api/v1/product/getAll",
+            "/api/v1/product/get/**",
             "/api/v1/product/get/category/**",
             "/api/v1/product/productCategory/getAll",
+            "/api/v1/product/productCategory/update/**",
             "/api/v1/product/images/**",
             //Security
             "/api/v1/auth/**",
@@ -54,6 +56,8 @@ public class SecurityConfig {
                             .requestMatchers(WHITE_LIST_URL).permitAll()
                             .requestMatchers("/api/v1/product/add").hasAuthority("ADMIN")
                             .requestMatchers("/api/v1/product/productCategory/add").hasAuthority("ADMIN")
+                            .requestMatchers("/api/v1/product//productCategory/delete/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/v1/product/add/productPhoto").hasAuthority("ADMIN")
                             .anyRequest()
                             .authenticated();
                 })

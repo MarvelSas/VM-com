@@ -1,13 +1,12 @@
 package com.VMcom.VMcom.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 
 @Getter
@@ -19,10 +18,15 @@ public class ProductCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     private String name;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "categoryId", referencedColumnName = "id")
+    private List<Product> products;
 
     public ProductCategory(String name) {
         this.name = name;
+        this.products = null;
     }
 }

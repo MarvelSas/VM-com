@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -9,13 +10,18 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductItemComponent {
   @Input() id: number;
-  @Input() imgSrc: any;
+  @Input() photos: any;
   @Input() name: any;
   @Input() price: any;
-  apiUrl = environment.apiUrl
+  @Input() mainPhotoId: number;
+  API_IMG = environment.API_IMG;
   // console.log(this.name)
 
   constructor(private router: Router, private route: ActivatedRoute) {}
+
+  get imageUrl() {
+    return this.API_IMG + this.photos[this.mainPhotoId];
+  }
 
   onSelectItem() {
     this.router.navigate(['product', this.id]);

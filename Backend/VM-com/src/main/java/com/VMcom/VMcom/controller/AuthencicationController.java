@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -29,7 +30,7 @@ public class AuthencicationController {
         try {
             return ResponseEntity.ok(
                     Response.builder()
-                            .timeStamp(LocalDate.now())
+                            .timeStamp(LocalDateTime.now())
                             .data(Map.of("token", authenticationService.register(request)))
                             .message("User was created successfully")
                             .status(HttpStatus.OK)
@@ -40,7 +41,7 @@ public class AuthencicationController {
         }catch (Exception e){
             return ResponseEntity.badRequest().body(
                     Response.builder()
-                            .timeStamp(LocalDate.now())
+                            .timeStamp(LocalDateTime.now())
                             .data(Map.of("token", ""))
                             .message(e.getMessage())
                             .status(HttpStatus.BAD_REQUEST)
@@ -56,7 +57,7 @@ public class AuthencicationController {
 
         return ResponseEntity.ok(
                 Response.builder()
-                        .timeStamp(LocalDate.now())
+                        .timeStamp(LocalDateTime.now())
                         .data(Map.of("token", authenticationService.authenticate(request)))
                         .message("successfully logon")
                         .status(HttpStatus.OK)

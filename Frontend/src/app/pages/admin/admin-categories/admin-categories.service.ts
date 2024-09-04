@@ -1,64 +1,46 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpApiService } from 'src/app/shared/services/http-api.service';
 
-interface ICategoriesResponseData {
-  //   id: number;
-  //   name: string;
-  data: {
-    productCategory: boolean;
-  };
-  message: string;
-  status: string;
-  statusCode: number;
-  timeStamp: string;
-}
+import { environment } from 'src/environments/environment';
+import { endpoints } from 'src/enums/endpoints.enum';
 
-interface ICategoriesGetResponseData {
-  data: {
-    productCategories: any;
-  };
-}
+import { ICategoriesGetResponseData } from '../admin-categories/category.model';
+import { ICategoriesAddResponseData } from '../admin-categories/category.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class adminCategoriesService {
-  constructor(
-    private http: HttpClient,
-    private httpApiService: HttpApiService
-  ) {}
-  API_URL = 'http://localhost:8080/api/v1/product/productCategory/add';
+  constructor(private http: HttpClient) {}
+  API_URL = environment.API_URL;
 
   getCategories() {
-    const token = this.httpApiService.user.value.token;
-    const headerDict = {
-      Authorization: `Bearer ${token}`,
-    };
-    const requestOptions = {
-      headers: new HttpHeaders(headerDict),
-    };
     return this.http.get<ICategoriesGetResponseData>(
-      'http://localhost:8080/api/v1/product/productCategory/getAll',
-      requestOptions
+      this.API_URL + endpoints.getAllCategories
     );
   }
 
   addCategory(categoryName) {
     const body = { name: categoryName };
-    const token = this.httpApiService.user.value.token;
 
-    const headerDict = {
-      Authorization: `Bearer ${token}`,
-    };
-    const requestOptions = {
-      headers: new HttpHeaders(headerDict),
-    };
+    return this.http.post<ICategoriesAddResponseData>(
+      this.API_URL + endpoints.addCategory,
+      body
+    );
+  }
 
-    return this.http.post<ICategoriesResponseData>(
-      this.API_URL,
-      body,
-      requestOptions
+  updateCategory(categoryId, newCategoryName) {
+    const body = newCategoryName;
+
+    return this.http.patch(
+      this.API_URL + endpoints.updateCategory + '/' + categoryId,
+      body
+    );
+  }
+
+  deleteCategory(categoryId) {
+    return this.http.delete(
+      this.API_URL + endpoints.deleteCategory + '/' + categoryId
     );
   }
 }

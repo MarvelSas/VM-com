@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { ProductsService } from 'src/app/shared/services/products.service';
+
 import { environment } from 'src/environments/environment';
+
+import { ProductsService } from 'src/app/shared/services/products.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -11,8 +13,11 @@ import { environment } from 'src/environments/environment';
 export class ProductDetailComponent implements OnInit {
   id: number = 0;
   product: any = {};
+  selectedImage: number = 0;
   isLoading = false;
-  apiUrl = environment.apiUrl;
+  API_IMG = environment.API_IMG;
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +33,22 @@ export class ProductDetailComponent implements OnInit {
     window.open(url, '_blank');
   }
 
+  onPreviousImage() {
+    if (this.selectedImage > 0) {
+      this.selectedImage--;
+    }
+  }
+
+  onNextImage() {
+    if (this.selectedImage < this.product.photos.length - 1) {
+      this.selectedImage++;
+    }
+  }
+
+  get imageUrl() {
+    return this.API_IMG + this.product.photos[this.selectedImage];
+  }
+
   ngOnInit(): void {
     this.isLoading = true;
     this.route.params.subscribe((params: Params) => {
@@ -37,8 +58,9 @@ export class ProductDetailComponent implements OnInit {
 
     this.productsService.getProduct(this.id).subscribe((product) => {
       this.product = product.data.product;
+      this.selectedImage = this.product.mainPhotoId;
       this.isLoading = false;
-      // console.log(this.product);
+      console.log(this.product.photos[0]);
     });
   }
 }

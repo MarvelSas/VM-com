@@ -1,5 +1,32 @@
-main {
-  // background-color: aqua;
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.wrapper {
   display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  width: 100%;
+  position: relative;
 }

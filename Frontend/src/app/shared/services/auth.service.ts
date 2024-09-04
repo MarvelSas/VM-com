@@ -1,22 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
-import { User } from '../models/user.model';
-
-import { AuthResponseData } from '../models/auth.model';
-import { JwtPayload } from '../models/auth.model';
-
 import { jwtDecode } from 'jwt-decode';
+
+import { environment } from 'src/environments/environment';
+import { endpoints } from 'src/enums/endpoints.enum';
+
+import { AuthResponseData, JwtPayload } from '../models/auth.model';
+import { User } from '../models/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HttpApiService implements OnInit {
+export class AuthService implements OnInit {
   user = new BehaviorSubject(null);
-  API_URL = 'http://localhost:8080/api/v1';
+  API_URL = environment.API_URL;
   TOKEN = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   signIn(loginData) {
     const body = {
@@ -25,7 +27,7 @@ export class HttpApiService implements OnInit {
     };
 
     return this.http
-      .post<AuthResponseData>(`${this.API_URL}/auth/authenticate`, body)
+      .post<AuthResponseData>(`${this.API_URL + endpoints.authenticate}`, body)
       .pipe(
         tap((resData) => {
           if (resData.statusCode === 200) {
@@ -50,7 +52,7 @@ export class HttpApiService implements OnInit {
     };
 
     return this.http
-      .post<AuthResponseData>(`${this.API_URL}/auth/register`, body)
+      .post<AuthResponseData>(`${this.API_URL + endpoints.register}`, body)
       .pipe(
         tap((resData) => {
           if (resData.statusCode === 200) {
@@ -65,6 +67,13 @@ export class HttpApiService implements OnInit {
 
   autoLogin() {
     const saveToken = localStorage.getItem('token');
+    if (!saveToken) {
+      this.toastr.error('Błąd autologowania!', null, {
+        positionClass: 'toast-bottom-right',
+      });
+      return;
+    }
+
     const decodedToken: JwtPayload = jwtDecode(saveToken);
 
     // TOKEN DEBUG
@@ -74,17 +83,33 @@ export class HttpApiService implements OnInit {
     // console.log('Expired time: ', new Date(decodedToken.exp * 1000));
     // console.log('Current time: ', new Date());
 
-    const tokenIsValid = decodedToken.exp * 1000 > new Date().getTime();
+    const tokenIsValid = this.tokenIsValid(saveToken);
     console.log('Token is valid: ', tokenIsValid);
     if (saveToken && tokenIsValid) {
+      this.toastr.success('Zalogowano pomyślne!', null, {
+        positionClass: 'toast-bottom-right',
+      });
       const user = new User(decodedToken.sub, decodedToken.roles, saveToken);
       this.user.next(user);
+    } else {
+      this.toastr.error('Błąd autologowania!', null, {
+        positionClass: 'toast-bottom-right',
+      });
     }
+  }
+
+  tokenIsValid(token: string) {
+    const decodedToken: JwtPayload = jwtDecode(token);
+    const validationResult = decodedToken.exp * 1000 > new Date().getTime();
+    return validationResult;
   }
 
   signOut() {
     this.user.next(null);
     localStorage.removeItem('token');
+    this.toastr.info('Wylogowano pomyślnie!', null, {
+      positionClass: 'toast-bottom-right',
+    });
   }
 
   // private handleAuthentication(email: string, token: string) {

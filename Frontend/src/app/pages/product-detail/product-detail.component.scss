@@ -1,3 +1,5 @@
+@import "/src/app/styles/variables.scss";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -14,13 +16,13 @@
   width: 100%;
 }
 
-.imageSection {
+.gallery {
   width: 300px;
   border-radius: 7px;
   transition: all 0.3s;
 }
 
-.imageSection:hover {
+.gallery:hover {
   cursor: pointer;
   scale: 1.03;
   transition: all 0.3s;
@@ -56,6 +58,11 @@ h5 {
 .descriptionContainer {
   margin-top: 4rem;
   width: 100%;
+  word-wrap: break-word;
+}
+
+.descriptionContainer pre {
+  white-space: pre-wrap;
 }
 
 .descriptionContainer hr {
@@ -65,7 +72,7 @@ h5 {
 .btn {
   margin: 0.25rem;
   padding: 0.5rem;
-  background-color: rgb(156, 156, 156);
+  background-color: $button-background-color;
   color: white;
   border: none;
   border-radius: 4px;
@@ -75,5 +82,16 @@ h5 {
 }
 
 .btn:hover {
-  background-color: rgb(133, 133, 133);
+  background-color: $button-hover-background-color;
+}
+
+.imageSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageSection img {
+  height: 300px;
+  width: 450px;
+  border-radius: 7px;
 }

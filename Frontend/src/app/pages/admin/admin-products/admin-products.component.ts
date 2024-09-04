@@ -4,6 +4,14 @@ import { adminProductsService } from './admin-products.service';
 import { IProduct } from 'src/app/shared/models/product.model';
 import { ICategory } from '../admin-categories/category.model';
 import { adminCategoriesService } from '../admin-categories/admin-categories.service';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { IProductNew } from './product.model';
+
+interface IImage {
+  imageUrl: string;
+  isSelected: boolean;
+}
 
 @Component({
   selector: 'app-admin-products',
@@ -11,21 +19,78 @@ import { adminCategoriesService } from '../admin-categories/admin-categories.ser
   styleUrls: ['./admin-products.component.scss'],
 })
 export class AdminProductsComponent implements OnInit {
+  isEditing: boolean = false;
+  editProductId: number = null;
   addProductForm: FormGroup;
   products: IProduct[];
   categories: ICategory[];
   formData: FormData = new FormData();
+  characterCount: number = 0;
+  images: IImage[] = [];
+  imagesName: string[] = [];
+  selectedMainPhoto: number = 0;
 
   constructor(
     private adminProductsService: adminProductsService,
-    private adminCategoriesService: adminCategoriesService
+    private adminCategoriesService: adminCategoriesService,
+    private toastr: ToastrService
   ) {}
 
-  onAddFile(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.formData.append('picture', file);
+  selectMainPhoto(index) {
+    console.log('Selected main photo: ' + index);
+    // console.log(index);
+    this.selectedMainPhoto = index;
+    // console.log(this.selectedMainPhoto);
   }
 
+  // OLD
+  // onAddFile(event: Event) {
+  //   const file = (event.target as HTMLInputElement).files[0];
+  //   this.formData.append('picture', file);
+  // }
+
+  // PRZESYŁANIE ZDJĘĆ NA SERWER
+  onAddImage(e: any) {
+    for (let i = 0; i < e.target.files.length; i++) {
+      this.adminProductsService.uploadPhoto(e.target.files[i]).subscribe({
+        next: (res) => {
+          this.images.push({
+            imageUrl: environment.API_IMG + res.data.productPhotoName,
+            isSelected: false,
+          });
+          this.imagesName.push(res.data.productPhotoName);
+          // console.log(res.data.productPhotoName);
+          console.log(environment.API_IMG + res.data.productPhotoName);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
+  }
+
+  onEditProduct(id: number) {
+    this.editProductId = id;
+    console.log(this.images);
+    console.log('test');
+    console.log(this.products[id]);
+    this.addProductForm.setValue({
+      productName: 'test',
+      productDescription: 'test',
+      productPrice: 1,
+      productAmount: 1,
+      productImage: null,
+      productCategory: 1,
+    });
+
+    this.imagesName = this.products[id].photos;
+    this.images = this.products[id].photos.map((photo) => {
+      return { imageUrl: environment.API_IMG + photo, isSelected: false };
+    });
+  }
+  onDeleteProduct(id: number) {}
+
+  // PRZESŁANIE FORMULARZA Z PRODUKTEM NA SERWER
   onSubmitNew() {
     if (!this.addProductForm.valid) {
       return;
@@ -38,24 +103,61 @@ export class AdminProductsComponent implements OnInit {
     const productCategory =
       this.categories[this.addProductForm.value.productCategory - 1];
 
-    const product = {
+    // WYODRĘBNIA Z TABLICY TYLKO URL ZDJĘĆ
+    // const imagesUrls = this.images.map((image) => {
+    //   return image.imageUrl;
+    // });
+
+    const product: IProductNew = {
       name: productName,
       price: productPrice,
       productCategory: productCategory,
       amount: productAmount,
       description: productDescription,
+      photos: this.imagesName,
+      mainPhotoId: this.selectedMainPhoto,
     };
+
+    // this.formData.append(
+    //   'product',
+    //   new Blob([JSON.stringify(product)], { type: 'application/json' })
+    // );
 
     console.log(product);
 
-    this.formData.append(
-      'product',
-      new Blob([JSON.stringify(product)], { type: 'application/json' })
-    );
+    // DODANIE DO FORMULARZA URL ZDJĘĆ
+    // this.formData.append('images', JSON.stringify(this.images));
 
-    this.adminProductsService.addProductNew(this.formData).subscribe((res) => {
-      console.log(res);
-    });
+    if (!this.isEditing) {
+      this.adminProductsService.addProductNew(product).subscribe({
+        next: (res) => {
+          if (res.statusCode === 200) {
+            this.toastr.success('Pomyślnie dodano produkt!', null, {
+              positionClass: 'toast-bottom-right',
+            });
+          }
+        },
+        error: (err) => {
+          console.error(err.message);
+          this.toastr.error('Błąd dodawania produktu!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        },
+      });
+    } else {
+      this.adminProductsService
+        .editProduct(this.editProductId, product)
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+          },
+          error: (err) => {
+            console.error(err.message);
+          },
+        });
+    }
+
+    // this.adminProductsService.addProductNew(this.formData).subscribe();
 
     this.onClear();
   }
@@ -88,26 +190,45 @@ export class AdminProductsComponent implements OnInit {
   //     });
   // }
 
+  // WYCZYSZCZENIE FORMULARZA
   onClear() {
     this.addProductForm.reset();
+    this.images = [];
+    this.imagesName = [];
   }
 
+  // INICJALIZACJA
   ngOnInit(): void {
     this.adminProductsService.getProducts().subscribe((res) => {
       this.products = res.data.products;
-      console.log(res);
+      // console.log(res);
     });
     this.adminCategoriesService.getCategories().subscribe((res) => {
       this.categories = res.data.productCategories;
-      console.log(res.data.productCategories);
+      // console.log(res.data.productCategories);
     });
     this.addProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),
-      productDescription: new FormControl(null, Validators.required),
-      productPrice: new FormControl(null, Validators.required),
-      productAmount: new FormControl(null, Validators.required),
-      productImage: new FormControl(null, Validators.required),
+      productDescription: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(8000),
+      ]),
+      productPrice: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^[\d,\.]+$/),
+      ]),
+      productAmount: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+      ]),
+      productImage: new FormControl(null),
       productCategory: new FormControl(null, Validators.required),
     });
+
+    this.addProductForm
+      .get('productDescription')!
+      .valueChanges.subscribe((value) => {
+        this.characterCount = value ? value.length : 0;
+      });
   }
 }
