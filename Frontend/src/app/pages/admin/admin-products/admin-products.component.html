@@ -3,16 +3,16 @@
     <h4>Lista produktów:</h4>
     <ul class="productList">
         <li class="productItem" *ngFor="let product of products">
-            {{product.name}} [{{product.id}}]
-            <span>
-                <button class="btn" (click)="onEditProduct(product.id - 1)">Edytuj</button>
-                <button class="btn" (click)="onDeleteProduct(product.id - 1)">Usuń</button>
+            <span class="productName">{{product.name}} [{{product.id}}]</span>
+            <span class="productActions">
+                <button class="btn btn-edit" (click)="onEditProduct(product.id - 1)">Edytuj</button>
+                <button class="btn btn-delete" (click)="onDeleteProduct(product.id - 1)">Usuń</button>
             </span>
         </li>
     </ul>
 </div>
 
-<h3 class="subtitle">Dodaj nowy produkt</h3>
+<h3 class="subtitle">{{isEditing ? 'Edytuj produkt' : 'Dodaj nowy produkt'}}</h3>
 <form [formGroup]="addProductForm" (ngSubmit)="onSubmitNew()">
     <div class="form-item">
         <label for="productName">Nazwa: </label>
@@ -20,16 +20,18 @@
             <input type="text" name="productName" placeholder="Nazwa produktu" formControlName="productName">
         </div>
     </div>
+
     <div class="form-item">
         <label for="productDescription">Opis: </label>
         <div>
-            <textarea type="text" rows="20" cols="50" name="productDescription" placeholder="Opis produktu"
+            <textarea type="text" rows="10" cols="50" name="productDescription" placeholder="Opis produktu"
                 formControlName="productDescription"></textarea>
-            <div>
+            <div class="characterCount">
                 {{characterCount}} / 8000
             </div>
         </div>
     </div>
+
     <div class="form-item">
         <label for="productPrice">Cena produktu: </label>
         <div>
@@ -49,14 +51,15 @@
     <div class="form-item">
         <label for="productImage">Zdjęcie: </label>
         <div>
-            <input type="file" name="productImage" placeholder="Cena" formControlName="productImage"
-                (change)="onAddImage($event)" multiple>
+            <input type="file" name="productImage" formControlName="productImage" (change)="onAddImage($event)"
+                multiple>
         </div>
         <div class="imageGallery">
             <img [src]="image.imageUrl" alt="Podgląd zdjęcia" *ngFor="let image of images; let i = index"
                 (click)="selectMainPhoto(i)" />
         </div>
     </div>
+
     <div class="form-item">
         <label for="productCategory">Kategoria: </label>
         <select name="productCategory" formControlName="productCategory">
@@ -64,8 +67,9 @@
             <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
         </select>
     </div>
-    <div class="form-item">
-        <button class="btn" type="submit">Dodaj</button>
-        <button class="btn" (click)="onClear()">Wyczyść</button>
+
+    <div class="buttonsSection">
+        <button class="btn btn-submit" type="submit">{{isEditing ? 'Zapisz zmiany' : 'Dodaj produkt'}}</button>
+        <button class="btn btn-clear" (click)="onClear()">{{isEditing ? 'Anuluj' : 'Wyczyść'}}</button>
     </div>
 </form>
