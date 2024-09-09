@@ -8,24 +8,16 @@ import com.VMcom.VMcom.repository.AppUserRepository;
 import com.VMcom.VMcom.repository.PhotoRepository;
 import com.VMcom.VMcom.repository.ProductCategoryRepository;
 import com.VMcom.VMcom.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
-import org.hibernate.annotations.NotFound;
-import org.springframework.security.core.Authentication;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,7 +51,7 @@ public class ProductService {
     }
 
     public List<Product> getAllProducts(){
-        return productRepository.findAll();
+        return productRepository.findAll(Sort.by("id"));
     }
 
     public List<ProductCategory> getAllProductCategories() {return  productCategoryRepository.findAll();}
@@ -164,5 +156,46 @@ public class ProductService {
 
          return true;
 
+    }
+
+    public Object updateProduct(Product product) {
+
+
+        Product productFromDatabase = productRepository.findById(product.getId()).orElseThrow( () -> new IllegalStateException("Product with id:"+ product.getId()+" does not exist in database"));
+
+        //Update variables
+
+        if(!product.getName().isBlank()){
+            productFromDatabase.setName(product.getName());
+        }
+
+        if(!product.getDescription().isBlank()){
+            productFromDatabase.setDescription(product.getDescription());
+        }
+
+        if(product.getPrice() != null){
+            productFromDatabase.setPrice(product.getPrice());
+        }
+
+        if(product.getPhotos().size()<=0 && product.getMainPhotoId() <= 0){
+            throw new IllegalArgumentException("List of photos is empty for product with ID:"+product.getId()+", but main photo is set up");
+        }else{
+            productFromDatabase.setPhotos(product.getPhotos());
+            productFromDatabase.setMainPhotoId(product.getMainPhotoId());
+        }
+
+        if(product.getAmount()<0){
+            throw new IllegalArgumentException("Amount for product with ID: "+product.getId()+" can't be lower then 0");
+        }else {
+            productFromDatabase.setAmount(product.getAmount());
+        }
+
+        if(product.getProductCategory() != null){
+            productFromDatabase.setProductCategory(product.getProductCategory());
+        }
+
+        productRepository.save(productFromDatabase);
+
+        return  productFromDatabase;
     }
 }

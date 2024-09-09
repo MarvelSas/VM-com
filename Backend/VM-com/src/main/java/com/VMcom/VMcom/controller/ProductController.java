@@ -96,6 +96,39 @@ public class ProductController {
         );
     }
 
+    @PutMapping("/update/{productId}")
+    public ResponseEntity<Response> putProduct(@RequestBody Product product){
+
+        try {
+
+           return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("product",productService.updateProduct(product)))
+                            .message("Product returned")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+
+
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product was not updated successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+        }
+
+
+    }
+
 
 
 
