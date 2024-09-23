@@ -129,6 +129,35 @@ public class ProductController {
 
     }
 
+    @DeleteMapping("/delete/{productId}")
+    public ResponseEntity<Response> deleteProduct(@PathVariable("productId") long productId){
+
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("product",productService.deleteProduct(productId)))
+                            .message("Product was deleted successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product was not deleted successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+        }
+
+    }
 
 
 
