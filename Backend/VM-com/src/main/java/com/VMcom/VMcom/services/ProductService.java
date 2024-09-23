@@ -198,4 +198,31 @@ public class ProductService {
 
         return  productFromDatabase;
     }
+
+    public boolean deleteProduct(long productId) {
+
+        Product product = productRepository.findById(productId).orElseThrow( () -> new IllegalStateException("Product with id: "+productId+"does not exist in database"));
+
+        //delete all photos from storage and from repository
+        product.getPhotos().forEach( p ->{
+
+            Path destinationFile = rootLocation.resolve(
+                    p).normalize().toAbsolutePath();
+
+
+            try {
+                Files.delete(destinationFile);
+                photoRepository.deleteByName(p);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            System.out.println("test");
+
+        });
+
+        productRepository.delete(product);
+
+        return true;
+    }
 }
