@@ -1,4 +1,5 @@
-<div class="registerCard">
+<div class="card">
+    <h4>Rejestracja</h4>
     <form [formGroup]="signUpForm">
         <div>
             <!-- <label class="test" for="name">Imię:</label> -->
@@ -19,7 +20,7 @@
             <input id="password" type="password" placeholder="Hasło" formControlName="password" />
         </div>
         <div class="controls">
-            <button class="g-btn" (click)="onRegisterHandler()">Zarejestruj</button>
+            <button class="btn" (click)="onRegisterHandler()">Zarejestruj</button>
             <div class="links">
                 <p><a routerLink="../login">Chcesz się zalogować?</a></p>
             </div>
