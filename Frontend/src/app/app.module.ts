@@ -28,6 +28,7 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
 import { Toast, ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
 import { ProductListItemComponent } from './shared/components/product-list-item/product-list-item.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ProductListItemComponent } from './shared/components/product-list-item/
     HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    TabsModule,
   ],
   providers: [
     {
