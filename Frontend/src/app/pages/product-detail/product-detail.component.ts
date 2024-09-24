@@ -16,8 +16,21 @@ export class ProductDetailComponent implements OnInit {
   selectedImage: number = 0;
   isLoading = false;
   API_IMG = environment.API_IMG;
-
-
+  productSpecs = [
+    { name: 'Producent', value: 'Acer' },
+    { name: 'Model', value: 'Nitro 5' },
+    { name: 'Procesor', value: 'Intel Core i5-10300H' },
+    { name: 'Pamięć RAM', value: '8GB DDR4' },
+    { name: 'Dysk', value: '512GB SSD' },
+    { name: 'Karta graficzna', value: 'NVIDIA GeForce GTX 1650' },
+    { name: 'System operacyjny', value: 'Windows 10 Home' },
+    { name: 'Kolor', value: 'Czarny' },
+    { name: 'Waga', value: '2.3 kg' },
+    { name: 'Wysokość', value: '23.9 mm' },
+    { name: 'Szerokość', value: '363.4 mm' },
+    { name: 'Głębokość', value: '255 mm' },
+    { name: 'Gwarancja', value: '24 miesiące' },
+  ];
 
   constructor(
     private route: ActivatedRoute,
