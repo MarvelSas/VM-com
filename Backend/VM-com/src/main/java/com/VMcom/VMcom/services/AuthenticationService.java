@@ -6,11 +6,11 @@ import com.VMcom.VMcom.model.AuthenciationRequest;
 import com.VMcom.VMcom.model.AuthenciationResponse;
 import com.VMcom.VMcom.model.RegisterRequest;
 import com.VMcom.VMcom.repository.AppUserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class AuthenticationService {
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public String register(RegisterRequest request) {
+    public AuthenciationResponse register(RegisterRequest request) {
         if(appUserRepository.findByUsername(request.getEmail()).isPresent()){
             throw new InvalidParameterException("User with email "+request.getEmail()+" already exist");
         }
@@ -43,11 +43,15 @@ public class AuthenticationService {
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
         var jwtToken = jwtService.generateToken(claims,user);
-        return jwtToken;
+        var jwtRefreshToken = jwtService.generateRefreshToken(user);
+        return AuthenciationResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(jwtRefreshToken)
+                .build();
 
     }
 
-    public String authenticate(AuthenciationRequest request) {
+    public AuthenciationResponse authenticate(AuthenciationRequest request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -61,7 +65,38 @@ public class AuthenticationService {
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
         var jwtToken = jwtService.generateToken(claims,user);
-        return jwtToken;
+        var jwtRefreshToken = jwtService.generateRefreshToken(user);
+        return AuthenciationResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(jwtRefreshToken)
+                .build();
 
+    }
+
+    public AuthenciationResponse refresthToken(HttpServletRequest request) {
+
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String refreshToken;
+        final String username;
+        AuthenciationResponse authenciationResponse = new AuthenciationResponse();
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            return authenciationResponse;
+        }
+        refreshToken = authHeader.substring(7);
+        username = jwtService.extractEmail(refreshToken);
+        if(username != null){
+            var user = this.appUserRepository.findByUsername(username).orElseThrow();
+            if(jwtService.isTokenValid(refreshToken,user)){
+                String accessToken = jwtService.generateToken(user);
+                authenciationResponse = AuthenciationResponse.builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .build();
+
+            }
+            return authenciationResponse;
+        }
+
+        return authenciationResponse;
     }
 }
