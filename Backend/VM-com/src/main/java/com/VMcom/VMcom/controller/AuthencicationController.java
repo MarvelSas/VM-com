@@ -1,10 +1,10 @@
 package com.VMcom.VMcom.controller;
 
 import com.VMcom.VMcom.model.AuthenciationRequest;
-import com.VMcom.VMcom.model.AuthenciationResponse;
 import com.VMcom.VMcom.model.RegisterRequest;
 import com.VMcom.VMcom.model.Response;
 import com.VMcom.VMcom.services.AuthenticationService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -66,4 +65,21 @@ public class AuthencicationController {
         );
 
     }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<Response> refreshToken(HttpServletRequest request){
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("token", authenticationService.refresthToken(request)))
+                        .message("successfully logon")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+
+    }
+
+
 }
