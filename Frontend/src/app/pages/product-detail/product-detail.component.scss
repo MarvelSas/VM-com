@@ -69,6 +69,14 @@ h5 {
   margin: 0.5rem 0 1rem 0;
 }
 
+.specsContainer {
+  padding: 1rem;
+  pre {
+    border-bottom: 1px solid #ccc;
+    margin: 0;
+  }
+}
+
 .btn {
   margin: 0.25rem;
   padding: 0.5rem;
@@ -82,7 +90,7 @@ h5 {
 }
 
 .btn:hover {
-  background-color: $button-hover-background-color;
+  // background-color: $button-hover-background-color;
 }
 
 .imageSection {
@@ -94,4 +102,8 @@ h5 {
   height: 300px;
   width: 450px;
   border-radius: 7px;
+}
+
+tabset {
+  width: 100%;
 }

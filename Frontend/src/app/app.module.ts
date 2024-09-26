@@ -27,6 +27,8 @@ import { AdminProductsComponent } from './pages/admin/admin-products/admin-produ
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { Toast, ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
+import { ProductListItemComponent } from './shared/components/product-list-item/product-list-item.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { AuthInterceptorService } from './shared/services/auth-interceptor.servi
     AdminCategoriesComponent,
     AdminProductsComponent,
     LoadingSpinnerComponent,
+    ProductListItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ import { AuthInterceptorService } from './shared/services/auth-interceptor.servi
     HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    TabsModule,
   ],
   providers: [
     {

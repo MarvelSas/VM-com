@@ -22,10 +22,22 @@
                 <button class="btn" (click)="onNextImage()">Następne zdjęcie</button>
             </div>
         </div>
-        <div class="descriptionContainer">
-            <h3>Specyfikacja produktu:</h3>
-            <hr>
-            <pre>{{product.description}}</pre>
-        </div>
+        <tabset>
+            <tab heading="Opis produktu">
+                <div class="descriptionContainer">
+                    <pre>{{product.description}}</pre>
+                </div>
+            </tab>
+            <tab heading="Specyfikacja produktu">
+                <div class="specsContainer">
+                    <pre *ngFor="let spec of productSpecs"><strong>{{spec.name}}:</strong> {{spec.value}}</pre>
+                </div>
+            </tab>
+            <tab heading="Dodatkowe informacje">
+                <div class="descriptionContainer">
+                    <pre>Tu będą kiedyś dodatkowe informacje o produkcie</pre>
+                </div>
+            </tab>
+        </tabset>
     </ng-container>
 </div>

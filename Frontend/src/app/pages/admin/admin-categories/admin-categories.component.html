@@ -1,10 +1,14 @@
 <h4 class="categoryTitle">Lista kategorii</h4>
 <ul class="categoryList">
-    <li class="categoryItem" *ngFor="let category of categories">{{category.name}} <!-- [{{category.id}}] -->
-        <span><button class="btn btn-edit" (click)="onEditCategory(category.id)">Edytuj</button>
-            <button class="btn btn-delete" (click)="onDeleteCategory(category.id)">Usuń</button></span>
+    <li class="categoryItem" *ngFor="let category of categories">
+        <span class="categoryName">{{category.name}}</span>
+        <span class="categoryActions">
+            <button class="btn btn-edit" (click)="onEditCategory(category.id)">Edytuj</button>
+            <button class="btn btn-delete" (click)="onDeleteCategory(category.id)">Usuń</button>
+        </span>
     </li>
 </ul>
+
 <h4 class="newCategoryTitle">{{isEditing ? 'Edytuj kategorię' : 'Dodaj nową kategorię'}}</h4>
 <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmit()">
     <div class="inputCategoryName">
