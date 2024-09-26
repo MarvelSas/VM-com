@@ -18,7 +18,7 @@ export class AuthInterceptorService {
 
         const decodedToken = jwtDecode(user.token);
         const validationResult = decodedToken.exp * 1000 > new Date().getTime();
-        if (!validationResult) {
+        if (user.token && !validationResult) {
           console.log('Token expired! Need to refresh token!');
           this.authService.refreshToken().subscribe({
             next: (res) => {
