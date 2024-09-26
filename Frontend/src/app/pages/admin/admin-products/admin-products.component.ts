@@ -88,7 +88,22 @@ export class AdminProductsComponent implements OnInit {
       return { imageUrl: environment.API_IMG + photo, isSelected: false };
     });
   }
-  onDeleteProduct(id: number) {}
+  onDeleteProduct(id: number) {
+    this.adminProductsService.deleteProduct(id).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.products = this.products.filter((product) => product.id !== id);
+        if (res.statusCode === 200) {
+          this.toastr.success('Pomyślnie dodano produkt!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 
   // PRZESŁANIE FORMULARZA Z PRODUKTEM NA SERWER
   onSubmitNew() {

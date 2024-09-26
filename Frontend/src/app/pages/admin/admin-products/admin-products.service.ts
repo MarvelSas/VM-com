@@ -56,7 +56,10 @@ export class adminProductsService {
   }
 
   deleteProduct(id: number) {
-    return this.http.delete(this.API_URL + endpoints.deleteProduct + '/' + id);
+    console.log(id);
+    return this.http.delete<IProductResponseData>(
+      this.API_URL + endpoints.deleteProduct + '/' + id
+    );
   }
 
   // addProduct(

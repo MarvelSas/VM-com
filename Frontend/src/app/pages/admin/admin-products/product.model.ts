@@ -18,6 +18,8 @@ export interface IProductResponseData {
   };
 }
 
+
+
 export interface IResPhotoUpload {
   data: { productPhotoName: string };
 }
