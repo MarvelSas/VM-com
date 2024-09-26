@@ -70,17 +70,20 @@ export class AdminProductsComponent implements OnInit {
   }
 
   onEditProduct(id: number) {
+    this.isEditing = true;
     this.editProductId = id;
-    console.log(this.images);
-    console.log('test');
-    console.log(this.products[id]);
+    const editedProduct: IProduct = this.products[id - 1];
+    this.images = editedProduct.photos.map((photo) => {
+      return { imageUrl: environment.API_IMG + photo, isSelected: false };
+    });
+    this.selectMainPhoto(editedProduct.mainPhotoId);
     this.addProductForm.setValue({
-      productName: 'test',
-      productDescription: 'test',
-      productPrice: 1,
-      productAmount: 1,
+      productName: editedProduct.name,
+      productDescription: editedProduct.description,
+      productPrice: editedProduct.price,
+      productAmount: 5,
       productImage: null,
-      productCategory: 1,
+      productCategory: editedProduct.productCategory.id,
     });
 
     this.imagesName = this.products[id].photos;
@@ -88,6 +91,7 @@ export class AdminProductsComponent implements OnInit {
       return { imageUrl: environment.API_IMG + photo, isSelected: false };
     });
   }
+
   onDeleteProduct(id: number) {
     this.adminProductsService.deleteProduct(id).subscribe({
       next: (res) => {
@@ -124,6 +128,7 @@ export class AdminProductsComponent implements OnInit {
     // });
 
     const product: IProductNew = {
+      id: this.isEditing ? this.editProductId : null,
       name: productName,
       price: productPrice,
       productCategory: productCategory,
@@ -165,6 +170,7 @@ export class AdminProductsComponent implements OnInit {
         .subscribe({
           next: (res) => {
             console.log(res);
+            this.isEditing = false;
           },
           error: (err) => {
             console.error(err.message);
