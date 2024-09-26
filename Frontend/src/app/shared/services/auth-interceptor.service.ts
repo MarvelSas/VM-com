@@ -20,6 +20,14 @@ export class AuthInterceptorService {
         const validationResult = decodedToken.exp * 1000 > new Date().getTime();
         if (!validationResult) {
           console.log('Token expired! Need to refresh token!');
+          this.authService.refreshToken().subscribe({
+            next: (res) => {
+              console.log(res);
+            },
+            error: (err) => {
+              console.log(err);
+            },
+          });
         }
 
         const headerDict = {

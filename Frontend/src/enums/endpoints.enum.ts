@@ -1,6 +1,7 @@
 export enum endpoints {
   authenticate = 'auth/authenticate',
   register = 'auth/register',
+  tokenRefresh = 'auth/refresh-token',
   getAllProducts = 'product/getAll',
   getProduct = 'product/get',
   addProduct = 'product/add',

@@ -134,6 +134,25 @@ export class AuthService implements OnInit {
     });
   }
 
+  refreshToken() {
+    return this.http
+      .post<AuthResponseData>(`${this.API_URL + endpoints.tokenRefresh}`, {})
+      .pipe(
+        tap((res) => {
+          const accessToken = res.data.token.accessToken;
+          const refreshToken = res.data.token.refreshToken;
+          const decodedToken: JwtPayload = jwtDecode(accessToken);
+          const user = new User(
+            decodedToken.sub,
+            decodedToken.roles,
+            accessToken,
+            refreshToken
+          );
+          this.user.next(user);
+        })
+      );
+  }
+
   // private handleAuthentication(email: string, token: string) {
   //   const user = new User(email, token);
   //   this.user.next(user);
