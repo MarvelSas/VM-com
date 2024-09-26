@@ -76,6 +76,7 @@ export class AdminProductsComponent implements OnInit {
     this.images = editedProduct.photos.map((photo) => {
       return { imageUrl: environment.API_IMG + photo, isSelected: false };
     });
+    this.imagesName = editedProduct.photos;
     this.selectMainPhoto(editedProduct.mainPhotoId);
     this.addProductForm.setValue({
       productName: editedProduct.name,
