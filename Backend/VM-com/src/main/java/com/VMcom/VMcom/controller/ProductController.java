@@ -30,6 +30,48 @@ public class ProductController {
 
     //Product endpoints
 
+    @GetMapping("/products")
+    public ResponseEntity<Response> getAllProductsWithPagingAndFilter(@RequestParam("page") int page,
+                                                   @RequestParam("pageSize") int pageSize,
+                                                   @RequestParam("category") String category,
+                                                   @RequestParam("sortBy") String sortBy,
+                                                   @RequestParam("order") String order ,
+                                                   @RequestParam("minPrice") Double minPrice,
+                                                   @RequestParam("maxPrice") Double maxPrice,
+                                                   @RequestParam("inStock") boolean inStock,
+                                                   @RequestParam("name") String name
+
+    ){
+
+        try {
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("products", productService.getAllProductsWithPagingAndFilter(page, pageSize,category,sortBy,order,minPrice,maxPrice,inStock,name)))
+                            .message("All products returned")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product returned successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+
+        }
+
+    }
+
+
+
     @GetMapping("/getAll")
     public ResponseEntity<Response> getAllProducts(){
         return ResponseEntity.ok(
