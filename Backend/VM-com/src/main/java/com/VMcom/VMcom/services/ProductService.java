@@ -9,6 +9,8 @@ import com.VMcom.VMcom.repository.PhotoRepository;
 import com.VMcom.VMcom.repository.ProductCategoryRepository;
 import com.VMcom.VMcom.repository.ProductRepository;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -224,5 +226,38 @@ public class ProductService {
         productRepository.delete(product);
 
         return true;
+    }
+
+    public List<Product> getAllProductsWithPagingAndFilter(int page,
+                                                    int pageSize,
+                                                    String categoryName,
+                                                    String sortBy,
+                                                    String order,
+                                                    Double minPrice,
+                                                    Double maxPrice,
+                                                    boolean inStock,
+                                                    String name) {
+
+        Long productCategoryId = productCategoryRepository.findByName(categoryName).orElseThrow(() -> new RuntimeException("product category with name : "+categoryName+" doesn't not exist" )).getId();
+
+        Pageable pageable;
+
+        if(order.equals("asc")){
+            pageable = PageRequest.of(page,pageSize,Sort.by(sortBy).ascending());
+        }else {
+            pageable = PageRequest.of(page,pageSize,Sort.by(sortBy).descending());
+        }
+
+        if(inStock){
+
+            return productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByNameAndIfItIsOnStock(productCategoryId,minPrice,maxPrice,name,pageable);
+
+        }else {
+
+            return productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByNameAndIfItIsNotOnStock(productCategoryId,minPrice,maxPrice,name,pageable);
+
+        }
+
+
     }
 }
