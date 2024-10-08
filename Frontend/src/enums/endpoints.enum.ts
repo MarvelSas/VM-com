@@ -2,6 +2,7 @@ export enum endpoints {
   authenticate = 'auth/authenticate',
   register = 'auth/register',
   getAllProducts = 'product/getAll',
+  getPageableProducts = 'product/products',
   getProduct = 'product/get',
   addProduct = 'product/add',
   editProduct = '',
