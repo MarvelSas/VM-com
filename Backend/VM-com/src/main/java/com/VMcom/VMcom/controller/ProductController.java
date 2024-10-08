@@ -33,13 +33,13 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<Response> getAllProductsWithPagingAndFilter(@RequestParam("page") int page,
                                                    @RequestParam("pageSize") int pageSize,
-                                                   @RequestParam("category") String category,
-                                                   @RequestParam("sortBy") String sortBy,
-                                                   @RequestParam("order") String order ,
-                                                   @RequestParam("minPrice") Double minPrice,
-                                                   @RequestParam("maxPrice") Double maxPrice,
-                                                   @RequestParam("inStock") boolean inStock,
-                                                   @RequestParam("name") String name
+                                                   @RequestParam(value = "category",required = false) String category,
+                                                   @RequestParam(value = "sortBy", defaultValue = "name",required = false) String sortBy,
+                                                   @RequestParam(value = "order", defaultValue = "asc",required = false) String order ,
+                                                   @RequestParam(value = "minPrice", defaultValue = "0",required = false) Double minPrice,
+                                                   @RequestParam(value = "maxPrice", defaultValue = "100000000",required = false) Double maxPrice,
+                                                   @RequestParam(value = "hideOutOfStock",defaultValue = "false",required = false) boolean hideOutOfStock,
+                                                   @RequestParam(value = "name",defaultValue = "",required = false) String name
 
     ){
 
@@ -47,7 +47,7 @@ public class ProductController {
             return ResponseEntity.ok(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("products", productService.getAllProductsWithPagingAndFilter(page, pageSize,category,sortBy,order,minPrice,maxPrice,inStock,name)))
+                            .data(Map.of("products", productService.getAllProductsWithPagingAndFilter(page, pageSize,category,sortBy,order,minPrice,maxPrice, hideOutOfStock,name)))
                             .message("All products returned")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())

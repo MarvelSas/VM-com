@@ -235,10 +235,8 @@ public class ProductService {
                                                     String order,
                                                     Double minPrice,
                                                     Double maxPrice,
-                                                    boolean inStock,
+                                                    boolean hideOutOfStock,
                                                     String name) {
-
-        Long productCategoryId = productCategoryRepository.findByName(categoryName).orElseThrow(() -> new RuntimeException("product category with name : "+categoryName+" doesn't not exist" )).getId();
 
         Pageable pageable;
 
@@ -248,14 +246,23 @@ public class ProductService {
             pageable = PageRequest.of(page,pageSize,Sort.by(sortBy).descending());
         }
 
-        if(inStock){
 
+        if(categoryName==null){
+            if(hideOutOfStock){
+                return productRepository.findByPriceBetweenMinAndMaxValueAndByNameIfItIsOnStock(minPrice,maxPrice,name,pageable);
+            }else {
+                return productRepository.findByPriceBetweenMinAndMaxValueAndByName(minPrice,maxPrice,name,pageable);
+            }
+        }
+
+        Long productCategoryId = productCategoryRepository.findByName(categoryName).orElseThrow(() -> new RuntimeException("product category with name : "+categoryName+" doesn't not exist" )).getId();
+
+
+        if(hideOutOfStock){
             return productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByNameAndIfItIsOnStock(productCategoryId,minPrice,maxPrice,name,pageable);
 
         }else {
-
-            return productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByNameAndIfItIsNotOnStock(productCategoryId,minPrice,maxPrice,name,pageable);
-
+            return productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByName(productCategoryId,minPrice,maxPrice,name,pageable);
         }
 
 

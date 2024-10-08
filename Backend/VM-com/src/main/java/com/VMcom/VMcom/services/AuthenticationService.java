@@ -39,7 +39,7 @@ public class AuthenticationService {
                 AppUserRole.USER,
                 false,
                 true);
-        appUserRepository.save(user);
+        AppUser appUser = appUserRepository.save(user);
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
         var jwtToken = jwtService.generateToken(claims,user);
