@@ -18,7 +18,13 @@ public interface ProductRepository extends JpaRepository<Product,Long >, PagingA
 
     @Query(value = "select u from Product u where u.productCategory.id=?1 and u.price>?2 and u.price<?3 and u.amount>0 and u.name like %?4%")
     List<Product> findByCategoryAndPriceBetweenMinAndMaxValueAndByNameAndIfItIsOnStock(Long categoryId, Double minPrice, Double maxPrice,String name, Pageable pageable);
-    @Query(value = "select u from Product u where u.productCategory.id=?1 and u.price>?2 and u.price<?3 and u.amount=0 and u.name like %?4%")
-    List<Product> findByCategoryAndPriceBetweenMinAndMaxValueAndByNameAndIfItIsNotOnStock(Long categoryId,Double minPrice,Double maxPrice,String name,Pageable pageable);
+    @Query(value = "select u from Product u where u.productCategory.id=?1 and u.price>?2 and u.price<?3 and u.name like %?4%")
+    List<Product> findByCategoryAndPriceBetweenMinAndMaxValueAndByName(Long categoryId,Double minPrice,Double maxPrice,String name,Pageable pageable);
+
+    @Query(value = "select u from Product u where u.price>?1 and u.price<?2 and u.amount>0 and u.name like %?3%")
+    List<Product> findByPriceBetweenMinAndMaxValueAndByNameIfItIsOnStock(Double minPrice,Double maxPrice,String name,Pageable pageable);
+
+    @Query(value = "select u from Product u where u.price>?1 and u.price<?2 and u.amount>0 and u.name like %?3%")
+    List<Product> findByPriceBetweenMinAndMaxValueAndByName(Double minPrice,Double maxPrice,String name,Pageable pageable);
 
 }
