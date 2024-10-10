@@ -10,7 +10,20 @@ export interface IProduct {
   photos: string[];
   mainPhotoId: number;
   productCategory: IProductCategory;
-  description: string;
+}
+
+export interface IPageableParams {
+  // currentPage?: number;
+  page?: number;
+  totalPages?: number;
+  pageSize?: number;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  inStock?: boolean;
+  sortBy?: string;
+  order?: string;
+  name?: string;
 }
 
 export interface ProductsResponseData {

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { endpoints } from 'src/enums/endpoints.enum';
 import {
   ProductsResponseData,
   OneProductResponseData,
+  IPageableParams,
 } from '../models/product.model';
 
 @Injectable({
@@ -20,6 +21,18 @@ export class ProductsService {
   getProducts(): Observable<ProductsResponseData> {
     return this.http.get<ProductsResponseData>(
       `${this.API_URL + endpoints.getAllProducts}`
+    );
+  }
+
+  getPageableProducts(params: IPageableParams) {
+    console.log(params);
+    const pageableParams = new HttpParams()
+      .set('page', params.page.toString())
+      .set('pageSize', params.pageSize.toString());
+
+    return this.http.get<ProductsResponseData>(
+      `${this.API_URL + endpoints.getPageableProducts}`,
+      { params: pageableParams }
     );
   }
 
