@@ -10,6 +10,7 @@ export interface IProduct {
   photos: string[];
   mainPhotoId: number;
   productCategory: IProductCategory;
+  description: string;
 }
 
 export interface IPageableParams {
