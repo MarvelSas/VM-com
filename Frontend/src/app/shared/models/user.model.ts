@@ -8,7 +8,8 @@ export class User {
   constructor(
     public email: string,
     public _role: string,
-    private _token: string
+    private _token: string,
+    private _refreshToken: string
   ) {}
 
   get token() {

@@ -17,6 +17,7 @@ export class AuthService implements OnInit {
   user = new BehaviorSubject(null);
   API_URL = environment.API_URL;
   TOKEN = null;
+  REFRESH_TOKEN = null;
 
   constructor(private http: HttpClient, private toastr: ToastrService) {}
 
@@ -30,14 +31,25 @@ export class AuthService implements OnInit {
       .post<AuthResponseData>(`${this.API_URL + endpoints.authenticate}`, body)
       .pipe(
         tap((resData) => {
+          // console.log(resData);
           if (resData.statusCode === 200) {
-            const token = resData.data.token;
-            const decodedToken: JwtPayload = jwtDecode(token);
+            const accessToken = resData.data.token.accessToken;
+            const refreshToken = resData.data.token.refreshToken;
+            const decodedToken: JwtPayload = jwtDecode(accessToken);
             this.user.next(
-              new User(decodedToken.sub, decodedToken.roles, token)
+              new User(
+                decodedToken.sub,
+                decodedToken.roles,
+                accessToken,
+                refreshToken
+              )
             );
-            this.TOKEN = token;
-            localStorage.setItem('token', token);
+            // console.log('Access token: ', accessToken);
+            // console.log('Refresh token: ', refreshToken);
+            this.TOKEN = accessToken;
+            this.REFRESH_TOKEN = refreshToken;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
           }
         })
       );
@@ -56,25 +68,30 @@ export class AuthService implements OnInit {
       .pipe(
         tap((resData) => {
           if (resData.statusCode === 200) {
-            const token = resData.data.token;
-            console.log(token);
-            this.TOKEN = token;
-            localStorage.setItem('token', token);
+            const accessToken = resData.data.token.accessToken;
+            const refreshToken = resData.data.token.refreshToken;
+            // console.log('Access token: ', accessToken);
+            // console.log('Refresh token: ', refreshToken);
+            this.TOKEN = accessToken;
+            this.REFRESH_TOKEN = refreshToken;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
           }
         })
       );
   }
 
   autoLogin() {
-    const saveToken = localStorage.getItem('token');
-    if (!saveToken) {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (!accessToken) {
       this.toastr.error('Błąd autologowania!', null, {
         positionClass: 'toast-bottom-right',
       });
       return;
     }
 
-    const decodedToken: JwtPayload = jwtDecode(saveToken);
+    const decodedToken: JwtPayload = jwtDecode(accessToken);
 
     // TOKEN DEBUG
     // console.log('Saved token: ', saveToken);
@@ -83,13 +100,18 @@ export class AuthService implements OnInit {
     // console.log('Expired time: ', new Date(decodedToken.exp * 1000));
     // console.log('Current time: ', new Date());
 
-    const tokenIsValid = this.tokenIsValid(saveToken);
+    const tokenIsValid = this.tokenIsValid(accessToken);
     console.log('Token is valid: ', tokenIsValid);
-    if (saveToken && tokenIsValid) {
+    if (accessToken && tokenIsValid) {
       this.toastr.success('Zalogowano pomyślne!', null, {
         positionClass: 'toast-bottom-right',
       });
-      const user = new User(decodedToken.sub, decodedToken.roles, saveToken);
+      const user = new User(
+        decodedToken.sub,
+        decodedToken.roles,
+        accessToken,
+        refreshToken
+      );
       this.user.next(user);
     } else {
       this.toastr.error('Błąd autologowania!', null, {
@@ -110,6 +132,25 @@ export class AuthService implements OnInit {
     this.toastr.info('Wylogowano pomyślnie!', null, {
       positionClass: 'toast-bottom-right',
     });
+  }
+
+  refreshToken() {
+    return this.http
+      .post<AuthResponseData>(`${this.API_URL + endpoints.tokenRefresh}`, {})
+      .pipe(
+        tap((res) => {
+          const accessToken = res.data.token.accessToken;
+          const refreshToken = res.data.token.refreshToken;
+          const decodedToken: JwtPayload = jwtDecode(accessToken);
+          const user = new User(
+            decodedToken.sub,
+            decodedToken.roles,
+            accessToken,
+            refreshToken
+          );
+          this.user.next(user);
+        })
+      );
   }
 
   // private handleAuthentication(email: string, token: string) {

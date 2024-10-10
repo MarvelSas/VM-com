@@ -49,14 +49,17 @@ export class adminProductsService {
 
   editProduct(id: number, product: IProductNew) {
     console.log(product);
-    return this.http.patch(
+    return this.http.put(
       this.API_URL + endpoints.editProduct + '/' + id,
       product
     );
   }
 
   deleteProduct(id: number) {
-    return this.http.delete(this.API_URL + endpoints.deleteProduct + '/' + id);
+    console.log(id);
+    return this.http.delete<IProductResponseData>(
+      this.API_URL + endpoints.deleteProduct + '/' + id
+    );
   }
 
   // addProduct(

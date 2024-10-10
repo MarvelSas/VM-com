@@ -1,10 +1,11 @@
 export interface IProductNew {
+  id?: number;
   name: string;
   price: string;
   productCategory: { id: number; name: string };
   amount: number;
   description: string;
-  photos: string[];
+  photos?: string[];
   mainPhotoId: number;
 }
 
