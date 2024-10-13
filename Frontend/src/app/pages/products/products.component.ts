@@ -17,12 +17,12 @@ export class ProductsComponent {
   currentPage: number = 1;
   totalPages: number = 2;
   pageSize: number = 10;
-  category: string = 'Laptopy';
-  minPrice: number = 0;
-  maxPrice: number = 10000;
+  category: string = '';
+  minPrice: number | undefined = undefined;
+  maxPrice: number | undefined = undefined;
   inStock: boolean = true;
-  sortBy: string = 'price';
-  order: string = 'asc';
+  sortBy: string = '';
+  order: string = '';
   name: string = '';
 
   constructor(private productsService: ProductsService) {}
@@ -68,6 +68,10 @@ export class ProductsComponent {
       page: this.currentPage,
       pageSize: this.pageSize,
       category: this.category,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      sortBy: this.sortBy,
+      order: this.order,
     };
 
     this.isLoading = true;

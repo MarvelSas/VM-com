@@ -1,42 +1,94 @@
 <div class="container">
+  <!-- PAGINATION SECTION -->
   <div class="pagination">
-    <button
-      (click)="changePage(currentPage - 1, pageSize)"
-      [disabled]="currentPage === 1"
-    >
-      Previous
-    </button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button
-      (click)="changePage(currentPage + 1, pageSize)"
-      [disabled]="currentPage === totalPages"
-    >
-      Next
-    </button>
-    <label for="pageSize">Page size:</label>
-    <select
-      #pageSize
-      name="pageSize"
-      (change)="changePage(currentPage, pageSize.value)"
-    >
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="50">50</option>
-      <option value="100">100</option>
-    </select>
-
-    <label for="category">Category:</label>
-    <select #category name="pageSize" (change)="changeCategory(category.value)">
-      <option value="All" [defaultSelected]="true">Wszystkie</option>
-      <option
-        *ngFor="let category of avalibleCategories"
-        [value]="category.name"
+    <div>
+      <button
+        (click)="changePage(currentPage - 1, pageSize)"
+        [disabled]="currentPage === 1"
       >
-        {{ category.name }}
-      </option>
-    </select>
+        Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button
+        (click)="changePage(currentPage + 1, pageSize)"
+        [disabled]="currentPage === totalPages"
+      >
+        Next
+      </button>
+      <label for="pageSize">Page size:</label>
+      <select
+        #pageSize
+        name="pageSize"
+        (change)="changePage(currentPage, pageSize.value)"
+      >
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+    <div>
+      <label for="category">Category:</label>
+      <select
+        #category
+        name="pageSize"
+        (change)="changeCategory(category.value)"
+      >
+        <option value="All" [defaultSelected]="true">Wszystkie</option>
+        <option
+          *ngFor="let category of avalibleCategories"
+          [value]="category.name"
+        >
+          {{ category.name }}
+        </option>
+      </select>
+
+      <label for="minPrice">Min price:</label>
+      <input
+        id="minPrice"
+        type="text"
+        [(ngModel)]="minPrice"
+        (change)="getPageableProducts()"
+        class="price"
+      />
+
+      <label for="maxPrice">Max price:</label>
+      <input
+        id="maxPrice"
+        type="text"
+        [(ngModel)]="maxPrice"
+        (change)="getPageableProducts()"
+        class="price"
+      />
+    </div>
+    <div>
+      <label for="sort">Sortuj po:</label>
+      <select
+        id="sortBy"
+        name="sortBy"
+        (change)="getPageableProducts()"
+        [(ngModel)]="sortBy"
+      >
+        <option value="name" [defaultSelected]="true">Nazwa</option>
+        <option value="price">Cena</option>
+      </select>
+
+      <label for="order">Porządkuj:</label>
+      <select
+        id="order"
+        name="order"
+        (change)="getPageableProducts()"
+        [(ngModel)]="order"
+      >
+        <option value="asc" [defaultSelected]="true">Rosnąco</option>
+        <option value="desc">Malejąco</option>
+      </select>
+    </div>
+    <p>Dostępne produkty: {{ products.length }}</p>
   </div>
+
+  <!-- PRODUCTS LIST SECTION -->
   <div class="productsList">
     <loading-spinner *ngIf="isLoading" />
 
@@ -51,5 +103,10 @@
       >
       </app-product-item>
     </ng-container>
+
+    <div *ngIf="products.length === 0 && !isLoading">
+      <h2>Nie znaleziono produktów!</h2>
+      <p>Spróbuj zmienić filtry wyszukiwania.</p>
+    </div>
   </div>
 </div>
