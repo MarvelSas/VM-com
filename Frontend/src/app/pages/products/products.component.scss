@@ -3,7 +3,8 @@
 
 .productsList {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   margin-top: 3rem;
   justify-content: center;
   width: 70vw;
