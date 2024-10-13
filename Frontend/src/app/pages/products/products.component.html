@@ -25,6 +25,17 @@
       <option value="50">50</option>
       <option value="100">100</option>
     </select>
+
+    <label for="category">Category:</label>
+    <select #category name="pageSize" (change)="changeCategory(category.value)">
+      <option value="All" [defaultSelected]="true">Wszystkie</option>
+      <option
+        *ngFor="let category of avalibleCategories"
+        [value]="category.name"
+      >
+        {{ category.name }}
+      </option>
+    </select>
   </div>
   <div class="productsList">
     <loading-spinner *ngIf="isLoading" />

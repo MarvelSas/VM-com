@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IPageableParams, IProduct } from 'src/app/shared/models/product.model';
 import { ProductsService } from 'src/app/shared/services/products.service';
+import { ICategory } from '../admin/admin-categories/category.model';
 
 @Component({
   selector: 'app-products',
@@ -10,6 +11,8 @@ import { ProductsService } from 'src/app/shared/services/products.service';
 export class ProductsComponent {
   products: IProduct[] = [];
   isLoading = false;
+
+  avalibleCategories: ICategory[] = [];
 
   currentPage: number = 1;
   totalPages: number = 2;
@@ -25,7 +28,20 @@ export class ProductsComponent {
   constructor(private productsService: ProductsService) {}
   ngOnInit(): void {
     this.getProducts();
+    this.getCategories();
     // this.getPageableProducts();
+  }
+
+  getCategories() {
+    this.productsService.getCategories().subscribe({
+      next: (res) => {
+        this.avalibleCategories = res.data.productCategories;
+        console.log(this.avalibleCategories);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   getProducts() {
@@ -51,6 +67,7 @@ export class ProductsComponent {
     const newParams: IPageableParams = {
       page: this.currentPage,
       pageSize: this.pageSize,
+      category: this.category,
     };
 
     this.isLoading = true;
@@ -76,5 +93,10 @@ export class ProductsComponent {
     }
     this.getPageableProducts();
     console.log(pageSize);
+  }
+
+  changeCategory(newCategory: string) {
+    this.category = newCategory;
+    this.getPageableProducts();
   }
 }
