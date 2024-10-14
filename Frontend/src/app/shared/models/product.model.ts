@@ -27,7 +27,7 @@ export interface IPageableParams {
   name?: string;
 }
 
-export interface ProductsResponseData {
+export interface IProductsResponseData {
   data: { products: IProduct[] };
 }
 

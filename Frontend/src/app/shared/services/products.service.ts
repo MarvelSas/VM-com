@@ -6,9 +6,10 @@ import { environment } from 'src/environments/environment';
 import { endpoints } from 'src/enums/endpoints.enum';
 
 import {
-  ProductsResponseData,
+  IProductsResponseData,
   OneProductResponseData,
   IPageableParams,
+  IProduct,
 } from '../models/product.model';
 import { ICategoriesGetResponseData } from 'src/app/pages/admin/admin-categories/category.model';
 
@@ -19,8 +20,8 @@ export class ProductsService {
   API_URL = environment.API_URL;
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<ProductsResponseData> {
-    return this.http.get<ProductsResponseData>(
+  getProducts(): Observable<IProductsResponseData> {
+    return this.http.get<IProductsResponseData>(
       `${this.API_URL + endpoints.getAllProducts}`
     );
   }
@@ -64,7 +65,7 @@ export class ProductsService {
       pageableParams = pageableParams.set('order', params.order);
     }
 
-    return this.http.get<ProductsResponseData>(
+    return this.http.get<IProductsResponseData>(
       `${this.API_URL + endpoints.getPageableProducts}`,
       { params: pageableParams }
     );
@@ -73,6 +74,17 @@ export class ProductsService {
   getProduct(id: number): Observable<OneProductResponseData> {
     return this.http.get<OneProductResponseData>(
       `${this.API_URL + endpoints.getProduct}/${id}`
+    );
+  }
+
+  getProductsByName(name: string): Observable<IProductsResponseData> {
+    const params = new HttpParams()
+      .set('name', name)
+      .set('page', '0')
+      .set('pageSize', '5');
+    return this.http.get<IProductsResponseData>(
+      `${this.API_URL + endpoints.getPageableProducts}`,
+      { params }
     );
   }
 
