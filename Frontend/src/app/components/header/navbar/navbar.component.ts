@@ -63,6 +63,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   onSelectProduct(product: IProduct) {
     console.log(`Selected product: ${product.name}`);
+    this.router.navigate(['product', product.id]);
+    this.closeSearchResults();
+  }
+
+  closeSearchResults() {
+    this.searchResults = [];
   }
 
   logout() {
@@ -72,10 +78,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   onChangeCategory(e: any) {
     // console.log(e.target.textContent);
     this.searchCategory = e.target.textContent;
-  }
-
-  onSelectItem(id: number) {
-    this.router.navigate(['product', id]);
   }
 
   ngOnDestroy(): void {

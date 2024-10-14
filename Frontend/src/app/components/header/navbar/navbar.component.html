@@ -30,7 +30,7 @@
           *ngFor="let product of searchResults"
           (click)="onSelectProduct(product)"
         >
-          {{ product.name }}
+          {{ product.name }} - {{ product.price }} zł
         </li>
       </ul>
     </div>
