@@ -27,9 +27,9 @@ export class ProductsComponent {
 
   constructor(private productsService: ProductsService) {}
   ngOnInit(): void {
-    this.getProducts();
+    // this.getProducts();
     this.getCategories();
-    // this.getPageableProducts();
+    this.getPageableProducts();
   }
 
   getCategories() {
