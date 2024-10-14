@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   catchError,
   debounceTime,
@@ -26,7 +27,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +72,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   onChangeCategory(e: any) {
     // console.log(e.target.textContent);
     this.searchCategory = e.target.textContent;
+  }
+
+  onSelectItem(id: number) {
+    this.router.navigate(['product', id]);
   }
 
   ngOnDestroy(): void {
