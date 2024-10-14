@@ -50,6 +50,9 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         ProductCategory productCategory4 = productCategoryRepository.save(new ProductCategory("Smartwatche"));
         ProductCategory productCategory5 = productCategoryRepository.save(new ProductCategory("Monitory"));
         ProductCategory productCategory6 = productCategoryRepository.save(new ProductCategory("Smartfony"));
+        ProductCategory productCategory7 = productCategoryRepository.save(new ProductCategory("Gaming"));
+        ProductCategory productCategory8 = productCategoryRepository.save(new ProductCategory("TV"));
+        ProductCategory productCategory9 = productCategoryRepository.save(new ProductCategory("Akcesoria"));
 
 //Add products
         productRepository.save(new Product(
