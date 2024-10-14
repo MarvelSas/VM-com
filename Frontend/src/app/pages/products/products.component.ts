@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IPageableParams, IProduct } from 'src/app/shared/models/product.model';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { ICategory } from '../admin/admin-categories/category.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -25,11 +26,19 @@ export class ProductsComponent {
   order: string = '';
   name: string = '';
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private route: ActivatedRoute
+  ) {}
   ngOnInit(): void {
     // this.getProducts();
     this.getCategories();
-    this.getPageableProducts();
+    // this.getPageableProducts();
+
+    this.route.queryParams.subscribe((queryParams) => {
+      this.category = queryParams['category'];
+      this.getPageableProducts();
+    });
   }
 
   getCategories() {
