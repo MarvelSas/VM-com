@@ -9,6 +9,7 @@ import com.VMcom.VMcom.repository.PhotoRepository;
 import com.VMcom.VMcom.repository.ProductCategoryRepository;
 import com.VMcom.VMcom.repository.ProductRepository;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,7 +21,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -228,7 +231,9 @@ public class ProductService {
         return true;
     }
 
-    public List<Product> getAllProductsWithPagingAndFilter(int page,
+
+
+    public Map<String,Object> getAllProductsWithPagingAndFilter(int page,
                                                     int pageSize,
                                                     String categoryName,
                                                     String sortBy,
@@ -238,20 +243,15 @@ public class ProductService {
                                                     boolean hideOutOfStock,
                                                     String name) {
 
-        Pageable pageable;
-
-        if(order.equals("asc")){
-            pageable = PageRequest.of(page,pageSize,Sort.by(sortBy).ascending());
-        }else {
-            pageable = PageRequest.of(page,pageSize,Sort.by(sortBy).descending());
-        }
+        Pageable pageable = createPageable(page, pageSize, sortBy, order);
 
 
         if(categoryName==null){
             if(hideOutOfStock){
-                return productRepository.findByPriceBetweenMinAndMaxValueAndByNameIfItIsOnStock(minPrice,maxPrice,name,pageable);
+                return buildResponseMap(productRepository.findByPriceBetweenMinAndMaxValueAndByNameIfItIsOnStock(minPrice,maxPrice,name,pageable));
+
             }else {
-                return productRepository.findByPriceBetweenMinAndMaxValueAndByName(minPrice,maxPrice,name,pageable);
+                return buildResponseMap(productRepository.findByPriceBetweenMinAndMaxValueAndByName(minPrice,maxPrice,name,pageable));
             }
         }
 
@@ -259,12 +259,28 @@ public class ProductService {
 
 
         if(hideOutOfStock){
-            return productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByNameAndIfItIsOnStock(productCategoryId,minPrice,maxPrice,name,pageable);
+            return buildResponseMap(productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByNameAndIfItIsOnStock(productCategoryId,minPrice,maxPrice,name,pageable));
 
         }else {
-            return productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByName(productCategoryId,minPrice,maxPrice,name,pageable);
+            return buildResponseMap(productRepository.findByCategoryAndPriceBetweenMinAndMaxValueAndByName(productCategoryId,minPrice,maxPrice,name,pageable));
+
         }
 
 
     }
+
+    private Pageable createPageable(int page, int pageSize, String sortBy, String order) {
+        Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        return PageRequest.of(page, pageSize, sort);
+    }
+
+    private Map<String, Object> buildResponseMap(Page<Product> page) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("totalAmountOfPages", page.getTotalPages());
+        response.put("totalAmountOfItems", page.getTotalElements());
+        response.put("products", page.getContent());
+        return response;
+    }
+
+
 }

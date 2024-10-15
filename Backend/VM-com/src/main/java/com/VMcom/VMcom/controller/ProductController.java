@@ -29,7 +29,6 @@ public class ProductController {
 
 
     //Product endpoints
-
     @GetMapping("/products")
     public ResponseEntity<Response> getAllProductsWithPagingAndFilter(@RequestParam("page") int page,
                                                    @RequestParam("pageSize") int pageSize,
@@ -47,7 +46,7 @@ public class ProductController {
             return ResponseEntity.ok(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("products", productService.getAllProductsWithPagingAndFilter(page, pageSize,category,sortBy,order,minPrice,maxPrice, hideOutOfStock,name)))
+                            .data(productService.getAllProductsWithPagingAndFilter(page, pageSize,category,sortBy,order,minPrice,maxPrice, hideOutOfStock,name))
                             .message("All products returned")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())
@@ -69,6 +68,7 @@ public class ProductController {
         }
 
     }
+
 
 
 
