@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IPageableParams, IProduct } from 'src/app/shared/models/product.model';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { ICategory } from '../admin/admin-categories/category.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -28,7 +28,8 @@ export class ProductsComponent {
 
   constructor(
     private productsService: ProductsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
   ngOnInit(): void {
     // this.getProducts();
@@ -110,6 +111,14 @@ export class ProductsComponent {
 
   changeCategory(newCategory: string) {
     this.category = newCategory;
+    this.router.navigate([], {
+      queryParams: {
+        category: newCategory,
+        minPrice: this.minPrice,
+        maxPrice: this.maxPrice,
+      },
+      queryParamsHandling: 'merge',
+    });
     this.getPageableProducts();
   }
 }
