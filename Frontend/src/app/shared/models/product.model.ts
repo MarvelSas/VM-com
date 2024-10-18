@@ -28,9 +28,15 @@ export interface IPageableParams {
 }
 
 export interface IProductsResponseData {
-  data: { products: IProduct[] };
+  data: {
+    products: IProduct[];
+    totalAmountOfItems: number;
+    totalAmountOfPages: number;
+  };
 }
 
 export interface OneProductResponseData {
-  data: { product: IProduct };
+  data: {
+    product: IProduct;
+  };
 }

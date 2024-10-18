@@ -16,7 +16,8 @@ export class ProductsComponent {
   avalibleCategories: ICategory[] = [];
 
   currentPage: number = 1;
-  totalPages: number = 2;
+  totalPages: number = 1;
+  totalAmountOfItems: number = 0;
   pageSize: number = 10;
   category: string = '';
   minPrice: number | undefined = undefined;
@@ -88,7 +89,10 @@ export class ProductsComponent {
     this.productsService.getPageableProducts(newParams).subscribe({
       next: (res) => {
         this.products = res.data.products;
+        this.totalPages = res.data.totalAmountOfPages;
+        this.totalAmountOfItems = res.data.totalAmountOfItems;
         this.isLoading = false;
+        console.log(res);
       },
       error: (err) => {
         console.log(err);
@@ -96,21 +100,28 @@ export class ProductsComponent {
     });
   }
 
-  changePage(newPage: number, pageSize: any): void {
+  changePage(newPage: number): void {
     if (newPage >= 1 && newPage <= this.totalPages) {
       this.currentPage = newPage;
     }
-    if (pageSize > 0) {
-      this.pageSize = parseInt(pageSize);
-    } else {
-      pageSize = 10;
-    }
+    // if (pageSize > 0) {
+    //   this.pageSize = parseInt(pageSize);
+    // } else {
+    //   pageSize = 10;
+    // }
     this.getPageableProducts();
-    console.log(pageSize);
+    // console.log(pageSize);
+  }
+
+  changePageSize(newPageSize: string) {
+    this.pageSize = parseInt(newPageSize);
+    this.currentPage = 1;
+    this.getPageableProducts();
   }
 
   changeCategory(newCategory: string) {
     this.category = newCategory;
+    this.currentPage = 1;
     this.router.navigate([], {
       queryParams: {
         category: newCategory,
