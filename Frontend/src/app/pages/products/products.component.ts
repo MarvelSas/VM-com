@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IPageableParams, IProduct } from 'src/app/shared/models/product.model';
 import { ProductsService } from 'src/app/shared/services/products.service';
+import { ICategory } from '../admin/admin-categories/category.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -11,21 +13,45 @@ export class ProductsComponent {
   products: IProduct[] = [];
   isLoading = false;
 
+  avalibleCategories: ICategory[] = [];
+
   currentPage: number = 1;
   totalPages: number = 2;
   pageSize: number = 10;
-  category: string = 'Laptopy';
-  minPrice: number = 0;
-  maxPrice: number = 10000;
+  category: string = '';
+  minPrice: number | undefined = undefined;
+  maxPrice: number | undefined = undefined;
   inStock: boolean = true;
-  sortBy: string = 'price';
-  order: string = 'asc';
+  sortBy: string = '';
+  order: string = '';
   name: string = '';
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
   ngOnInit(): void {
-    this.getProducts();
+    // this.getProducts();
+    this.getCategories();
     // this.getPageableProducts();
+
+    this.route.queryParams.subscribe((queryParams) => {
+      this.category = queryParams['category'];
+      this.getPageableProducts();
+    });
+  }
+
+  getCategories() {
+    this.productsService.getCategories().subscribe({
+      next: (res) => {
+        this.avalibleCategories = res.data.productCategories;
+        console.log(this.avalibleCategories);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   getProducts() {
@@ -51,6 +77,11 @@ export class ProductsComponent {
     const newParams: IPageableParams = {
       page: this.currentPage,
       pageSize: this.pageSize,
+      category: this.category,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      sortBy: this.sortBy,
+      order: this.order,
     };
 
     this.isLoading = true;
@@ -76,5 +107,18 @@ export class ProductsComponent {
     }
     this.getPageableProducts();
     console.log(pageSize);
+  }
+
+  changeCategory(newCategory: string) {
+    this.category = newCategory;
+    this.router.navigate([], {
+      queryParams: {
+        category: newCategory,
+        minPrice: this.minPrice,
+        maxPrice: this.maxPrice,
+      },
+      queryParamsHandling: 'merge',
+    });
+    this.getPageableProducts();
   }
 }

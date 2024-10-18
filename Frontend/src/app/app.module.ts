@@ -18,7 +18,7 @@ import { SlideshowComponent } from './shared/slideshow/slideshow.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { AdminComponent } from './pages/admin/admin.component';
@@ -61,6 +61,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     TabsModule,
+    FormsModule,
   ],
   providers: [
     {

@@ -1,33 +1,47 @@
 <div class="navbar">
-    <div class="logoContainer" routerLink="/">
-        <!-- <p>navbar works!</p> -->
-        <img class="logoImg" src="../../../../assets/vm-com.png">
+  <div class="logoContainer" routerLink="/">
+    <!-- <p>navbar works!</p> -->
+    <img class="logoImg" src="../../../../assets/vm-com.png" />
+  </div>
+  <div class="searchContainer">
+    <input
+      name="search"
+      type="text"
+      placeholder="Czego szukasz?"
+      class="searchInput"
+      (input)="onSearch($event)"
+    />
+
+    <div class="dropdown">
+      <button class="btn btnDropdown">{{ searchCategory }}</button>
+      <div class="dropdownContent">
+        <a routerLink="#" (click)="onChangeCategory($event)">Laptopy</a>
+        <a routerLink="#" (click)="onChangeCategory($event)">Smartfony</a>
+        <a routerLink="#" (click)="onChangeCategory($event)">Gaming</a>
+        <a routerLink="#" (click)="onChangeCategory($event)">TV</a>
+        <a routerLink="#" (click)="onChangeCategory($event)">Akcesoria</a>
+      </div>
     </div>
-    <div class="searchContainer">
-        <input name="search" type="text" placeholder="Czego szukasz?" class="searchInput">
 
-
-        <div class="dropdown">
-            <button class="btn btnDropdown">{{searchCategory}}</button>
-            <div class="dropdownContent">
-                <a routerLink="#" (click)="onChangeCategory($event)">Laptopy</a>
-                <a routerLink="#" (click)="onChangeCategory($event)">Smartfony</a>
-                <a routerLink="#" (click)="onChangeCategory($event)">Gaming</a>
-                <a routerLink="#" (click)="onChangeCategory($event)">TV</a>
-                <a routerLink="#" (click)="onChangeCategory($event)">Akcesoria</a>
-            </div>
-        </div>
-
-        <button class="btn">Szukaj</button>
-
-
+    <button class="btn">Szukaj</button>
+    <div class="searchResults" *ngIf="searchResults.length">
+      <ul>
+        <li
+          *ngFor="let product of searchResults"
+          (click)="onSelectProduct(product)"
+        >
+          {{ product.name }} - {{ product.price }} zł
+        </li>
+      </ul>
     </div>
-    <div>
-        <button class="btn" routerLink="admin" *ngIf="user">Administracja</button> <!-- TODO: IF USER ROLE === ADMIN -->
-        <button class="btn" routerLink="profile" *ngIf="user">Profil</button>
-        <button class="btn" routerLink="login" *ngIf="!user">Zaloguj</button>
-        <button class="btn" routerLink="register" *ngIf="!user">Register</button>
-        <button class="btn" (click)="logout()" *ngIf="user">Wyloguj</button>
-        <button class="btn" routerLink="cart">Koszyk</button>
-    </div>
+  </div>
+  <div>
+    <button class="btn" routerLink="admin" *ngIf="user">Administracja</button>
+    <!-- TODO: IF USER ROLE === ADMIN -->
+    <button class="btn" routerLink="profile" *ngIf="user">Profil</button>
+    <button class="btn" routerLink="login" *ngIf="!user">Zaloguj</button>
+    <button class="btn" routerLink="register" *ngIf="!user">Register</button>
+    <button class="btn" (click)="logout()" *ngIf="user">Wyloguj</button>
+    <button class="btn" routerLink="cart">Koszyk</button>
+  </div>
 </div>

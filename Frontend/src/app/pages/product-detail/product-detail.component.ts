@@ -66,9 +66,11 @@ export class ProductDetailComponent implements OnInit {
     this.isLoading = true;
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
+      this.loadProduct();
     });
-    // console.log(this.id);
+  }
 
+  loadProduct() {
     this.productsService.getProduct(this.id).subscribe((product) => {
       this.product = product.data.product;
       this.selectedImage = this.product.mainPhotoId;

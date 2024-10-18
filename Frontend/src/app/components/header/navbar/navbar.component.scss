@@ -73,3 +73,38 @@
 .dropdown:hover .dropdownContent {
   display: block;
 }
+
+.searchContainer {
+  position: relative;
+
+  .searchResults {
+    position: absolute;
+    top: 3rem;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 15rem;
+    overflow-y: auto;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+
+        &:hover {
+          background-color: #f0f0f0;
+          transform: translateX(2px);
+        }
+      }
+    }
+  }
+}
