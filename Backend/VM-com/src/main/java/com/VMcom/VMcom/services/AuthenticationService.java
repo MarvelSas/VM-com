@@ -1,11 +1,10 @@
 package com.VMcom.VMcom.services;
 
 import com.VMcom.VMcom.enums.AppUserRole;
-import com.VMcom.VMcom.model.AppUser;
-import com.VMcom.VMcom.model.AuthenciationRequest;
-import com.VMcom.VMcom.model.AuthenciationResponse;
-import com.VMcom.VMcom.model.RegisterRequest;
+import com.VMcom.VMcom.enums.TokenType;
+import com.VMcom.VMcom.model.*;
 import com.VMcom.VMcom.repository.AppUserRepository;
+import com.VMcom.VMcom.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +25,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final TokenRepository tokenRepository;
 
     public AuthenciationResponse register(RegisterRequest request) {
         if(appUserRepository.findByUsername(request.getEmail()).isPresent()){
@@ -42,14 +43,52 @@ public class AuthenticationService {
         AppUser appUser = appUserRepository.save(user);
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
+        revokeAllAccessAndRefreshAppUserTokens(appUser);
         var jwtToken = jwtService.generateToken(claims,user);
+        saveUserToken(appUser, jwtToken,TokenType.ACCESS);
         var jwtRefreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(appUser,jwtRefreshToken,TokenType.REFRESH);
         return AuthenciationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(jwtRefreshToken)
                 .build();
 
     }
+
+    public void revokeAllAccessAndRefreshAppUserTokens(AppUser appUser){
+        revokeAllUsersTokens(appUser,tokenRepository.findAllValidTokensByUser(appUser.getId()));
+    }
+
+    public void revokeAllUsersTokens(AppUser appUser, List<Token> validAppUserTokens){
+
+        if (validAppUserTokens.isEmpty()){
+            return;
+        }
+
+        validAppUserTokens.forEach(t ->{
+            t.setExpired(true);
+            t.setRevoked(true);
+        });
+
+        tokenRepository.saveAll(validAppUserTokens);
+
+    }
+
+    public void revokeAllAccessAppUserToken(AppUser appUser){
+        revokeAllUsersTokens(appUser,tokenRepository.findAllValidAccessTokensByUser(appUser.getId()));
+    }
+
+    private void saveUserToken(AppUser appUser, String jwtToken,TokenType tokenType) {
+        var token = Token.builder()
+                .appUser(appUser)
+                .token(jwtToken)
+                .tokenType(tokenType)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+    }
+
 
     public AuthenciationResponse authenticate(AuthenciationRequest request) {
 
@@ -64,8 +103,11 @@ public class AuthenticationService {
 
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
+        revokeAllAccessAndRefreshAppUserTokens(user);
         var jwtToken = jwtService.generateToken(claims,user);
+        saveUserToken(user, jwtToken,TokenType.ACCESS);
         var jwtRefreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(user,jwtRefreshToken,TokenType.REFRESH);
         return AuthenciationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(jwtRefreshToken)
@@ -87,7 +129,9 @@ public class AuthenticationService {
         if(username != null){
             var user = this.appUserRepository.findByUsername(username).orElseThrow();
             if(jwtService.isTokenValid(refreshToken,user)){
+                revokeAllAccessAppUserToken(user);
                 String accessToken = jwtService.generateToken(user);
+                saveUserToken(user, accessToken,TokenType.ACCESS);
                 authenciationResponse = AuthenciationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
