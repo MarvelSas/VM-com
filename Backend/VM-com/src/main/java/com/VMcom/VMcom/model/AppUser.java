@@ -44,6 +44,10 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "appUser")
     private List<Token> tokens;
 
+    @OneToMany(mappedBy = "appUser")
+    private List<Address> addresses;
+
+
 
     public AppUser(String firstName, String lastName, String username, String password, AppUserRole appUserRole, Boolean locked, Boolean enabled) {
         this.firstName = firstName;

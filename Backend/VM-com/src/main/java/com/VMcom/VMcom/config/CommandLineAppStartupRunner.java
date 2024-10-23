@@ -43,6 +43,18 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         appUserRepository.save(admin);
 
 
+        AppUser user = new AppUser(
+                "User",
+                "",
+                "user@gmail.com",
+                passwordEncoder.encode("user123"),
+                ADMIN,
+                false,
+                true);
+
+        appUserRepository.save(user);
+
+
 //Add test product category
         ProductCategory productCategory1 = productCategoryRepository.save(new ProductCategory("Laptopy"));
         ProductCategory productCategory2 = productCategoryRepository.save(new ProductCategory("Słuchawki"));
