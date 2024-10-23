@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     requests
                             .requestMatchers(WHITE_LIST_URL).permitAll()
-                            //Admin
+
                             .requestMatchers("/api/v1/product/add").hasAuthority("ADMIN")
                             .requestMatchers("/api/v1/product/update/**").hasAuthority("ADMIN")
                             .requestMatchers("/api/v1/product/delete/**").hasAuthority("ADMIN")
@@ -67,8 +67,14 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/product/productCategory/delete/**").hasAuthority("ADMIN")
                             .requestMatchers("/api/v1/product/add/productPhoto").hasAuthority("ADMIN")
                             .requestMatchers("/api/v1/appUser").hasAuthority("ADMIN")
-                            //User
+                            .requestMatchers("/api/v1/address").hasAuthority("ADMIN")
+                            .requestMatchers("/api/v1/address/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/v1/addresses").hasAuthority("ADMIN")
+
                             .requestMatchers("/api/v1/appUser").hasAuthority("USER")
+                            .requestMatchers("/api/v1/address").hasAuthority("USER")
+                            .requestMatchers("/api/v1/address/**").hasAuthority("USER")
+                            .requestMatchers("/api/v1/addresses").hasAuthority("USER")  
                             .anyRequest()
                             .authenticated();
                 })
