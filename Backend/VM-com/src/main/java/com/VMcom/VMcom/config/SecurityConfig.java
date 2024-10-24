@@ -59,22 +59,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     requests
                             .requestMatchers(WHITE_LIST_URL).permitAll()
-
-                            .requestMatchers("/api/v1/product/add").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/product/update/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/product/delete/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/product/productCategory/add").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/product/productCategory/delete/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/product/add/productPhoto").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/appUser").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/address").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/address/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/v1/addresses").hasAuthority("ADMIN")
-
-                            .requestMatchers("/api/v1/appUser").hasAuthority("USER")
-                            .requestMatchers("/api/v1/address").hasAuthority("USER")
-                            .requestMatchers("/api/v1/address/**").hasAuthority("USER")
-                            .requestMatchers("/api/v1/addresses").hasAuthority("USER")  
+                            .requestMatchers("/api/v1/product/add").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/product/update/**").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/product/delete/**").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/product/productCategory/add").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/product/productCategory/delete/**").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/product/add/productPhoto").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/address").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/address/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/addresses").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/appUser").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .anyRequest()
                             .authenticated();
                 })

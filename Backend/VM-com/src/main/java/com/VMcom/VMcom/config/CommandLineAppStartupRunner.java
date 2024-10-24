@@ -7,7 +7,6 @@ import com.VMcom.VMcom.model.ProductCategory;
 import com.VMcom.VMcom.repository.AppUserRepository;
 import com.VMcom.VMcom.repository.ProductCategoryRepository;
 import com.VMcom.VMcom.repository.ProductRepository;
-import com.VMcom.VMcom.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-import static com.VMcom.VMcom.enums.AppUserRole.*;
+
 
 @Component
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 "",
                 "admin@gmail.com",
                 passwordEncoder.encode("admin123"),
-                ADMIN,
+                AppUserRole.ROLE_ADMIN,
                 false,
                 true);
 
@@ -48,7 +47,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 "",
                 "user@gmail.com",
                 passwordEncoder.encode("user123"),
-                ADMIN,
+                AppUserRole.ROLE_USER,
                 false,
                 true);
 
