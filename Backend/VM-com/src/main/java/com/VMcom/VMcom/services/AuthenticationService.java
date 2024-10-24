@@ -37,7 +37,7 @@ public class AuthenticationService {
                 request.getLastname(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
-                AppUserRole.USER,
+                AppUserRole.ROLE_USER,
                 false,
                 true);
         AppUser appUser = appUserRepository.save(user);
